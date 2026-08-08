@@ -1,0 +1,29 @@
+{
+  "model_config": {
+    "type": "mlp",
+    "input_dim": 121,
+    "hidden_dimensions": [
+      128,
+      64
+    ],
+    "dropout": 0.3,
+    "output_dim": 1,
+    "training": {
+      "batch_size": 256,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "loss": "bce_with_logits",
+      "epochs": 30,
+      "early_stopping_patience": 5,
+      "seed": 42
+    }
+  },
+  "feature_count": 121,
+  "train_samples": 107077,
+  "validation_samples": 18896,
+  "best_epoch": 13,
+  "best_val_loss": 0.011189685376575114,
+  "stopped_early": true,
+  "training_seconds": 47.95261311531067,
+  "checkpoint_path": "results\\models\\baseline\\best_model.pt"
+}

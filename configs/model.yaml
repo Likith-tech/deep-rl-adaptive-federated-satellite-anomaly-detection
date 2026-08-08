@@ -1,25 +1,35 @@
-# Anomaly detection model configuration (placeholder — populated in Phases 3-5)
+# Anomaly detection model configuration.
 #
-# Will eventually configure the baseline model, the temporal sequence model,
-# and the spatio-temporal gated attention model.
+# Phase 2 populates the `baseline` section with a simple MLP used as the
+# reference point for later comparisons (spatio-temporal, federated,
+# adaptive federated, DRL-driven adaptive federated). `sequence` remains
+# a placeholder for Phases 4-5 (temporal/spatio-temporal models).
 
-model:
-  type: null               # e.g. "baseline_mlp", "temporal_gru", "spatio_temporal_attention"
-  input_dim: null
-  hidden_dim: null
-  num_layers: null
-  dropout: null
+baseline:
+  type: mlp
+  input_dim: 121            # must match data/processed/metadata.json -> num_features
+  hidden_dimensions:
+    - 128
+    - 64
+  dropout: 0.3
+  output_dim: 1              # single logit; sigmoid -> P(anomaly)
+
+  training:
+    batch_size: 256
+    learning_rate: 0.001
+    optimizer: adam
+    loss: bce_with_logits
+    epochs: 30
+    early_stopping_patience: 5   # stop if validation loss doesn't improve for N epochs
+    seed: 42
 
 sequence:
   window_size: null
   stride: null
 
-training:
-  batch_size: null
-  learning_rate: null
-  epochs: null
-  optimizer: null
-
 notes: >
-  No model architecture has been implemented yet. This file is a
-  placeholder for Phases 3-5 (baseline and spatio-temporal anomaly models).
+  Baseline is a plain feed-forward MLP (Dense -> ReLU -> Dropout ->
+  Dense -> ReLU -> Dropout -> Dense -> logit), intentionally simple and
+  not tuned aggressively — it exists to be a trustworthy reference
+  point, not the best possible model. Temporal/spatio-temporal
+  architectures are implemented in later phases.

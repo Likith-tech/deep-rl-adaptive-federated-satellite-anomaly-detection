@@ -29,18 +29,24 @@ research background live in the project report, not as app pages.
 Phase 0  — Project Foundation          COMPLETE
 Phase 1  — Dataset Acquisition         COMPLETE
 Phase 2  — Data Preprocessing          COMPLETE
-Phase 3  — Baseline Model              NOT STARTED
+Phase 3  — Baseline Model              COMPLETE
 Phase 4+ — (see Development phases)    NOT STARTED
 ```
 
+See `docs/project-progress/` for a plain-language, viva-ready write-up
+of every completed phase (`00-project-plan.md` is the master tracker).
+
 Phase 1 produced a real, reproducible NSL-KDD dataset pipeline (load →
-clean → label → split → encode/scale → processed dataset + metadata),
-run successfully end-to-end on the real dataset. See
-`docs/datasets/dataset_selection.md` for the dataset decision and
-`results/reports/dataset_quality.md` for measured statistics. No models
-have been trained, and no federated learning or DRL logic has been
-implemented yet. The frontend dashboard intentionally shows "Awaiting
-live data" states rather than fabricated metrics.
+clean → label → split → encode/scale → processed dataset + metadata).
+Phase 2 trained a baseline MLP anomaly detector on that data — a simple
+feed-forward network (121 → 128 → 64 → 1), evaluated once on the
+held-out KDDTest+ set: **78.3% accuracy, 92.8% precision, 67.1% recall,
+77.9% F1, 89.7% ROC-AUC** (see `results/reports/baseline_results.md`
+for the full report and `results/plots/baseline/` for the confusion
+matrix and training curves). No federated learning or DRL logic has
+been implemented yet, and the baseline is not connected to the
+frontend. The frontend dashboard intentionally shows "Awaiting live
+data" states rather than fabricated metrics.
 
 ## Development phases
 
@@ -49,8 +55,8 @@ live data" states rather than fabricated metrics.
 | 0 | Repository + project foundation ✅ complete |
 | 1 | Dataset acquisition and analysis ✅ complete (preprocessing pipeline also implemented — see note below) |
 | 2 | Data preprocessing ✅ substantially complete as part of Phase 1 (see note below) |
-| 3 | Baseline anomaly detection *(next)* |
-| 4 | Temporal sequence construction |
+| 3 | Baseline anomaly detection ✅ complete |
+| 4 | Temporal sequence construction *(next)* |
 | 5 | Spatio-temporal anomaly model |
 | 6 | Satellite client simulation |
 | 7 | Local satellite training |
@@ -71,9 +77,9 @@ live data" states rather than fabricated metrics.
 *Note: Phases 1 and 2 were executed together in a single work session
 (dataset selection/acquisition/analysis plus a full clean → label →
 split → encode/scale pipeline), since building a trustworthy processed
-dataset required all of it. No model training, feature learning, or
-FL/DRL logic was introduced — that remains entirely out of scope until
-Phase 3+.*
+dataset required all of it. Phase 3 (baseline anomaly detection) added
+the first real model — a simple MLP, not the spatio-temporal, federated,
+or DRL components, which remain out of scope until Phase 4+.*
 
 ## Dataset
 
@@ -103,6 +109,25 @@ python -m src.preprocessing.pipeline
 python scripts/generate_dataset_report.py
 ```
 
+## Baseline model
+
+A simple feed-forward MLP (121 → 128 → 64 → 1) trained on the Phase 1
+processed data as a reference point for later spatio-temporal/federated/
+DRL comparisons. Full results, hyperparameters, and confusion matrix in
+`results/reports/baseline_results.md`; plain-language write-up in
+`docs/project-progress/03-phase-2-baseline.md`.
+
+```bash
+# Requires the processed dataset from the steps above, plus PyTorch:
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# 1. Train (selects the best checkpoint by validation loss)
+python scripts/train_baseline.py
+
+# 2. Evaluate once, finally, on KDDTest+ (writes plots + results report)
+python scripts/evaluate_baseline.py
+```
+
 ## Repository structure
 
 ```
@@ -114,12 +139,13 @@ backend/        FastAPI application (API, services, schemas, core) + tests
 frontend/       React + TypeScript + Vite application (OrbitShield UI)
 experiments/    Experiment run configs/scripts, separate from src/
 results/        Generated metrics, models, plots, logs, reports
-                (mostly git-ignored; small reviewable deliverables like
-                results/reports/dataset_quality.md and
-                results/plots/dataset/ are committed)
+                (mostly git-ignored/regenerable — e.g. model checkpoints;
+                small reviewable deliverables like results/reports/*.md
+                and results/plots/{dataset,baseline}/ are committed)
 notebooks/      Exploratory analysis
 scripts/        Standalone utility scripts
-tests/          Tests for src/ (data, models, federated, drl, integration)
+tests/          Tests for src/ (data, models, training, evaluation,
+                federated, drl, integration)
 docs/           Architecture, methodology, dataset and API documentation
 ```
 

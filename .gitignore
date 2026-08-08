@@ -52,6 +52,12 @@ results/reports/*
 !results/plots/dataset/*.png
 !results/reports/dataset_quality.md
 
+# Phase 2 baseline results deliverables — small, reviewable. The model
+# checkpoint itself (results/models/baseline/*.pt) stays ignored (*.pt below).
+!results/plots/baseline/
+!results/plots/baseline/*.png
+!results/reports/baseline_results.md
+
 *.ckpt
 *.pt
 *.pth
