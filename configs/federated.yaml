@@ -1,0 +1,23 @@
+# Federated learning configuration (placeholder — populated in Phases 6-11)
+#
+# Will eventually configure satellite client simulation, FedAvg, non-IID
+# partitioning, and staleness-aware aggregation.
+
+federation:
+  num_clients: null
+  clients_per_round: null
+  num_rounds: null
+  aggregation_strategy: null   # e.g. "fedavg", "staleness_aware"
+
+non_iid:
+  partitioning_strategy: null  # e.g. "dirichlet", "label_skew"
+  concentration_alpha: null
+
+staleness:
+  max_staleness: null
+  staleness_weighting: null
+
+notes: >
+  Federated learning has not been implemented yet. This file is a
+  placeholder for Phases 6-11 (satellite client simulation through
+  staleness-aware FL).

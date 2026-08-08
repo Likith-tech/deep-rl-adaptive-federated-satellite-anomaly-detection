@@ -1,0 +1,25 @@
+# Anomaly detection model configuration (placeholder — populated in Phases 3-5)
+#
+# Will eventually configure the baseline model, the temporal sequence model,
+# and the spatio-temporal gated attention model.
+
+model:
+  type: null               # e.g. "baseline_mlp", "temporal_gru", "spatio_temporal_attention"
+  input_dim: null
+  hidden_dim: null
+  num_layers: null
+  dropout: null
+
+sequence:
+  window_size: null
+  stride: null
+
+training:
+  batch_size: null
+  learning_rate: null
+  epochs: null
+  optimizer: null
+
+notes: >
+  No model architecture has been implemented yet. This file is a
+  placeholder for Phases 3-5 (baseline and spatio-temporal anomaly models).

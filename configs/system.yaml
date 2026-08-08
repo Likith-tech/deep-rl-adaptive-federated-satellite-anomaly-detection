@@ -1,0 +1,21 @@
+# System / application configuration (Phase 0)
+#
+# General, non-experimental configuration shared across backend and
+# simulation components.
+
+app:
+  name: "OrbitShield"
+  project_title: "Deep Reinforcement Learning-Driven Adaptive Federated Framework for Satellite Network Anomaly Detection"
+  environment: "development"
+
+backend:
+  host: "0.0.0.0"
+  port: 8000
+
+logging:
+  level: "INFO"
+
+paths:
+  results_dir: results
+  logs_dir: results/logs
+  reports_dir: results/reports

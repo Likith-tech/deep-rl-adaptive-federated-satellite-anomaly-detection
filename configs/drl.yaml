@@ -1,0 +1,25 @@
+# Deep reinforcement learning configuration (placeholder — populated in Phases 12-15)
+#
+# Will eventually configure the DRL environment, DQN controller, and
+# resource-aware adaptation used to drive federated learning decisions.
+
+environment:
+  state_space: null
+  action_space: null
+  reward_function: null
+
+agent:
+  algorithm: null           # e.g. "DQN"
+  gamma: null
+  learning_rate: null
+  epsilon_start: null
+  epsilon_end: null
+  epsilon_decay: null
+  replay_buffer_size: null
+  batch_size: null
+  target_update_frequency: null
+
+notes: >
+  No DRL environment or agent has been implemented yet. This file is a
+  placeholder for Phases 12-15 (DRL environment through resource-aware
+  adaptation).
