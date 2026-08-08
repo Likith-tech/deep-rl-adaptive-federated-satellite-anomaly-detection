@@ -1,0 +1,149 @@
+{
+  "temporal_config": {
+    "type": "gru_attention",
+    "input_dim": 121,
+    "projection_dim": 64,
+    "hidden_dim": 64,
+    "num_gru_layers": 1,
+    "dropout": 0.3,
+    "output_dim": 1,
+    "sequence_length": 16,
+    "sequence_length_candidates": [
+      8,
+      16,
+      32
+    ],
+    "stride": null,
+    "sequence_label_strategy": "last",
+    "sequence_label_threshold": null,
+    "validation_size": 0.15,
+    "training": {
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "loss": "bce_with_logits",
+      "epochs": 25,
+      "early_stopping_patience": 4,
+      "seed": 42
+    }
+  },
+  "selection_summary": {
+    "label_strategy": "last",
+    "label_threshold": null,
+    "candidates": [
+      {
+        "sequence_length": 8,
+        "train_sequences": 13384,
+        "validation_sequences": 2362,
+        "train_anomaly_rate": 0.4602510460251046,
+        "validation_anomaly_rate": 0.45808636748518206,
+        "best_epoch": 11,
+        "best_val_loss": 0.028988325895440342,
+        "stopped_early": true,
+        "training_seconds": 84.68178033828735,
+        "checkpoint_dir": "results\\models\\temporal\\candidate_seq8"
+      },
+      {
+        "sequence_length": 16,
+        "train_sequences": 6692,
+        "validation_sequences": 1181,
+        "train_anomaly_rate": 0.46010161386730425,
+        "validation_anomaly_rate": 0.4674005080440305,
+        "best_epoch": 17,
+        "best_val_loss": 0.0461848096797443,
+        "stopped_early": true,
+        "training_seconds": 28.839332103729248,
+        "checkpoint_dir": "results\\models\\temporal\\candidate_seq16"
+      },
+      {
+        "sequence_length": 32,
+        "train_sequences": 3346,
+        "validation_sequences": 590,
+        "train_anomaly_rate": 0.4569635385534967,
+        "validation_anomaly_rate": 0.4728813559322034,
+        "best_epoch": 24,
+        "best_val_loss": 0.07631403520324473,
+        "stopped_early": false,
+        "training_seconds": 36.03073692321777,
+        "checkpoint_dir": "results\\models\\temporal\\candidate_seq32"
+      }
+    ],
+    "selected_sequence_length": 8,
+    "selection_criterion": "lowest validation loss",
+    "final_checkpoint": "results\\models\\temporal\\best_model.pt"
+  },
+  "dataset_metadata": {
+    "dataset_name": "NSL-KDD",
+    "dataset_version": "NSL-KDD (KDDTrain+/KDDTest+)",
+    "num_samples": 148517,
+    "num_features": 121,
+    "label_column": "label_binary",
+    "binary_labels": {
+      "normal": 0,
+      "anomaly": 1
+    },
+    "train_samples": 107077,
+    "validation_samples": 18896,
+    "test_samples": 22544,
+    "random_seed": 42,
+    "categorical_columns_encoded": [
+      "protocol_type",
+      "service",
+      "flag"
+    ],
+    "numerical_columns_scaled": [
+      "duration",
+      "src_bytes",
+      "dst_bytes",
+      "land",
+      "wrong_fragment",
+      "urgent",
+      "hot",
+      "num_failed_logins",
+      "logged_in",
+      "num_compromised",
+      "root_shell",
+      "su_attempted",
+      "num_root",
+      "num_file_creations",
+      "num_shells",
+      "num_access_files",
+      "num_outbound_cmds",
+      "is_host_login",
+      "is_guest_login",
+      "count",
+      "srv_count",
+      "serror_rate",
+      "srv_serror_rate",
+      "rerror_rate",
+      "srv_rerror_rate",
+      "same_srv_rate",
+      "diff_srv_rate",
+      "srv_diff_host_rate",
+      "dst_host_count",
+      "dst_host_srv_count",
+      "dst_host_same_srv_rate",
+      "dst_host_diff_srv_rate",
+      "dst_host_same_src_port_rate",
+      "dst_host_srv_diff_host_rate",
+      "dst_host_serror_rate",
+      "dst_host_srv_serror_rate",
+      "dst_host_rerror_rate",
+      "dst_host_srv_rerror_rate"
+    ],
+    "class_distribution": {
+      "train": {
+        "0": 57242,
+        "1": 49835
+      },
+      "validation": {
+        "0": 10101,
+        "1": 8795
+      },
+      "test": {
+        "1": 12833,
+        "0": 9711
+      }
+    }
+  }
+}

@@ -30,23 +30,34 @@ Phase 0  — Project Foundation          COMPLETE
 Phase 1  — Dataset Acquisition         COMPLETE
 Phase 2  — Data Preprocessing          COMPLETE
 Phase 3  — Baseline Model              COMPLETE
-Phase 4+ — (see Development phases)    NOT STARTED
+Phase 4  — Temporal Model (GRU+Attn)   IN PROGRESS (corrected experiment run, awaiting review)
+Phase 5+ — (see Development phases)    NOT STARTED
 ```
 
 See `docs/project-progress/` for a plain-language, viva-ready write-up
-of every completed phase (`00-project-plan.md` is the master tracker).
+of every completed phase (`00-project-plan.md` is the master tracker,
+including the full Phase 4 history).
 
 Phase 1 produced a real, reproducible NSL-KDD dataset pipeline (load →
 clean → label → split → encode/scale → processed dataset + metadata).
 Phase 2 trained a baseline MLP anomaly detector on that data — a simple
 feed-forward network (121 → 128 → 64 → 1), evaluated once on the
 held-out KDDTest+ set: **78.3% accuracy, 92.8% precision, 67.1% recall,
-77.9% F1, 89.7% ROC-AUC** (see `results/reports/baseline_results.md`
-for the full report and `results/plots/baseline/` for the confusion
-matrix and training curves). No federated learning or DRL logic has
-been implemented yet, and the baseline is not connected to the
-frontend. The frontend dashboard intentionally shows "Awaiting live
-data" states rather than fabricated metrics.
+77.9% F1, 89.7% ROC-AUC** (see `results/reports/baseline_results.md`).
+Phase 3 built a temporal GRU + attention model reading sequences instead
+of single records. A first attempt (label a sequence "anomaly" if ANY
+record in it was) was caught, investigated, and **rejected**: it made
+~100% of sequences carry the anomaly label given NSL-KDD's per-record
+attack rate, so its 100% test score was meaningless — preserved as a
+documented failed experiment, not hidden. A corrected attempt (label a
+sequence by its *last* record, selected by measuring four candidate
+strategies against real data) produced a trustworthy, non-degenerate
+result: **75.8% accuracy, 92.2% precision, 64.0% recall, 75.6% F1, 89.2%
+ROC-AUC** on KDDTest+ — honestly slightly below the baseline. See
+`results/reports/temporal_results.md` for both experiments in full. No
+federated learning or DRL logic has been implemented yet, and neither
+model is connected to the frontend. The frontend dashboard intentionally
+shows "Awaiting live data" states rather than fabricated metrics.
 
 ## Development phases
 
@@ -56,9 +67,9 @@ data" states rather than fabricated metrics.
 | 1 | Dataset acquisition and analysis ✅ complete (preprocessing pipeline also implemented — see note below) |
 | 2 | Data preprocessing ✅ substantially complete as part of Phase 1 (see note below) |
 | 3 | Baseline anomaly detection ✅ complete |
-| 4 | Temporal sequence construction *(next)* |
-| 5 | Spatio-temporal anomaly model |
-| 6 | Satellite client simulation |
+| 4 | Temporal sequence construction ✅ complete, including a corrected relabel after an initial degenerate attempt (see note below) |
+| 5 | Spatio-temporal anomaly model ⚠️ TEMPORAL component/foundation complete (did not beat baseline — honest result); genuine SPATIAL/satellite modeling is not implemented and requires row 6 below (see note below) |
+| 6 | Satellite client simulation *(next milestone — the next concrete step in this project's plan, not a skipped phase)* |
 | 7 | Local satellite training |
 | 8 | Standard FedAvg |
 | 9 | Non-IID experiments |
@@ -78,8 +89,28 @@ data" states rather than fabricated metrics.
 (dataset selection/acquisition/analysis plus a full clean → label →
 split → encode/scale pipeline), since building a trustworthy processed
 dataset required all of it. Phase 3 (baseline anomaly detection) added
-the first real model — a simple MLP, not the spatio-temporal, federated,
-or DRL components, which remain out of scope until Phase 4+.*
+the first real model — a simple MLP. Phases 4 and 5 were also executed
+together as "Phase 3"/"Phase 4" of this project's own session-by-session
+tracker (see `docs/project-progress/00-project-plan.md`): sequence
+construction plus a GRU+attention model that reads those sequences.
+**This establishes only the TEMPORAL component/foundation of the
+eventual spatio-temporal model** — it does not implement genuine spatial
+or multi-satellite modeling of any kind. An initial sequence-labeling
+choice (ANY-anomaly) was found to produce a degenerate, near-single-class
+task and was rejected rather than reported; a corrected, evidence-selected
+labeling strategy (LAST-record) produced a trustworthy but
+honestly-below-baseline result — see `results/reports/temporal_results.md`
+for both experiments.
+The next concrete milestone for this project — not a skipped step, but
+the very next one — is building the simulated satellite-client/network
+environment, listed above as row 6 ("Satellite client simulation") in
+this table's numbering, and as Phase 4 in
+`docs/project-progress/00-project-plan.md`'s numbering (the two files
+use different phase-numbering granularity — see "Relationship to the
+original 20-phase plan" in that tracker). Only once that environment
+exists does the SPATIAL half of "spatio-temporal" become meaningful.
+No federated or DRL components exist yet, and remain out of scope until
+that satellite-client environment is built.*
 
 ## Dataset
 
@@ -128,6 +159,41 @@ python scripts/train_baseline.py
 python scripts/evaluate_baseline.py
 ```
 
+## Temporal model
+
+A GRU + learned temporal attention model that reads sequences of
+records instead of single ones — the temporal half of the eventual
+spatio-temporal model (no spatial/multi-satellite component yet).
+
+An initial sequence-labeling choice ("anomaly if ANY record in the
+sequence is anomalous") was found to make ~100% of sequences carry the
+anomaly label on NSL-KDD, making its 100% test score meaningless — this
+was caught, investigated, and rejected rather than reported (preserved
+in `experiments/temporal/initial_any_anomaly_temporal_results_ARCHIVE.md`
+for research integrity). Four candidate labeling strategies were then
+measured against real data (`results/reports/sequence_labeling_analysis.md`)
+and "label by the sequence's last record" was selected on that
+evidence. The corrected model scores **75.6% F1 / 75.8% accuracy / 89.2%
+ROC-AUC** on KDDTest+ — a real, non-degenerate result, honestly slightly
+below the Phase 2 baseline. Full detail (both experiments) in
+`results/reports/temporal_results.md`; plain-language write-up in
+`docs/project-progress/04-phase-3-spatio-temporal.md`.
+
+```bash
+# Requires the processed dataset + PyTorch (see Baseline model above)
+
+# 1. (Optional) Investigate sequence-labeling strategies against real
+#    data before training (writes results/reports/sequence_labeling_analysis.md)
+python scripts/analyze_sequence_labeling.py
+
+# 2. Train across sequence-length candidates [8, 16, 32], selecting
+#    the best by validation loss (writes results/models/temporal/)
+python scripts/train_temporal.py
+
+# 3. Evaluate once, finally, on KDDTest+ (writes plots + results report)
+python scripts/evaluate_temporal.py
+```
+
 ## Repository structure
 
 ```
@@ -141,7 +207,7 @@ experiments/    Experiment run configs/scripts, separate from src/
 results/        Generated metrics, models, plots, logs, reports
                 (mostly git-ignored/regenerable — e.g. model checkpoints;
                 small reviewable deliverables like results/reports/*.md
-                and results/plots/{dataset,baseline}/ are committed)
+                and results/plots/{dataset,baseline,temporal}/ are committed)
 notebooks/      Exploratory analysis
 scripts/        Standalone utility scripts
 tests/          Tests for src/ (data, models, training, evaluation,

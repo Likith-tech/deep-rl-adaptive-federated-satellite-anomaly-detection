@@ -1,0 +1,69 @@
+# Temporal (Phase 3) model configuration.
+#
+# See docs/project-progress/04-phase-3-spatio-temporal.md for the plain
+# -language explanation and docs/datasets/dataset_selection.md for why
+# NSL-KDD has no genuine timestamp field. Sequences here are built from
+# the dataset's own ORDERED rows, not real chronological time-series.
+
+temporal:
+  type: gru_attention
+  input_dim: 121              # must match data/processed/metadata.json -> num_features
+  projection_dim: 64
+  hidden_dim: 64
+  num_gru_layers: 1
+  dropout: 0.3
+  output_dim: 1                # single logit; sigmoid -> P(sequence is anomalous)
+
+  # Sequence construction (src/preprocessing/sequences.py)
+  sequence_length: 16           # main/default sequence length
+  sequence_length_candidates:   # small experiment (section 15) — validation-selected
+    - 8
+    - 16
+    - 32
+  stride: null                  # null -> defaults to sequence_length (non-overlapping windows)
+
+  # Sequence label strategy. REWORKED after an initial "any" experiment
+  # was found to produce a ~100% anomaly sequence dataset on NSL-KDD
+  # (see results/reports/sequence_labeling_analysis.md for the measured
+  # class distributions across all candidate strategies, and
+  # results/reports/temporal_results.md, "Initial sequence-labeling
+  # experiment", for why that result was rejected).
+  #
+  # Selected: "last" — the sequence label equals the label of the FINAL
+  # record in the window; the preceding records are context only. This
+  # (a) tracks NSL-KDD's per-record anomaly rate closely, so class
+  # balance stays consistent and non-degenerate across train/validation/
+  # test (measured: ~46% train/validation, ~57-58% test — see the
+  # analysis report), (b) needs no arbitrary threshold, (c) has a clean
+  # interpretation ("given recent context, is the CURRENT record
+  # anomalous?"), and (d) makes the temporal task a strict superset of
+  # the Phase 2 baseline's task (same target record + its own features,
+  # PLUS historical context) — the fairest possible basis for a
+  # temporal-vs-baseline comparison.
+  sequence_label_strategy: last   # one of: any, majority, last, ratio
+  sequence_label_threshold: null  # only used when sequence_label_strategy == ratio
+
+  # Order-preserving train/validation split (DIFFERENT from Phase 1's
+  # shuffled split.py — see src/preprocessing/sequences.py docstring).
+  validation_size: 0.15         # same fraction as Phase 1, for comparability
+
+  training:
+    batch_size: 128
+    learning_rate: 0.001
+    optimizer: adam
+    loss: bce_with_logits
+    epochs: 25
+    early_stopping_patience: 4
+    seed: 42
+
+notes: >
+  Temporal GRU + attention model: Linear projection -> GRU -> learned
+  temporal attention -> Dropout -> Dense -> logit. This is the TEMPORAL
+  foundation for the eventual "Spatio-Temporal Gated Attention
+  Mechanism" — there is no spatial/multi-satellite component yet (that
+  requires the satellite simulation built in a later phase). Sequence
+  length is selected using the VALIDATION set only; KDDTest+ is used
+  exactly once, for the final selected configuration. Sequence
+  labeling strategy was reworked from an initial "any" rule (rejected
+  as degenerate) to "last" — see sequence_label_strategy above and
+  results/reports/sequence_labeling_analysis.md.

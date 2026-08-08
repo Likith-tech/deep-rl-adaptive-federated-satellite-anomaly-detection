@@ -58,6 +58,13 @@ results/reports/*
 !results/plots/baseline/*.png
 !results/reports/baseline_results.md
 
+# Phase 3 temporal results deliverables — small, reviewable. Model
+# checkpoints (results/models/temporal/**/*.pt) stay ignored (*.pt below).
+!results/plots/temporal/
+!results/plots/temporal/*.png
+!results/reports/temporal_results.md
+!results/reports/sequence_labeling_analysis.md
+
 *.ckpt
 *.pt
 *.pth

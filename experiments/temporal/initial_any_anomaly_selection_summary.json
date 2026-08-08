@@ -1,0 +1,37 @@
+{
+  "candidates": [
+    {
+      "sequence_length": 8,
+      "train_sequences": 13384,
+      "validation_sequences": 2362,
+      "best_epoch": 6,
+      "best_val_loss": 0.008684052969821927,
+      "stopped_early": true,
+      "training_seconds": 11.757755041122437,
+      "checkpoint_dir": "results\\models\\temporal\\candidate_seq8"
+    },
+    {
+      "sequence_length": 16,
+      "train_sequences": 6692,
+      "validation_sequences": 1181,
+      "best_epoch": 25,
+      "best_val_loss": 5.952809493052107e-05,
+      "stopped_early": false,
+      "training_seconds": 29.89004874229431,
+      "checkpoint_dir": "results\\models\\temporal\\candidate_seq16"
+    },
+    {
+      "sequence_length": 32,
+      "train_sequences": 3346,
+      "validation_sequences": 590,
+      "best_epoch": 25,
+      "best_val_loss": 0.0001987777997135832,
+      "stopped_early": false,
+      "training_seconds": 27.82904314994812,
+      "checkpoint_dir": "results\\models\\temporal\\candidate_seq32"
+    }
+  ],
+  "selected_sequence_length": 16,
+  "selection_criterion": "lowest validation loss",
+  "final_checkpoint": "results\\models\\temporal\\best_model.pt"
+}
