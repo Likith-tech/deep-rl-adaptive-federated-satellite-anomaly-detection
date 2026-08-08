@@ -1,0 +1,77 @@
+{
+  "note": "All fields below except client_id and data_size are SIMULATED parameters, not real satellite measurements.",
+  "clients": {
+    "SAT-01": {
+      "client_id": "SAT-01",
+      "bandwidth_mbps": 78.52582461281652,
+      "latency_ms": 247.49529788842355,
+      "compute_score": 0.8868783359291059,
+      "availability_probability": 0.8789472116237456,
+      "connectivity_quality": 0.36592414352135466,
+      "data_size": 8675
+    },
+    "SAT-02": {
+      "client_id": "SAT-02",
+      "bandwidth_mbps": 97.68412340549182,
+      "latency_ms": 392.5128658956588,
+      "compute_score": 0.8288514442215631,
+      "availability_probability": 0.6512454530702183,
+      "connectivity_quality": 0.615270156526897,
+      "data_size": 39030
+    },
+    "SAT-03": {
+      "client_id": "SAT-03",
+      "bandwidth_mbps": 40.225812302095214,
+      "latency_ms": 467.0442449818708,
+      "compute_score": 0.7150920960645317,
+      "availability_probability": 0.929104645308332,
+      "connectivity_quality": 0.6103899391791318,
+      "data_size": 6813
+    },
+    "SAT-04": {
+      "client_id": "SAT-04",
+      "bandwidth_mbps": 26.587678569553805,
+      "latency_ms": 299.56315415712567,
+      "compute_score": 0.2510538048833403,
+      "availability_probability": 0.9310524687970329,
+      "connectivity_quality": 0.7421650793854453,
+      "data_size": 6246
+    },
+    "SAT-05": {
+      "client_id": "SAT-05",
+      "bandwidth_mbps": 77.01833530811051,
+      "latency_ms": 209.53668565844077,
+      "compute_score": 0.9765584195159227,
+      "availability_probability": 0.957248448528879,
+      "connectivity_quality": 0.8448684479516333,
+      "data_size": 8382
+    },
+    "SAT-06": {
+      "client_id": "SAT-06",
+      "bandwidth_mbps": 23.49067724593692,
+      "latency_ms": 260.0244516771654,
+      "compute_score": 0.23504301262978303,
+      "availability_probability": 0.6617157968270191,
+      "connectivity_quality": 0.7781342672697182,
+      "data_size": 4819
+    },
+    "SAT-07": {
+      "client_id": "SAT-07",
+      "bandwidth_mbps": 75.75240481124263,
+      "latency_ms": 485.3793795953945,
+      "compute_score": 0.4606602865105216,
+      "availability_probability": 0.7481838824139475,
+      "connectivity_quality": 0.6286890678930654,
+      "data_size": 19144
+    },
+    "SAT-08": {
+      "client_id": "SAT-08",
+      "bandwidth_mbps": 22.99977911300714,
+      "latency_ms": 108.46467740096224,
+      "compute_score": 0.580563940980747,
+      "availability_probability": 0.6907637396203536,
+      "connectivity_quality": 0.7688697962777572,
+      "data_size": 13968
+    }
+  }
+}

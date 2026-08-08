@@ -1,0 +1,143 @@
+{
+  "source_dataset": "data/processed/train.parquet",
+  "num_clients": 8,
+  "partition_strategy": "dirichlet",
+  "category_column": "label_original",
+  "alpha": 0.5,
+  "seed": 42,
+  "attempts_used": 1,
+  "constraints_satisfied": true,
+  "constraint_violations": {},
+  "client_sample_counts": {
+    "SAT-01": 8675,
+    "SAT-02": 39030,
+    "SAT-03": 6813,
+    "SAT-04": 6246,
+    "SAT-05": 8382,
+    "SAT-06": 4819,
+    "SAT-07": 19144,
+    "SAT-08": 13968
+  },
+  "client_stats": {
+    "SAT-01": {
+      "client_id": "SAT-01",
+      "total_samples": 8675,
+      "normal_samples": 81,
+      "anomaly_samples": 8594,
+      "anomaly_percentage": 99.0663,
+      "category_counts": {
+        "dos": 8521,
+        "normal": 81,
+        "probe": 41,
+        "r2l": 29,
+        "u2r": 3
+      },
+      "categories_represented": 5
+    },
+    "SAT-02": {
+      "client_id": "SAT-02",
+      "total_samples": 39030,
+      "normal_samples": 14094,
+      "anomaly_samples": 24936,
+      "anomaly_percentage": 63.8893,
+      "category_counts": {
+        "dos": 23948,
+        "normal": 14094,
+        "probe": 953,
+        "r2l": 25,
+        "u2r": 10
+      },
+      "categories_represented": 5
+    },
+    "SAT-03": {
+      "client_id": "SAT-03",
+      "total_samples": 6813,
+      "normal_samples": 5709,
+      "anomaly_samples": 1104,
+      "anomaly_percentage": 16.2043,
+      "category_counts": {
+        "dos": 943,
+        "normal": 5709,
+        "probe": 79,
+        "r2l": 80,
+        "u2r": 2
+      },
+      "categories_represented": 5
+    },
+    "SAT-04": {
+      "client_id": "SAT-04",
+      "total_samples": 6246,
+      "normal_samples": 1131,
+      "anomaly_samples": 5115,
+      "anomaly_percentage": 81.8924,
+      "category_counts": {
+        "dos": 38,
+        "normal": 1131,
+        "probe": 5007,
+        "r2l": 65,
+        "u2r": 5
+      },
+      "categories_represented": 5
+    },
+    "SAT-05": {
+      "client_id": "SAT-05",
+      "total_samples": 8382,
+      "normal_samples": 5097,
+      "anomaly_samples": 3285,
+      "anomaly_percentage": 39.1911,
+      "category_counts": {
+        "dos": 565,
+        "normal": 5097,
+        "probe": 2701,
+        "r2l": 4,
+        "u2r": 15
+      },
+      "categories_represented": 5
+    },
+    "SAT-06": {
+      "client_id": "SAT-06",
+      "total_samples": 4819,
+      "normal_samples": 2710,
+      "anomaly_samples": 2109,
+      "anomaly_percentage": 43.7643,
+      "category_counts": {
+        "dos": 1299,
+        "normal": 2710,
+        "probe": 669,
+        "r2l": 140,
+        "u2r": 1
+      },
+      "categories_represented": 5
+    },
+    "SAT-07": {
+      "client_id": "SAT-07",
+      "total_samples": 19144,
+      "normal_samples": 15800,
+      "anomaly_samples": 3344,
+      "anomaly_percentage": 17.4676,
+      "category_counts": {
+        "dos": 3000,
+        "normal": 15800,
+        "probe": 340,
+        "r2l": 0,
+        "u2r": 4
+      },
+      "categories_represented": 4
+    },
+    "SAT-08": {
+      "client_id": "SAT-08",
+      "total_samples": 13968,
+      "normal_samples": 12620,
+      "anomaly_samples": 1348,
+      "anomaly_percentage": 9.6506,
+      "category_counts": {
+        "dos": 763,
+        "normal": 12620,
+        "probe": 90,
+        "r2l": 489,
+        "u2r": 6
+      },
+      "categories_represented": 5
+    }
+  }
+}

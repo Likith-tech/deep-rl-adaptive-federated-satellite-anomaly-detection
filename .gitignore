@@ -39,6 +39,12 @@ data/partitions/*
 !data/partitions/.gitkeep
 !data/README.md
 
+# Phase 4 satellite partition metadata — small, reviewable. The actual
+# per-client datasets (data/partitions/SAT-*/train.parquet) stay ignored.
+!data/partitions/README.md
+!data/partitions/manifest.json
+!data/partitions/satellite_metadata.json
+
 results/metrics/*
 results/models/*
 results/plots/*
@@ -64,6 +70,11 @@ results/reports/*
 !results/plots/temporal/*.png
 !results/reports/temporal_results.md
 !results/reports/sequence_labeling_analysis.md
+
+# Phase 4 satellite simulation deliverables — small, reviewable.
+!results/plots/satellite/
+!results/plots/satellite/*.png
+!results/reports/satellite_simulation_report.md
 
 *.ckpt
 *.pt

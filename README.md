@@ -30,13 +30,14 @@ Phase 0  — Project Foundation          COMPLETE
 Phase 1  — Dataset Acquisition         COMPLETE
 Phase 2  — Data Preprocessing          COMPLETE
 Phase 3  — Baseline Model              COMPLETE
-Phase 4  — Temporal Model (GRU+Attn)   IN PROGRESS (corrected experiment run, awaiting review)
-Phase 5+ — (see Development phases)    NOT STARTED
+Phase 4  — Temporal Model (GRU+Attn)   COMPLETE
+Phase 5  — Satellite Simulation        IN PROGRESS
+Phase 6+ — (see Development phases)    NOT STARTED
 ```
 
 See `docs/project-progress/` for a plain-language, viva-ready write-up
 of every completed phase (`00-project-plan.md` is the master tracker,
-including the full Phase 4 history).
+including the full history).
 
 Phase 1 produced a real, reproducible NSL-KDD dataset pipeline (load →
 clean → label → split → encode/scale → processed dataset + metadata).
@@ -54,10 +55,19 @@ sequence by its *last* record, selected by measuring four candidate
 strategies against real data) produced a trustworthy, non-degenerate
 result: **75.8% accuracy, 92.2% precision, 64.0% recall, 75.6% F1, 89.2%
 ROC-AUC** on KDDTest+ — honestly slightly below the baseline. See
-`results/reports/temporal_results.md` for both experiments in full. No
-federated learning or DRL logic has been implemented yet, and neither
-model is connected to the frontend. The frontend dashboard intentionally
-shows "Awaiting live data" states rather than fabricated metrics.
+`results/reports/temporal_results.md` for both experiments in full.
+Phase 4 (this project's tracker numbering — see Development phases
+table below for the 20-phase numbering) built a **simulation of a
+multi-satellite learning environment using the real NSL-KDD dataset**:
+8 simulated clients, non-IID partitioned by Dirichlet distribution
+(measured average pairwise Jensen-Shannon distance between clients'
+category distributions: **0.527**, 0=identical/1=maximally different),
+each with simulated (clearly labeled as such) bandwidth/latency/compute/
+availability/connectivity — see
+`results/reports/satellite_simulation_report.md`. No federated learning
+or DRL logic has been implemented yet, and none of the models are
+connected to the frontend. The frontend dashboard intentionally shows
+"Awaiting live data" states rather than fabricated metrics.
 
 ## Development phases
 
@@ -69,8 +79,8 @@ shows "Awaiting live data" states rather than fabricated metrics.
 | 3 | Baseline anomaly detection ✅ complete |
 | 4 | Temporal sequence construction ✅ complete, including a corrected relabel after an initial degenerate attempt (see note below) |
 | 5 | Spatio-temporal anomaly model ⚠️ TEMPORAL component/foundation complete (did not beat baseline — honest result); genuine SPATIAL/satellite modeling is not implemented and requires row 6 below (see note below) |
-| 6 | Satellite client simulation *(next milestone — the next concrete step in this project's plan, not a skipped phase)* |
-| 7 | Local satellite training |
+| 6 | Satellite client simulation ⏳ in progress, awaiting review — 8 simulated clients, measured non-IID partition, simulated resource conditions generated (see note below) |
+| 7 | Local satellite training *(next, after Phase 6 review)* |
 | 8 | Standard FedAvg |
 | 9 | Non-IID experiments |
 | 10 | Adaptive federated learning |
@@ -101,16 +111,20 @@ task and was rejected rather than reported; a corrected, evidence-selected
 labeling strategy (LAST-record) produced a trustworthy but
 honestly-below-baseline result — see `results/reports/temporal_results.md`
 for both experiments.
-The next concrete milestone for this project — not a skipped step, but
-the very next one — is building the simulated satellite-client/network
-environment, listed above as row 6 ("Satellite client simulation") in
-this table's numbering, and as Phase 4 in
-`docs/project-progress/00-project-plan.md`'s numbering (the two files
-use different phase-numbering granularity — see "Relationship to the
-original 20-phase plan" in that tracker). Only once that environment
-exists does the SPATIAL half of "spatio-temporal" become meaningful.
-No federated or DRL components exist yet, and remain out of scope until
-that satellite-client environment is built.*
+The simulated satellite-client/network environment — row 6
+("Satellite client simulation") in this table's numbering, and Phase 4
+in `docs/project-progress/00-project-plan.md`'s numbering (the two
+files use different phase-numbering granularity — see "Relationship to
+the original 20-phase plan" in that tracker) — has now been built: 8
+simulated clients, a measured (not assumed) non-IID partition of the
+real training data, and simulated per-client resource conditions. This
+is what finally gives meaning to the SPATIAL half of "spatio-temporal."
+It is a **simulation using the real NSL-KDD dataset**, not real
+satellite telemetry — see `docs/project-progress/05-phase-4-satellite-simulation.md`
+for the full, explicit real-vs-simulated breakdown. No federated or DRL
+components exist yet, and remain out of scope until local per-client
+training (the next milestone) and then actual Federated Learning are
+built.*
 
 ## Dataset
 
@@ -194,24 +208,56 @@ python scripts/train_temporal.py
 python scripts/evaluate_temporal.py
 ```
 
+## Satellite simulation
+
+A **simulation of a multi-satellite learning environment using the real
+NSL-KDD dataset** — not real satellite telemetry. 8 simulated clients
+(`SAT-01`..`SAT-08`) are built by Dirichlet-partitioning the real
+training data by attack category (non-IID, measured — average pairwise
+Jensen-Shannon distance between clients' distributions: 0.527), each
+with simulated (explicitly labeled as such) bandwidth, latency, compute
+capacity, availability, and connectivity. Only the training split is
+partitioned; validation stays global and KDDTest+ is untouched. Full
+detail in `results/reports/satellite_simulation_report.md` and
+`data/partitions/README.md`; plain-language write-up in
+`docs/project-progress/05-phase-4-satellite-simulation.md`. No
+Federated Learning, DRL, or model training happens here — this builds
+the client environment only.
+
+```bash
+# Requires the processed dataset (see Dataset above)
+
+# 1. Partition the real training data across simulated satellite
+#    clients + generate simulated resource conditions (writes
+#    data/partitions/SAT-*/train.parquet, gitignored, + manifest.json
+#    and satellite_metadata.json, committed)
+python scripts/create_satellite_partitions.py
+
+# 2. Measure non-IID quality + resource heterogeneity, generate plots
+#    and the full report
+python scripts/analyze_satellite_partitions.py
+```
+
 ## Repository structure
 
 ```
 configs/        Experiment/system configuration (YAML) — no hardcoded params
 data/           raw / interim / processed / partitions (large files git-ignored)
 src/            ML/FL/DRL source: data, preprocessing, models, training,
-                federated, adaptive, drl, satellite, evaluation, utils
+                federated, adaptive, drl, simulation, satellite,
+                evaluation, utils
 backend/        FastAPI application (API, services, schemas, core) + tests
 frontend/       React + TypeScript + Vite application (OrbitShield UI)
 experiments/    Experiment run configs/scripts, separate from src/
 results/        Generated metrics, models, plots, logs, reports
                 (mostly git-ignored/regenerable — e.g. model checkpoints;
                 small reviewable deliverables like results/reports/*.md
-                and results/plots/{dataset,baseline,temporal}/ are committed)
+                and results/plots/{dataset,baseline,temporal,satellite}/
+                are committed)
 notebooks/      Exploratory analysis
 scripts/        Standalone utility scripts
 tests/          Tests for src/ (data, models, training, evaluation,
-                federated, drl, integration)
+                simulation, federated, drl, integration)
 docs/           Architecture, methodology, dataset and API documentation
 ```
 

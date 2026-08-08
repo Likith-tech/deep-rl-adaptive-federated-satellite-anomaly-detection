@@ -15,8 +15,8 @@ faculty and during viva — not just to record what was technically done.
 Phase 0  — Project Foundation          COMPLETE
 Phase 1  — Dataset & Preprocessing     COMPLETE
 Phase 2  — Baseline Detection          COMPLETE
-Phase 3  — Temporal Model (GRU+Attn)   IN PROGRESS (corrected experiment run, awaiting review — see caveat below)
-Phase 4  — Satellite Simulation        NOT STARTED
+Phase 3  — Temporal Model (GRU+Attn)   COMPLETE (see caveat below)
+Phase 4  — Satellite Simulation        IN PROGRESS
 Phase 5  — Local Satellite Training    NOT STARTED
 Phase 6  — Federated Learning          NOT STARTED
 Phase 7  — Non-IID FL                  NOT STARTED
@@ -44,6 +44,7 @@ or partial work.
 | `02-phase-1-dataset.md` | NSL-KDD dataset selection, cleaning, preprocessing |
 | `03-phase-2-baseline.md` | First real anomaly-detection model (MLP baseline) — F1 77.9% on KDDTest+ |
 | `04-phase-3-spatio-temporal.md` | Temporal GRU+attention model — first attempt (ANY-anomaly labeling) was rejected as degenerate (100% F1, near-single-class task); corrected (LAST-record labeling, evidence-based) attempt scores F1 75.58% on KDDTest+, honestly slightly below the Phase 2 baseline's 77.90% (see caveat below) |
+| `05-phase-4-satellite-simulation.md` | Simulated 8-client satellite environment via Dirichlet non-IID partitioning of the real training data (measured avg pairwise JS distance 0.527) + simulated per-client resource conditions — no FL/DRL yet |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -90,21 +91,43 @@ integrity:
    `results/reports/temporal_results.md` and
    `docs/project-progress/04-phase-3-spatio-temporal.md`.
 
-Phase 3 remains **IN PROGRESS** (not COMPLETE) pending review of this
-corrected experiment.
+Phase 3 was reviewed and approved and is now marked **COMPLETE**.
 
-## What's explicitly NOT done yet (as of Phase 3)
+## Phase 4 summary (satellite simulation)
 
-- No satellite simulation of any kind exists yet.
-- No federated learning (no Flower, no FedAvg, no clients).
+Phase 4 builds a **simulation of a multi-satellite learning environment
+using the real NSL-KDD dataset** — NSL-KDD remains terrestrial traffic;
+nothing here claims otherwise. 8 simulated clients (`SAT-01`..`SAT-08`)
+were created by Dirichlet-partitioning the real training data
+(`data/processed/train.parquet`, 107,077 records) by attack category,
+seed=42, alpha=0.5. Non-IID-ness was measured, not assumed: average
+pairwise Jensen-Shannon distance between clients' category distributions
+= **0.527** (0=identical, 1=maximally different). Each client also
+received SIMULATED resource conditions (bandwidth, latency, compute,
+availability, connectivity) sampled within configured ranges. Data
+integrity was verified: all 107,077 training records assigned to
+exactly one client, zero loss, zero duplication; validation stays a
+single global set and KDDTest+ was never touched. Full detail in
+`docs/project-progress/05-phase-4-satellite-simulation.md` and
+`results/reports/satellite_simulation_report.md`. No Federated
+Learning, DRL, or model training happens in this phase — environment
+construction only.
+
+## What's explicitly NOT done yet (as of Phase 4)
+
+- No federated learning (no Flower, no FedAvg, no aggregation, no
+  communication rounds, no server/client training loop).
 - No DRL/DQN/reinforcement learning of any kind.
-- The OrbitShield website is not connected to any real model — it still
-  shows "Awaiting live data."
-- No spatial/multi-satellite component exists yet — Phase 3 only
-  covered the temporal half of "spatio-temporal."
-- Temporal context (in this simple last-record-label form) has not yet
-  been shown to improve on the baseline — a real, useful finding for
-  guiding later phases, not a blocker.
+- The OrbitShield website is not connected to any real model or
+  simulation data — it still shows "Awaiting live data."
+- No spatial/geographic/orbital realism — the satellite simulation
+  creates non-IID label distributions and simulated resource
+  heterogeneity, not real orbital mechanics or inter-satellite links.
+- No local training has been run on the simulated clients yet — that's
+  Phase 5.
+- Temporal context (Phase 3, last-record-label form) has not yet been
+  shown to improve on the baseline — a real, useful finding for guiding
+  later phases, not a blocker.
 
 These are all planned for later phases and are intentionally out of
 scope until their turn.

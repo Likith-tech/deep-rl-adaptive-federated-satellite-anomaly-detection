@@ -1,0 +1,55 @@
+# Simulated multi-satellite client environment — Phase 4.
+#
+# IMPORTANT: every value in this file describes a SIMULATED experiment
+# parameter, not a measurement from a real satellite. The underlying
+# network records and labels are real (NSL-KDD, a terrestrial network
+# intrusion dataset — see docs/datasets/dataset_selection.md). The
+# "satellite" framing (client IDs, bandwidth, latency, compute,
+# availability, connectivity) is a controlled simulation built on top
+# of that real data so later Federated Learning / Adaptive FL / DRL
+# phases have a realistic multi-client, non-IID environment to operate
+# on. See docs/project-progress/05-phase-4-satellite-simulation.md.
+
+satellites:
+  num_clients: 8          # tested with 5/8/10/20 — see satellite_simulation_report.md
+  id_prefix: "SAT"         # client IDs: SAT-01, SAT-02, ...
+  seed: 42
+
+partitioning:
+  # Only KDDTrain+ (via data/processed/train.parquet) is partitioned.
+  # Validation stays a single global held-out set; KDDTest+ is never
+  # touched here — see "Data source and split boundaries" in the report.
+  source_split: train
+  strategy: dirichlet
+  # Partitioning is done per attack CATEGORY (normal/dos/probe/r2l/u2r —
+  # src/data/schema.py:ATTACK_CATEGORY_MAP), not per fine-grained attack
+  # name, so each client's mix of attack *types* varies (as required),
+  # while still using only real, already-existing labels.
+  category_column: label_original
+  dirichlet_alpha: 0.5     # lower = more skewed/non-IID, higher = closer to IID
+  max_resample_attempts: 20
+  constraints:
+    # Chosen relative to the actual dataset size (107,077 training
+    # records / 8 clients ≈ 13,385 average) — small enough to allow
+    # genuine non-IID variation, large enough that no client is
+    # practically useless for local training.
+    min_total_samples: 500
+    min_normal_samples: 50
+    min_anomaly_samples: 50
+    min_categories_represented: 2   # at least "normal" + 1 attack category
+
+resources:
+  # Simulated per-satellite operating conditions. Ranges are reasonable,
+  # illustrative choices for a controlled FL experiment testbed — not
+  # derived from real satellite telemetry.
+  bandwidth_mbps: [5, 100]
+  latency_ms: [50, 500]
+  compute_score: [0.2, 1.0]          # normalized, unitless
+  availability_probability: [0.6, 1.0]
+  connectivity_quality: [0.3, 1.0]   # normalized, unitless
+
+notes: >
+  This is a simulation of a multi-satellite learning environment built
+  using a real network intrusion dataset (NSL-KDD). NSL-KDD is not
+  satellite traffic. No real satellite measurements are used or
+  claimed anywhere in this configuration or its outputs.
