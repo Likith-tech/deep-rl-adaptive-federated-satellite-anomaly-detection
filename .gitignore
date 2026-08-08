@@ -46,6 +46,12 @@ results/logs/*
 results/reports/*
 !results/**/.gitkeep
 
+# Phase 1 dataset analysis deliverables — small, reviewable, worth keeping
+# in the repo (unlike bulky experiment logs/metrics/model checkpoints).
+!results/plots/dataset/
+!results/plots/dataset/*.png
+!results/reports/dataset_quality.md
+
 *.ckpt
 *.pt
 *.pth

@@ -1,22 +1,41 @@
-# Dataset configuration (placeholder — populated in Phase 1)
+# Dataset configuration — Phase 1
 #
-# This file will define which dataset(s) are used for anomaly detection
-# experiments, where they are stored, and how they are split.
+# See docs/datasets/dataset_selection.md for the full reasoning behind
+# this choice and how to reproduce the download.
 
 dataset:
-  name: null              # e.g. "CICIDS2017", "UNSW-NB15", "NSL-KDD"
-  source_url: null
+  name: "NSL-KDD"
+  source: "https://raw.githubusercontent.com/jmnwong/NSL-KDD-Dataset/master/"
+  official_source: "https://www.unb.ca/cic/datasets/nsl.html"
+  official_source_status: "offline as of 2026-08-08 — see dataset_selection.md"
   raw_dir: data/raw
   interim_dir: data/interim
   processed_dir: data/processed
   partitions_dir: data/partitions
+  raw_train_file: KDDTrain+.txt
+  raw_test_file: KDDTest+.txt
 
-split:
-  train_ratio: 0.7
-  val_ratio: 0.15
-  test_ratio: 0.15
+preprocessing:
   random_seed: 42
+  validation_size: 0.15   # fraction of KDDTrain+ held out for validation
+  # test split is NOT a fraction: KDDTest+ is used as the held-out test
+  # set as provided by the dataset (see docs/datasets/dataset_selection.md
+  # and src/preprocessing/splitting.py for why).
+  scaling: "standard"      # StandardScaler, fit on train split only
+  categorical_encoding: "onehot"  # fit on train split only
+
+labels:
+  source_column: attack
+  binary_column: label_binary
+  original_column: label_original
+  normal_value: "normal"
+  binary_labels:
+    normal: 0
+    anomaly: 1
 
 notes: >
-  No dataset has been downloaded or selected yet. This file is a
-  placeholder for Phase 1 (dataset acquisition and analysis).
+  NSL-KDD is a terrestrial network intrusion-detection dataset, not a
+  satellite dataset. It is used here as the base traffic distribution
+  that will later be partitioned into simulated non-IID satellite
+  clients (Phase 6+). See docs/datasets/dataset_selection.md for the
+  satellite-simulation methodology.

@@ -25,20 +25,31 @@ research background live in the project report, not as app pages.
 
 ## Project status
 
-This repository is currently at **Phase 0 — project foundation**. No
-dataset has been downloaded, no models have been trained, and no
-federated learning or DRL logic has been implemented yet. The frontend
-dashboard intentionally shows "Awaiting live data" states rather than
-fabricated metrics.
+```
+Phase 0  — Project Foundation          COMPLETE
+Phase 1  — Dataset Acquisition         COMPLETE
+Phase 2  — Data Preprocessing          COMPLETE
+Phase 3  — Baseline Model              NOT STARTED
+Phase 4+ — (see Development phases)    NOT STARTED
+```
+
+Phase 1 produced a real, reproducible NSL-KDD dataset pipeline (load →
+clean → label → split → encode/scale → processed dataset + metadata),
+run successfully end-to-end on the real dataset. See
+`docs/datasets/dataset_selection.md` for the dataset decision and
+`results/reports/dataset_quality.md` for measured statistics. No models
+have been trained, and no federated learning or DRL logic has been
+implemented yet. The frontend dashboard intentionally shows "Awaiting
+live data" states rather than fabricated metrics.
 
 ## Development phases
 
 | Phase | Scope |
 |---|---|
-| 0 | Repository + project foundation *(current)* |
-| 1 | Dataset acquisition and analysis |
-| 2 | Data preprocessing |
-| 3 | Baseline anomaly detection |
+| 0 | Repository + project foundation ✅ complete |
+| 1 | Dataset acquisition and analysis ✅ complete (preprocessing pipeline also implemented — see note below) |
+| 2 | Data preprocessing ✅ substantially complete as part of Phase 1 (see note below) |
+| 3 | Baseline anomaly detection *(next)* |
 | 4 | Temporal sequence construction |
 | 5 | Spatio-temporal anomaly model |
 | 6 | Satellite client simulation |
@@ -57,6 +68,41 @@ fabricated metrics.
 | 19 | OrbitShield professional web platform |
 | 20 | Final integration, documentation and presentation |
 
+*Note: Phases 1 and 2 were executed together in a single work session
+(dataset selection/acquisition/analysis plus a full clean → label →
+split → encode/scale pipeline), since building a trustworthy processed
+dataset required all of it. No model training, feature learning, or
+FL/DRL logic was introduced — that remains entirely out of scope until
+Phase 3+.*
+
+## Dataset
+
+**Selected: NSL-KDD** (a terrestrial network intrusion-detection
+dataset — not satellite-specific; see
+`docs/datasets/dataset_selection.md` for the full reasoning and
+`docs/datasets/feature_decisions.md` for the per-feature leakage
+analysis). Real dataset statistics are in
+`results/reports/dataset_quality.md`.
+
+To reproduce the dataset and pipeline locally:
+
+```bash
+# 1. Download the raw dataset (~22.5 MB, not committed to this repo)
+mkdir -p data/raw
+curl -o data/raw/KDDTrain+.txt "https://raw.githubusercontent.com/jmnwong/NSL-KDD-Dataset/master/KDDTrain%2B.txt"
+curl -o data/raw/KDDTest+.txt "https://raw.githubusercontent.com/jmnwong/NSL-KDD-Dataset/master/KDDTest%2B.txt"
+
+# 2. Inspect it
+python scripts/inspect_dataset.py
+
+# 3. Run the full preprocessing pipeline (writes data/processed/, data/interim/,
+#    and results/models/preprocessing/ artifacts — all git-ignored/regenerable)
+python -m src.preprocessing.pipeline
+
+# 4. Regenerate the dataset quality report + plots (committed, small)
+python scripts/generate_dataset_report.py
+```
+
 ## Repository structure
 
 ```
@@ -67,7 +113,10 @@ src/            ML/FL/DRL source: data, preprocessing, models, training,
 backend/        FastAPI application (API, services, schemas, core) + tests
 frontend/       React + TypeScript + Vite application (OrbitShield UI)
 experiments/    Experiment run configs/scripts, separate from src/
-results/        Generated metrics, models, plots, logs, reports (git-ignored)
+results/        Generated metrics, models, plots, logs, reports
+                (mostly git-ignored; small reviewable deliverables like
+                results/reports/dataset_quality.md and
+                results/plots/dataset/ are committed)
 notebooks/      Exploratory analysis
 scripts/        Standalone utility scripts
 tests/          Tests for src/ (data, models, federated, drl, integration)
@@ -101,7 +150,7 @@ backend at `http://localhost:8000` by default (see `frontend`'s
 ## Running tests
 
 ```bash
-# Backend
+# Backend + data/preprocessing (uses a tiny synthetic fixture, not the real dataset)
 .venv\Scripts\activate
 pytest
 
@@ -115,17 +164,6 @@ npm run build
 
 Copy `.env.example` to `.env` and adjust as needed. No secrets are
 committed to this repository.
-
-## Datasets
-
-No dataset is bundled with this repository. Phase 1 will document
-dataset selection (e.g. CICIDS2017, UNSW-NB15, NSL-KDD, or a
-satellite-specific dataset where available) and acquisition steps,
-including disk space requirements, before anything is downloaded.
-Terrestrial datasets, if used, will be explicitly partitioned to
-simulate non-IID satellite clients with connectivity, latency,
-bandwidth, and resource constraints — they are not satellite datasets
-by nature.
 
 ## Data & result integrity
 
