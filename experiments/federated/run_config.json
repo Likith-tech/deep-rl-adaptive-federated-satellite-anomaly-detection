@@ -1,0 +1,95 @@
+{
+  "config": {
+    "model": {
+      "type": "mlp",
+      "input_dim": 121,
+      "hidden_dimensions": [
+        128,
+        64
+      ],
+      "dropout": 0.3,
+      "output_dim": 1
+    },
+    "federation": {
+      "num_clients": 8,
+      "clients_per_round": 8,
+      "num_rounds": 10,
+      "aggregation_strategy": "fedavg",
+      "weighting": "sample_count"
+    },
+    "training": {
+      "local_epochs": 1,
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "loss": "bce_with_logits",
+      "seed": 42
+    },
+    "initialization": {
+      "shared_init_seed": 42
+    },
+    "evaluation": {
+      "global_validation_path": "data/processed/validation.parquet"
+    },
+    "non_iid": {
+      "partitioning_strategy": "dirichlet",
+      "concentration_alpha": 0.5
+    },
+    "staleness": {
+      "max_staleness": null,
+      "staleness_weighting": null
+    },
+    "notes": "Phase 6 implements ONLY standard synchronous FedAvg: all 8 clients train locally for `local_epochs` epoch(s) every round, starting from the current global model, and return updated parameters + their local sample count (never raw data) to the server. The server aggregates via sample-count-weighted averaging and broadcasts the new global model for the next round. No adaptive client selection, no staleness-aware aggregation, no resource-based weighting, no DRL \u00e2\u20ac\u201d those are Phase 7+. Simulated per-client resource metadata (bandwidth/latency/compute/ availability/connectivity, from Phase 4) is recorded in round logs for later phases but does NOT influence client selection or weighting here.\n"
+  },
+  "client_ids": [
+    "SAT-01",
+    "SAT-02",
+    "SAT-03",
+    "SAT-04",
+    "SAT-05",
+    "SAT-06",
+    "SAT-07",
+    "SAT-08"
+  ],
+  "client_sample_counts": {
+    "SAT-01": 8675,
+    "SAT-02": 39030,
+    "SAT-03": 6813,
+    "SAT-04": 6246,
+    "SAT-05": 8382,
+    "SAT-06": 4819,
+    "SAT-07": 19144,
+    "SAT-08": 13968
+  },
+  "num_rounds": 10,
+  "best_round": 10,
+  "best_val_loss": 0.03457747502520579,
+  "best_val_metrics": {
+    "accuracy": 0.9888336155800169,
+    "precision": 0.9969893469198703,
+    "recall": 0.9789653212052303,
+    "f1": 0.9878951293672193,
+    "roc_auc": 0.9990153739443108,
+    "false_positive_rate": 0.002574002574002574,
+    "confusion_matrix": [
+      [
+        10075,
+        26
+      ],
+      [
+        185,
+        8610
+      ]
+    ]
+  },
+  "total_seconds": 50.24070501327515,
+  "checkpoint_path": "results\\models\\federated\\best_global_model.pt",
+  "communication_estimate": {
+    "note": "Simulation estimate of parameter transfer size \u2014 NOT measured satellite network traffic.",
+    "num_model_parameters": 23937,
+    "bytes_per_model_transfer": 95748,
+    "upload_bytes_per_round": 765984,
+    "download_bytes_per_round": 765984,
+    "total_communication_bytes_all_rounds": 15319680
+  }
+}

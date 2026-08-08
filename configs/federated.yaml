@@ -1,23 +1,66 @@
-# Federated learning configuration (placeholder — populated in Phases 6-11)
+# Phase 6 — baseline Federated Learning (synchronous FedAvg) configuration.
 #
-# Will eventually configure satellite client simulation, FedAvg, non-IID
-# partitioning, and staleness-aware aggregation.
+# Standard FedAvg only: all clients participate every round, sample-count
+# weighted averaging, no adaptive client selection, no staleness handling,
+# no DRL. Those are later phases (see notes below).
+
+model:
+  type: mlp                  # same architecture as Phase 2/5 — SAME as baseline, intentionally
+  input_dim: 121
+  hidden_dimensions:
+    - 128
+    - 64
+  dropout: 0.3
+  output_dim: 1
 
 federation:
-  num_clients: null
-  clients_per_round: null
-  num_rounds: null
-  aggregation_strategy: null   # e.g. "fedavg", "staleness_aware"
+  num_clients: 8              # SAT-01..SAT-08, from Phase 4 partitions
+  clients_per_round: 8        # ALL clients participate every round (baseline FedAvg)
+  num_rounds: 10
+  aggregation_strategy: fedavg
+  weighting: sample_count      # w_global = sum(n_k / N * w_k) — see src/federated/fedavg.py
+
+training:
+  local_epochs: 1              # per-client local epochs per communication round
+  batch_size: 128
+  learning_rate: 0.001
+  optimizer: adam
+  loss: bce_with_logits
+  seed: 42
+
+initialization:
+  # Round 1's global model, and every client's starting point each round,
+  # comes from this single shared seed — consistent with Phase 5's
+  # shared-initialization approach.
+  shared_init_seed: 42
+
+evaluation:
+  # Global validation set used for round-by-round monitoring and for
+  # selecting the best global checkpoint. KDDTest+ is evaluated exactly
+  # once, after the round/checkpoint is already chosen.
+  global_validation_path: data/processed/validation.parquet
 
 non_iid:
-  partitioning_strategy: null  # e.g. "dirichlet", "label_skew"
-  concentration_alpha: null
+  # Not re-configured here — the non-IID partition itself was created in
+  # Phase 4 (configs/satellite_simulation.yaml, data/partitions/). This
+  # phase consumes that partition as-is.
+  partitioning_strategy: dirichlet
+  concentration_alpha: 0.5
 
 staleness:
+  # Not implemented in Phase 6 (synchronous FedAvg only). Placeholder
+  # for a later staleness-aware phase.
   max_staleness: null
   staleness_weighting: null
 
 notes: >
-  Federated learning has not been implemented yet. This file is a
-  placeholder for Phases 6-11 (satellite client simulation through
-  staleness-aware FL).
+  Phase 6 implements ONLY standard synchronous FedAvg: all 8 clients
+  train locally for `local_epochs` epoch(s) every round, starting from
+  the current global model, and return updated parameters + their local
+  sample count (never raw data) to the server. The server aggregates via
+  sample-count-weighted averaging and broadcasts the new global model for
+  the next round. No adaptive client selection, no staleness-aware
+  aggregation, no resource-based weighting, no DRL — those are Phase 7+.
+  Simulated per-client resource metadata (bandwidth/latency/compute/
+  availability/connectivity, from Phase 4) is recorded in round logs for
+  later phases but does NOT influence client selection or weighting here.

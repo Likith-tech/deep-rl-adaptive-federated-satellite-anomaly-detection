@@ -1,0 +1,1395 @@
+{
+  "round_history": [
+    {
+      "round_number": 1,
+      "val_loss": 0.09543916721852728,
+      "val_metrics": {
+        "accuracy": 0.9712108382726503,
+        "precision": 0.9943678849610545,
+        "recall": 0.9434906196702671,
+        "f1": 0.9682613768961493,
+        "roc_auc": 0.9965681353970154,
+        "false_positive_rate": 0.004653004653004653,
+        "confusion_matrix": [
+          [
+            10054,
+            47
+          ],
+          [
+            497,
+            8298
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.15994489751477062,
+          "training_seconds": 0.35880255699157715,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.10417166841188945,
+          "training_seconds": 1.317326545715332,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.3332570593229443,
+          "training_seconds": 0.2920501232147217,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.3167844829180857,
+          "training_seconds": 0.19991040229797363,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.31824622420934984,
+          "training_seconds": 0.2737302780151367,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.4642808817993385,
+          "training_seconds": 0.15557503700256348,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.14838586686018698,
+          "training_seconds": 0.6175446510314941,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.20814408467632356,
+          "training_seconds": 0.45360732078552246,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 9.195736646652222
+    },
+    {
+      "round_number": 2,
+      "val_loss": 0.057476749358214535,
+      "val_metrics": {
+        "accuracy": 0.9749682472480948,
+        "precision": 0.9932432432432432,
+        "recall": 0.9527003979533826,
+        "f1": 0.9725494747838198,
+        "roc_auc": 0.9983476044874567,
+        "false_positive_rate": 0.005643005643005643,
+        "confusion_matrix": [
+          [
+            10044,
+            57
+          ],
+          [
+            416,
+            8379
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.020817044179575243,
+          "training_seconds": 0.28532981872558594,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.03226913459042563,
+          "training_seconds": 1.261880874633789,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.060444692934677496,
+          "training_seconds": 0.21910929679870605,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.08582292318945316,
+          "training_seconds": 0.20145130157470703,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.08235133681166316,
+          "training_seconds": 0.2695786952972412,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.10236988817137736,
+          "training_seconds": 0.15509295463562012,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.03592105921717089,
+          "training_seconds": 0.6168782711029053,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.06501950239410617,
+          "training_seconds": 0.4493844509124756,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 3.9861955642700195
+    },
+    {
+      "round_number": 3,
+      "val_loss": 0.04376002455052938,
+      "val_metrics": {
+        "accuracy": 0.9826947502116851,
+        "precision": 0.9931283484742605,
+        "recall": 0.9695281409891984,
+        "f1": 0.9811863529141016,
+        "roc_auc": 0.9987321120919758,
+        "false_positive_rate": 0.005841005841005841,
+        "confusion_matrix": [
+          [
+            10042,
+            59
+          ],
+          [
+            268,
+            8527
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.009847494002152502,
+          "training_seconds": 0.28337955474853516,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.0211634250557231,
+          "training_seconds": 1.25445556640625,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.04030722782779121,
+          "training_seconds": 0.2233121395111084,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.06547868405500075,
+          "training_seconds": 0.20326519012451172,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.06866385295997796,
+          "training_seconds": 0.27323102951049805,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.072034479506371,
+          "training_seconds": 0.15730929374694824,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.021822883561292465,
+          "training_seconds": 0.6162362098693848,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.05513994935163876,
+          "training_seconds": 0.44798898696899414,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 3.9791946411132812
+    },
+    {
+      "round_number": 4,
+      "val_loss": 0.03905859569388865,
+      "val_metrics": {
+        "accuracy": 0.9849174428450466,
+        "precision": 0.99442249593307,
+        "recall": 0.9730528709494031,
+        "f1": 0.9836216309407505,
+        "roc_auc": 0.9989012508625923,
+        "false_positive_rate": 0.004752004752004752,
+        "confusion_matrix": [
+          [
+            10053,
+            48
+          ],
+          [
+            237,
+            8558
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.005485765498697822,
+          "training_seconds": 0.28684449195861816,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.01677921250462055,
+          "training_seconds": 1.2543106079101562,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.03412634450119357,
+          "training_seconds": 0.22306561470031738,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.06475978609373698,
+          "training_seconds": 0.20422720909118652,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.06696316555268624,
+          "training_seconds": 0.2929222583770752,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.0620466201869772,
+          "training_seconds": 0.1671609878540039,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.016455125670350398,
+          "training_seconds": 0.649055004119873,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.05138708495525355,
+          "training_seconds": 0.5229692459106445,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 4.204459190368652
+    },
+    {
+      "round_number": 5,
+      "val_loss": 0.03709350889477686,
+      "val_metrics": {
+        "accuracy": 0.9853408128704487,
+        "precision": 0.9945424988388295,
+        "recall": 0.9738487777146105,
+        "f1": 0.9840868616073993,
+        "roc_auc": 0.9989610336398284,
+        "false_positive_rate": 0.004653004653004653,
+        "confusion_matrix": [
+          [
+            10054,
+            47
+          ],
+          [
+            230,
+            8565
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.004077632421092868,
+          "training_seconds": 0.20202064514160156,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.014796937345101182,
+          "training_seconds": 1.3592052459716797,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.031218583326096158,
+          "training_seconds": 0.1757030487060547,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.06561268729539758,
+          "training_seconds": 0.15916228294372559,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.06693571025296331,
+          "training_seconds": 0.2195119857788086,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.057339716383433235,
+          "training_seconds": 0.11090278625488281,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.014506082414756259,
+          "training_seconds": 0.6283845901489258,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.04897575706077093,
+          "training_seconds": 0.48303747177124023,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 3.8485066890716553
+    },
+    {
+      "round_number": 6,
+      "val_loss": 0.036114325481139686,
+      "val_metrics": {
+        "accuracy": 0.9852878916172735,
+        "precision": 0.9947716974555594,
+        "recall": 0.9735076748152359,
+        "f1": 0.9840248247327893,
+        "roc_auc": 0.9989925065536209,
+        "false_positive_rate": 0.004455004455004455,
+        "confusion_matrix": [
+          [
+            10056,
+            45
+          ],
+          [
+            233,
+            8562
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.003631296886301597,
+          "training_seconds": 0.30663037300109863,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.013236226625320561,
+          "training_seconds": 1.3169260025024414,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.03011380645294608,
+          "training_seconds": 0.21861958503723145,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.06576992974241136,
+          "training_seconds": 0.20147013664245605,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.06870216961378514,
+          "training_seconds": 0.26857924461364746,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.05422894870945467,
+          "training_seconds": 0.15722918510437012,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.013162515478163321,
+          "training_seconds": 0.6371333599090576,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.04728826816846645,
+          "training_seconds": 0.4528543949127197,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 4.08083176612854
+    },
+    {
+      "round_number": 7,
+      "val_loss": 0.03539265031081756,
+      "val_metrics": {
+        "accuracy": 0.9861875529212532,
+        "precision": 0.9962782042335426,
+        "recall": 0.9739624786810688,
+        "f1": 0.9849939630885989,
+        "roc_auc": 0.9989973017829753,
+        "false_positive_rate": 0.003168003168003168,
+        "confusion_matrix": [
+          [
+            10069,
+            32
+          ],
+          [
+            229,
+            8566
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.003496151025556645,
+          "training_seconds": 0.305570125579834,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.012062246249494738,
+          "training_seconds": 1.2972760200500488,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.029295785603291588,
+          "training_seconds": 0.21631956100463867,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.06973057151618502,
+          "training_seconds": 0.20070433616638184,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.06981163620402131,
+          "training_seconds": 0.2685689926147461,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.051793560122869696,
+          "training_seconds": 0.15592217445373535,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.012240403173283631,
+          "training_seconds": 0.6212203502655029,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.04597262327931608,
+          "training_seconds": 0.5733087062835693,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 4.323287725448608
+    },
+    {
+      "round_number": 8,
+      "val_loss": 0.03506610254898264,
+      "val_metrics": {
+        "accuracy": 0.9874047417442845,
+        "precision": 0.9965185099222468,
+        "recall": 0.9763501989766913,
+        "f1": 0.9863312657937054,
+        "roc_auc": 0.9989966995652044,
+        "false_positive_rate": 0.00297000297000297,
+        "confusion_matrix": [
+          [
+            10071,
+            30
+          ],
+          [
+            208,
+            8587
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.0033545904747369465,
+          "training_seconds": 0.4236161708831787,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.011218444242679268,
+          "training_seconds": 1.9387423992156982,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.028572373127169183,
+          "training_seconds": 0.3343329429626465,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.07398648855726411,
+          "training_seconds": 0.31333446502685547,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.07103056149200349,
+          "training_seconds": 0.4215686321258545,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.050044410103867475,
+          "training_seconds": 0.24257802963256836,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.011789849008519824,
+          "training_seconds": 0.9713184833526611,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.04499034902570558,
+          "training_seconds": 0.7311851978302002,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 6.138831853866577
+    },
+    {
+      "round_number": 9,
+      "val_loss": 0.0349810658216754,
+      "val_metrics": {
+        "accuracy": 0.9879339542760373,
+        "precision": 0.9967528702307782,
+        "recall": 0.977259806708357,
+        "f1": 0.9869100930072339,
+        "roc_auc": 0.9989943357197479,
+        "false_positive_rate": 0.002772002772002772,
+        "confusion_matrix": [
+          [
+            10073,
+            28
+          ],
+          [
+            200,
+            8595
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.0034173133716707505,
+          "training_seconds": 0.4305458068847656,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.010146720778142646,
+          "training_seconds": 2.2213737964630127,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.028362564339033048,
+          "training_seconds": 0.362351655960083,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.07743967997176818,
+          "training_seconds": 0.31301331520080566,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.07228436922302069,
+          "training_seconds": 0.42760729789733887,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.04807296159369343,
+          "training_seconds": 0.19700169563293457,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.011172292304616981,
+          "training_seconds": 0.8178892135620117,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.0441061066977524,
+          "training_seconds": 0.49449801445007324,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 5.892894744873047
+    },
+    {
+      "round_number": 10,
+      "val_loss": 0.03457747502520579,
+      "val_metrics": {
+        "accuracy": 0.9888336155800169,
+        "precision": 0.9969893469198703,
+        "recall": 0.9789653212052303,
+        "f1": 0.9878951293672193,
+        "roc_auc": 0.9990153739443108,
+        "false_positive_rate": 0.002574002574002574,
+        "confusion_matrix": [
+          [
+            10075,
+            26
+          ],
+          [
+            185,
+            8610
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 8675,
+          "local_epochs": 1,
+          "train_loss": 0.003531523805730795,
+          "training_seconds": 0.3081510066986084,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 78.52582461281652,
+            "latency_ms": 247.49529788842355,
+            "compute_score": 0.8868783359291059,
+            "availability_probability": 0.8789472116237456,
+            "connectivity_quality": 0.36592414352135466
+          }
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 39030,
+          "local_epochs": 1,
+          "train_loss": 0.00951761307467807,
+          "training_seconds": 1.4410927295684814,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 97.68412340549182,
+            "latency_ms": 392.5128658956588,
+            "compute_score": 0.8288514442215631,
+            "availability_probability": 0.6512454530702183,
+            "connectivity_quality": 0.615270156526897
+          }
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 6813,
+          "local_epochs": 1,
+          "train_loss": 0.028215715941328774,
+          "training_seconds": 0.24706673622131348,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 40.225812302095214,
+            "latency_ms": 467.0442449818708,
+            "compute_score": 0.7150920960645317,
+            "availability_probability": 0.929104645308332,
+            "connectivity_quality": 0.6103899391791318
+          }
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 6246,
+          "local_epochs": 1,
+          "train_loss": 0.08112808537534985,
+          "training_seconds": 0.2280120849609375,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 26.587678569553805,
+            "latency_ms": 299.56315415712567,
+            "compute_score": 0.2510538048833403,
+            "availability_probability": 0.9310524687970329,
+            "connectivity_quality": 0.7421650793854453
+          }
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 8382,
+          "local_epochs": 1,
+          "train_loss": 0.07424475582957844,
+          "training_seconds": 0.3010857105255127,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 77.01833530811051,
+            "latency_ms": 209.53668565844077,
+            "compute_score": 0.9765584195159227,
+            "availability_probability": 0.957248448528879,
+            "connectivity_quality": 0.8448684479516333
+          }
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 4819,
+          "local_epochs": 1,
+          "train_loss": 0.04730229076631189,
+          "training_seconds": 0.18761038780212402,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 23.49067724593692,
+            "latency_ms": 260.0244516771654,
+            "compute_score": 0.23504301262978303,
+            "availability_probability": 0.6617157968270191,
+            "connectivity_quality": 0.7781342672697182
+          }
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 19144,
+          "local_epochs": 1,
+          "train_loss": 0.010676947219887977,
+          "training_seconds": 0.721214771270752,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 75.75240481124263,
+            "latency_ms": 485.3793795953945,
+            "compute_score": 0.4606602865105216,
+            "availability_probability": 0.7481838824139475,
+            "connectivity_quality": 0.6286890678930654
+          }
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 13968,
+          "local_epochs": 1,
+          "train_loss": 0.043846555835090555,
+          "training_seconds": 0.5179016590118408,
+          "simulated_resource_metadata": {
+            "bandwidth_mbps": 22.99977911300714,
+            "latency_ms": 108.46467740096224,
+            "compute_score": 0.580563940980747,
+            "availability_probability": 0.6907637396203536,
+            "connectivity_quality": 0.7688697962777572
+          }
+        }
+      ],
+      "round_seconds": 4.547696352005005
+    }
+  ],
+  "best_round": 10,
+  "best_val_loss": 0.03457747502520579,
+  "best_val_metrics": {
+    "accuracy": 0.9888336155800169,
+    "precision": 0.9969893469198703,
+    "recall": 0.9789653212052303,
+    "f1": 0.9878951293672193,
+    "roc_auc": 0.9990153739443108,
+    "false_positive_rate": 0.002574002574002574,
+    "confusion_matrix": [
+      [
+        10075,
+        26
+      ],
+      [
+        185,
+        8610
+      ]
+    ]
+  },
+  "total_seconds": 50.24070501327515
+}

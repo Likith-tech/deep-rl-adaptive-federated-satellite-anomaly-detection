@@ -32,13 +32,15 @@ Phase 2  — Data Preprocessing          COMPLETE
 Phase 3  — Baseline Model              COMPLETE
 Phase 4  — Temporal Model (GRU+Attn)   COMPLETE
 Phase 5  — Satellite Simulation        COMPLETE
-Phase 6  — Local Satellite Training    IN PROGRESS
-Phase 7+ — (see Development phases)    NOT STARTED
+Phase 6  — Local Satellite Training    COMPLETE
+Phase 7  — Federated Learning (FedAvg) IN PROGRESS
+Phase 8+ — (see Development phases)    NOT STARTED
 ```
 
-Local satellite training is implemented — each simulated satellite
-trains its own model on only its own local data. Federated aggregation
-has not yet been implemented.
+Baseline Federated Learning using FedAvg is being implemented — all 8
+simulated satellites now train together via standard synchronous
+FedAvg, without sharing raw data. Adaptive client selection and
+DRL-driven aggregation have not yet been implemented.
 
 See `docs/project-progress/` for a plain-language, viva-ready write-up
 of every completed phase (`00-project-plan.md` is the master tracker,
@@ -77,7 +79,18 @@ communication or aggregation between clients. Measured global-
 validation F1 ranged from **92.4%** (`SAT-01`, whose local data is
 99.1% anomalous) to **99.2%** (`SAT-02`, the largest and most balanced
 local partition) — see
-`results/reports/local_training_results.md`. No federated learning
+`results/reports/local_training_results.md`. Phase 6 (this project's
+tracker numbering; row 8 in the Development phases table below) then
+implemented the first real Federated Learning: standard synchronous
+FedAvg across all 8 clients, sample-count-weighted averaging, 10
+communication rounds, with a tested privacy boundary (the server never
+reads client data — only model parameters and sample counts). Global
+validation F1 improved every round to **98.8%** (round 10, selected by
+validation loss alone); the final, one-time KDDTest+ result was **F1
+74.0%**, honestly slightly below the Phase 2 centralized baseline's
+77.9% — a real, measured result attributed to this baseline's
+deliberately small round/epoch budget — see
+`results/reports/federated_results.md`. No adaptive client selection
 or DRL logic has been implemented yet, and none of the models are
 connected to the frontend. The frontend dashboard intentionally shows
 "Awaiting live data" states rather than fabricated metrics.
@@ -93,9 +106,9 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 4 | Temporal sequence construction ✅ complete, including a corrected relabel after an initial degenerate attempt (see note below) |
 | 5 | Spatio-temporal anomaly model ⚠️ TEMPORAL component/foundation complete (did not beat baseline — honest result); genuine SPATIAL/satellite modeling is not implemented and requires row 6 below (see note below) |
 | 6 | Satellite client simulation ✅ complete — 8 simulated clients, measured non-IID partition, simulated resource conditions generated (see note below) |
-| 7 | Local satellite training ⏳ in progress, awaiting review — 8 independent local models trained, no communication/aggregation (see note below) |
-| 8 | Standard FedAvg *(next, after Phase 7 review)* |
-| 9 | Non-IID experiments |
+| 7 | Local satellite training ✅ complete — 8 independent local models trained, no communication/aggregation (see note below) |
+| 8 | Standard FedAvg ⏳ in progress, awaiting review — 10 rounds, all 8 clients, sample-count-weighted averaging, tested privacy boundary (see note below) |
+| 9 | Non-IID experiments *(next, after Phase 8 review)* |
 | 10 | Adaptive federated learning |
 | 11 | Staleness-aware FL |
 | 12 | DRL environment |
@@ -143,9 +156,20 @@ identical shared initial weights, with no communication or aggregation
 between clients. All 8 are evaluated on the same global validation set
 for a fair comparison; KDDTest+ remains untouched. See
 `docs/project-progress/06-phase-5-local-training.md` and
-`results/reports/local_training_results.md`. No federated or DRL
-components exist yet, and remain out of scope until actual Federated
-Learning (the next milestone) is built.*
+`results/reports/local_training_results.md`.
+Row 8 ("Standard FedAvg") — Phase 6 in
+`docs/project-progress/00-project-plan.md`'s numbering — has now been
+built: all 8 satellites train together via standard synchronous FedAvg
+(sample-count-weighted averaging), with an explicit, tested privacy
+boundary between client-side local training and server-side
+aggregation (the server never touches raw data). 10 communication
+rounds; global validation F1 reached 98.8% (round 10); final KDDTest+
+F1 was 74.0%, honestly slightly below the Phase 2 centralized
+baseline's 77.9%. See
+`docs/project-progress/07-phase-6-federated-learning.md` and
+`results/reports/federated_results.md`. No adaptive client selection,
+staleness-aware aggregation, or DRL components exist yet, and remain
+out of scope until those later milestones are built.*
 
 ## Dataset
 
@@ -286,6 +310,38 @@ python scripts/train_local_models.py
 python scripts/evaluate_local_models.py
 ```
 
+## Federated learning (FedAvg baseline)
+
+The first real Federated Learning experiment: all 8 simulated
+satellites train the same Phase 2 MLP architecture together via
+standard **synchronous FedAvg** — sample-count-weighted averaging,
+`w_global = sum_k (n_k/N) * w_k` — with NO raw data ever sent to the
+server (only model parameters + sample counts;
+`src/federated/server.py` never imports pandas or reads a parquet
+file, verified by a dedicated test). All 8 clients participate every
+round; no adaptive selection yet. 10 communication rounds, 1 local
+epoch/round; the best round was selected using global validation loss
+alone (never KDDTest+). Final, one-time KDDTest+ result: **74.0% F1**
+(honestly slightly below the Phase 2 centralized baseline's 77.9% — a
+real result attributed to this baseline's deliberately small
+round/epoch budget). Full detail in
+`results/reports/federated_results.md`; plain-language write-up in
+`docs/project-progress/07-phase-6-federated-learning.md`. No adaptive
+client selection, staleness-aware aggregation, or DRL happens here.
+
+```bash
+# Requires the satellite partitions (see Satellite simulation above)
+# plus PyTorch (see Baseline model above)
+
+# 1. Run the federated training loop — all 8 clients, 10 rounds
+#    (writes results/models/federated/, experiments/federated/)
+python scripts/run_federated_training.py
+
+# 2. Evaluate the selected best-validation-round global model ONCE on
+#    KDDTest+, generate round-by-round plots and the full results report
+python scripts/evaluate_federated_model.py
+```
+
 ## Repository structure
 
 ```
@@ -300,9 +356,9 @@ experiments/    Experiment run configs/scripts, separate from src/
 results/        Generated metrics, models, plots, logs, reports
                 (mostly git-ignored/regenerable — e.g. model checkpoints;
                 small reviewable deliverables like results/reports/*.md,
-                results/plots/{dataset,baseline,temporal,satellite,local_training}/,
-                and results/models/local/*/{metadata,training_history}.json
-                are committed)
+                results/plots/{dataset,baseline,temporal,satellite,local_training,federated}/,
+                results/models/local/*/{metadata,training_history}.json,
+                and results/models/federated/round_history.json are committed)
 notebooks/      Exploratory analysis
 scripts/        Standalone utility scripts
 tests/          Tests for src/ (data, models, training, evaluation,

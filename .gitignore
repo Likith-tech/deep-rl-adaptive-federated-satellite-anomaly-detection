@@ -92,6 +92,17 @@ results/reports/*
 !results/models/local/*/metadata.json
 !results/models/local/*/training_history.json
 
+# Phase 6 federated learning (FedAvg) deliverables — small, reviewable.
+# The global model checkpoint and per-round checkpoints
+# (results/models/federated/{best_global_model.pt,round_checkpoints/*.pt})
+# stay ignored (*.pt below); round_history.json (round-by-round metrics
+# + client contribution log, no model weights) is small and kept.
+!results/plots/federated/
+!results/plots/federated/*.png
+!results/reports/federated_results.md
+!results/models/federated/
+!results/models/federated/round_history.json
+
 *.ckpt
 *.pt
 *.pth

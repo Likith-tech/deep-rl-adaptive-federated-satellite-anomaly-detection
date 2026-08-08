@@ -17,8 +17,8 @@ Phase 1  — Dataset & Preprocessing     COMPLETE
 Phase 2  — Baseline Detection          COMPLETE
 Phase 3  — Temporal Model (GRU+Attn)   COMPLETE (see caveat below)
 Phase 4  — Satellite Simulation        COMPLETE
-Phase 5  — Local Satellite Training    IN PROGRESS
-Phase 6  — Federated Learning          NOT STARTED
+Phase 5  — Local Satellite Training    COMPLETE
+Phase 6  — Federated Learning          IN PROGRESS
 Phase 7  — Non-IID FL                  NOT STARTED
 Phase 8  — Adaptive FL                 NOT STARTED
 Phase 9  — Staleness-Aware FL          NOT STARTED
@@ -46,6 +46,7 @@ or partial work.
 | `04-phase-3-spatio-temporal.md` | Temporal GRU+attention model — first attempt (ANY-anomaly labeling) was rejected as degenerate (100% F1, near-single-class task); corrected (LAST-record labeling, evidence-based) attempt scores F1 75.58% on KDDTest+, honestly slightly below the Phase 2 baseline's 77.90% (see caveat below) |
 | `05-phase-4-satellite-simulation.md` | Simulated 8-client satellite environment via Dirichlet non-IID partitioning of the real training data (measured avg pairwise JS distance 0.527) + simulated per-client resource conditions — no FL/DRL yet |
 | `06-phase-5-local-training.md` | Independent local training of the Phase 2 MLP on each satellite's own partition (no communication/aggregation); global-validation F1 ranged 0.9242 (SAT-01) to 0.9918 (SAT-02) across 8 clients |
+| `07-phase-6-federated-learning.md` | First real Federated Learning: standard synchronous FedAvg across all 8 clients, 10 rounds, sample-count-weighted averaging; final KDDTest+ F1 0.7404 (honestly below Phase 2's 0.7790, real measured result) |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -135,22 +136,51 @@ lower end of the ranking. Full detail in
 `results/reports/local_training_results.md`. No Federated Learning,
 DRL, or model aggregation happens in this phase.
 
-## What's explicitly NOT done yet (as of Phase 5)
+## Phase 6 summary (federated learning baseline — FedAvg)
 
-- No federated learning (no Flower, no FedAvg, no aggregation, no
-  communication rounds, no server/client training loop) — local models
-  from Phase 5 remain fully independent of each other.
+Phase 6 implements the first genuine Federated Learning experiment:
+standard, synchronous FedAvg (McMahan et al.) across all 8 satellite
+clients, sample-count-weighted averaging
+(`w_global = sum_k (n_k/N) * w_k`, `src/federated/fedavg.py`), with an
+explicit, tested client/server privacy boundary — the server
+(`src/federated/server.py`) never imports pandas or reads a parquet
+file; it only ever receives model parameters and sample counts
+(`src/federated/protocol.py`). Same Phase 2 MLP architecture, same
+shared initial weights (seed=42) as Phase 5. **10 communication
+rounds**, 1 local epoch per client per round, ALL 8 clients
+participating every round (no adaptive selection yet). Global
+validation F1 improved every round, from 0.9683 (round 1) to **0.9879**
+(round 10, selected as best by validation loss — KDDTest+ never
+consulted for selection). Final, one-time KDDTest+ evaluation: **F1
+0.7404**, honestly slightly below the Phase 2 centralized baseline's
+0.7790 — a real, measured result attributed to the deliberately small
+round/epoch budget of this baseline, not adjusted or hidden. On global
+validation, FedAvg (0.9879) beat the Phase 5 local-only mean (0.9721)
+but not the single best local client (0.9918) — compared on matching
+dataset splits throughout. Full detail in
+`docs/project-progress/07-phase-6-federated-learning.md` and
+`results/reports/federated_results.md`. No adaptive client selection,
+staleness-aware aggregation, or DRL happens in this phase.
+
+## What's explicitly NOT done yet (as of Phase 6)
+
+- No adaptive client selection, staleness-aware aggregation, FedProx,
+  personalization, secure aggregation, or differential privacy — Phase
+  6 is standard synchronous FedAvg only, with all 8 clients
+  participating every round.
 - No DRL/DQN/reinforcement learning of any kind.
 - The OrbitShield website is not connected to any real model or
   simulation data — it still shows "Awaiting live data."
 - No spatial/geographic/orbital realism — the satellite simulation
   creates non-IID label distributions and simulated resource
   heterogeneity, not real orbital mechanics or inter-satellite links.
+- Simulated per-client resource metadata (bandwidth, latency, compute,
+  availability, connectivity) is recorded in Phase 6's round logs but
+  does not yet influence training, client selection, or aggregation —
+  that starts in the next federated phase.
 - Temporal context (Phase 3, last-record-label form) has not yet been
   shown to improve on the baseline — a real, useful finding for guiding
   later phases, not a blocker.
-- No KDDTest+ evaluation of any Phase 5 model — that happens only once
-  a federated methodology is established (Phase 6+).
 
 These are all planned for later phases and are intentionally out of
 scope until their turn.
