@@ -21,6 +21,7 @@ frontend/dist/
 frontend/build/
 .vite/
 *.local
+*.tsbuildinfo
 
 # ---- Environment / Secrets ----
 .env
@@ -50,6 +51,9 @@ results/reports/*
 *.pth
 *.h5
 *.onnx
+*.pkl
+*.pickle
+*.joblib
 
 # ---- Notebooks ----
 .ipynb_checkpoints/
