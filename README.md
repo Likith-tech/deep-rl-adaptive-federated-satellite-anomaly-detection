@@ -31,9 +31,14 @@ Phase 1  — Dataset Acquisition         COMPLETE
 Phase 2  — Data Preprocessing          COMPLETE
 Phase 3  — Baseline Model              COMPLETE
 Phase 4  — Temporal Model (GRU+Attn)   COMPLETE
-Phase 5  — Satellite Simulation        IN PROGRESS
-Phase 6+ — (see Development phases)    NOT STARTED
+Phase 5  — Satellite Simulation        COMPLETE
+Phase 6  — Local Satellite Training    IN PROGRESS
+Phase 7+ — (see Development phases)    NOT STARTED
 ```
+
+Local satellite training is implemented — each simulated satellite
+trains its own model on only its own local data. Federated aggregation
+has not yet been implemented.
 
 See `docs/project-progress/` for a plain-language, viva-ready write-up
 of every completed phase (`00-project-plan.md` is the master tracker,
@@ -64,7 +69,15 @@ multi-satellite learning environment using the real NSL-KDD dataset**:
 category distributions: **0.527**, 0=identical/1=maximally different),
 each with simulated (clearly labeled as such) bandwidth/latency/compute/
 availability/connectivity — see
-`results/reports/satellite_simulation_report.md`. No federated learning
+`results/reports/satellite_simulation_report.md`. Phase 5 (this
+project's tracker numbering; row 7 in the Development phases table
+below) then trained an independent local model on each of the 8
+satellites using ONLY that satellite's own local data — no
+communication or aggregation between clients. Measured global-
+validation F1 ranged from **92.4%** (`SAT-01`, whose local data is
+99.1% anomalous) to **99.2%** (`SAT-02`, the largest and most balanced
+local partition) — see
+`results/reports/local_training_results.md`. No federated learning
 or DRL logic has been implemented yet, and none of the models are
 connected to the frontend. The frontend dashboard intentionally shows
 "Awaiting live data" states rather than fabricated metrics.
@@ -79,9 +92,9 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 3 | Baseline anomaly detection ✅ complete |
 | 4 | Temporal sequence construction ✅ complete, including a corrected relabel after an initial degenerate attempt (see note below) |
 | 5 | Spatio-temporal anomaly model ⚠️ TEMPORAL component/foundation complete (did not beat baseline — honest result); genuine SPATIAL/satellite modeling is not implemented and requires row 6 below (see note below) |
-| 6 | Satellite client simulation ⏳ in progress, awaiting review — 8 simulated clients, measured non-IID partition, simulated resource conditions generated (see note below) |
-| 7 | Local satellite training *(next, after Phase 6 review)* |
-| 8 | Standard FedAvg |
+| 6 | Satellite client simulation ✅ complete — 8 simulated clients, measured non-IID partition, simulated resource conditions generated (see note below) |
+| 7 | Local satellite training ⏳ in progress, awaiting review — 8 independent local models trained, no communication/aggregation (see note below) |
+| 8 | Standard FedAvg *(next, after Phase 7 review)* |
 | 9 | Non-IID experiments |
 | 10 | Adaptive federated learning |
 | 11 | Staleness-aware FL |
@@ -121,10 +134,18 @@ real training data, and simulated per-client resource conditions. This
 is what finally gives meaning to the SPATIAL half of "spatio-temporal."
 It is a **simulation using the real NSL-KDD dataset**, not real
 satellite telemetry — see `docs/project-progress/05-phase-4-satellite-simulation.md`
-for the full, explicit real-vs-simulated breakdown. No federated or DRL
-components exist yet, and remain out of scope until local per-client
-training (the next milestone) and then actual Federated Learning are
-built.*
+for the full, explicit real-vs-simulated breakdown.
+Row 7 ("Local satellite training") — Phase 5 in
+`docs/project-progress/00-project-plan.md`'s numbering — has now been
+built: each of the 8 satellites trains an independent copy of the
+Phase 2 baseline MLP on ONLY its own local data, starting from
+identical shared initial weights, with no communication or aggregation
+between clients. All 8 are evaluated on the same global validation set
+for a fair comparison; KDDTest+ remains untouched. See
+`docs/project-progress/06-phase-5-local-training.md` and
+`results/reports/local_training_results.md`. No federated or DRL
+components exist yet, and remain out of scope until actual Federated
+Learning (the next milestone) is built.*
 
 ## Dataset
 
@@ -238,6 +259,33 @@ python scripts/create_satellite_partitions.py
 python scripts/analyze_satellite_partitions.py
 ```
 
+## Local satellite training
+
+Each simulated satellite (`SAT-01`..`SAT-08`) trains an **independent**
+copy of the Phase 2 baseline MLP architecture on ONLY its own local
+partition — no communication or aggregation between clients. All 8
+start from identical shared initial weights (seed=42) so outcome
+differences reflect local (non-IID) data, not initialization. Every
+client is evaluated on the same global validation set for a fair
+cross-client comparison; KDDTest+ is untouched. Measured global-
+validation F1 ranged **92.4%** (`SAT-01`) to **99.2%** (`SAT-02`) across
+the 8 clients. Full detail in
+`results/reports/local_training_results.md`; plain-language write-up in
+`docs/project-progress/06-phase-5-local-training.md`. No Federated
+Learning, DRL, or model aggregation happens here.
+
+```bash
+# Requires the satellite partitions (see Satellite simulation above)
+# plus PyTorch (see Baseline model above)
+
+# 1. Train all 8 clients independently (writes results/models/local/SAT-*/)
+python scripts/train_local_models.py
+
+# 2. Evaluate every client on the shared global validation set, generate
+#    confusion matrices, training curves, and the full results report
+python scripts/evaluate_local_models.py
+```
+
 ## Repository structure
 
 ```
@@ -251,8 +299,9 @@ frontend/       React + TypeScript + Vite application (OrbitShield UI)
 experiments/    Experiment run configs/scripts, separate from src/
 results/        Generated metrics, models, plots, logs, reports
                 (mostly git-ignored/regenerable — e.g. model checkpoints;
-                small reviewable deliverables like results/reports/*.md
-                and results/plots/{dataset,baseline,temporal,satellite}/
+                small reviewable deliverables like results/reports/*.md,
+                results/plots/{dataset,baseline,temporal,satellite,local_training}/,
+                and results/models/local/*/{metadata,training_history}.json
                 are committed)
 notebooks/      Exploratory analysis
 scripts/        Standalone utility scripts

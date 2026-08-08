@@ -76,6 +76,22 @@ results/reports/*
 !results/plots/satellite/*.png
 !results/reports/satellite_simulation_report.md
 
+# Phase 5 local training deliverables — small, reviewable. Per-client
+# model checkpoints (results/models/local/SAT-*/best_model.pt) stay
+# ignored (*.pt below); per-client metadata.json/training_history.json
+# are small and kept.
+!results/plots/local_training/
+!results/plots/local_training/*.png
+!results/plots/local_training/confusion_matrices/
+!results/plots/local_training/confusion_matrices/*.png
+!results/plots/local_training/training_curves/
+!results/plots/local_training/training_curves/*.png
+!results/reports/local_training_results.md
+!results/models/local/
+!results/models/local/*/
+!results/models/local/*/metadata.json
+!results/models/local/*/training_history.json
+
 *.ckpt
 *.pt
 *.pth

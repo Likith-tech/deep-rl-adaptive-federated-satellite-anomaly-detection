@@ -1,0 +1,65 @@
+{
+  "client_id": "SAT-01",
+  "seed": 42,
+  "shared_init_seed": 42,
+  "model_config": {
+    "type": "mlp",
+    "input_dim": 121,
+    "hidden_dimensions": [
+      128,
+      64
+    ],
+    "dropout": 0.3,
+    "output_dim": 1
+  },
+  "training_config": {
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "optimizer": "adam",
+    "loss": "bce_with_logits",
+    "epochs": 25,
+    "early_stopping_patience": 5,
+    "seed": 42
+  },
+  "train_samples": 8675,
+  "training_seconds": 29.396892547607422,
+  "best_epoch": 9,
+  "best_val_loss": 0.34129847998744245,
+  "stopped_early": true,
+  "local_train_metrics": {
+    "accuracy": 0.9996541786743516,
+    "precision": 0.9997673065735893,
+    "recall": 0.9998836397486619,
+    "f1": 0.9998254697771831,
+    "roc_auc": 0.999734238932129,
+    "false_positive_rate": 0.024691358024691357,
+    "confusion_matrix": [
+      [
+        79,
+        2
+      ],
+      [
+        1,
+        8593
+      ]
+    ]
+  },
+  "global_val_metrics": {
+    "accuracy": 0.9240050804403048,
+    "precision": 0.8622624790784681,
+    "recall": 0.9957930642410461,
+    "f1": 0.9242296327564373,
+    "roc_auc": 0.9905994031065094,
+    "false_positive_rate": 0.1385011385011385,
+    "confusion_matrix": [
+      [
+        8702,
+        1399
+      ],
+      [
+        37,
+        8758
+      ]
+    ]
+  }
+}

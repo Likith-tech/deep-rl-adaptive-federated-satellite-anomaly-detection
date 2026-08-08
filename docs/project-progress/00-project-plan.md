@@ -16,8 +16,8 @@ Phase 0  — Project Foundation          COMPLETE
 Phase 1  — Dataset & Preprocessing     COMPLETE
 Phase 2  — Baseline Detection          COMPLETE
 Phase 3  — Temporal Model (GRU+Attn)   COMPLETE (see caveat below)
-Phase 4  — Satellite Simulation        IN PROGRESS
-Phase 5  — Local Satellite Training    NOT STARTED
+Phase 4  — Satellite Simulation        COMPLETE
+Phase 5  — Local Satellite Training    IN PROGRESS
 Phase 6  — Federated Learning          NOT STARTED
 Phase 7  — Non-IID FL                  NOT STARTED
 Phase 8  — Adaptive FL                 NOT STARTED
@@ -45,6 +45,7 @@ or partial work.
 | `03-phase-2-baseline.md` | First real anomaly-detection model (MLP baseline) — F1 77.9% on KDDTest+ |
 | `04-phase-3-spatio-temporal.md` | Temporal GRU+attention model — first attempt (ANY-anomaly labeling) was rejected as degenerate (100% F1, near-single-class task); corrected (LAST-record labeling, evidence-based) attempt scores F1 75.58% on KDDTest+, honestly slightly below the Phase 2 baseline's 77.90% (see caveat below) |
 | `05-phase-4-satellite-simulation.md` | Simulated 8-client satellite environment via Dirichlet non-IID partitioning of the real training data (measured avg pairwise JS distance 0.527) + simulated per-client resource conditions — no FL/DRL yet |
+| `06-phase-5-local-training.md` | Independent local training of the Phase 2 MLP on each satellite's own partition (no communication/aggregation); global-validation F1 ranged 0.9242 (SAT-01) to 0.9918 (SAT-02) across 8 clients |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -113,21 +114,43 @@ single global set and KDDTest+ was never touched. Full detail in
 Learning, DRL, or model training happens in this phase — environment
 construction only.
 
-## What's explicitly NOT done yet (as of Phase 4)
+## Phase 5 summary (local satellite training)
+
+Phase 5 trains one independent copy of the Phase 2 baseline MLP per
+satellite client (`SAT-01`..`SAT-08`), using ONLY that client's own
+Phase 4 partition (`data/partitions/<client>/train.parquet`) — real
+NSL-KDD records, no data shared between clients, no aggregation, no
+communication. All 8 clients start from identical shared initial
+weights (seed=42) so outcome differences reflect local data, not
+initialization. Every client is evaluated on the SAME global validation
+set (`data/processed/validation.parquet`) as the fair cross-client
+comparison; KDDTest+ is untouched. Measured global-validation F1 ranged
+from **0.9242** (`SAT-01`, 99.07% locally anomalous, dominated by dos)
+to **0.9918** (`SAT-02`, 63.89% locally anomalous, the largest and most
+balanced partition, 39,030 samples). An observed (not causally proven)
+pattern: clients with extreme local anomaly rates or a missing attack
+category (`SAT-07` has zero local `r2l` records) tended toward the
+lower end of the ranking. Full detail in
+`docs/project-progress/06-phase-5-local-training.md` and
+`results/reports/local_training_results.md`. No Federated Learning,
+DRL, or model aggregation happens in this phase.
+
+## What's explicitly NOT done yet (as of Phase 5)
 
 - No federated learning (no Flower, no FedAvg, no aggregation, no
-  communication rounds, no server/client training loop).
+  communication rounds, no server/client training loop) — local models
+  from Phase 5 remain fully independent of each other.
 - No DRL/DQN/reinforcement learning of any kind.
 - The OrbitShield website is not connected to any real model or
   simulation data — it still shows "Awaiting live data."
 - No spatial/geographic/orbital realism — the satellite simulation
   creates non-IID label distributions and simulated resource
   heterogeneity, not real orbital mechanics or inter-satellite links.
-- No local training has been run on the simulated clients yet — that's
-  Phase 5.
 - Temporal context (Phase 3, last-record-label form) has not yet been
   shown to improve on the baseline — a real, useful finding for guiding
   later phases, not a blocker.
+- No KDDTest+ evaluation of any Phase 5 model — that happens only once
+  a federated methodology is established (Phase 6+).
 
 These are all planned for later phases and are intentionally out of
 scope until their turn.
