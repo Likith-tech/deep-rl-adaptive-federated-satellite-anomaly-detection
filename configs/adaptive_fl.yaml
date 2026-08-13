@@ -1,0 +1,125 @@
+# Phase 8 — rule-based (NOT reinforcement-learned) adaptive Federated
+# Learning configuration.
+#
+# Every hyperparameter below the `rule_weights` block is IDENTICAL to
+# Phase 6's configs/federated.yaml, and every experiment here uses the
+# SAME partition as Phase 6 (data/partitions/, the original alpha=0.5
+# Phase 4 partition — NOT a fresh one, so this is a true apples-to-
+# apples comparison against the committed Phase 6 baseline). The ONLY
+# intentional variable across experiments is `rule_weights`.
+
+model:
+  type: mlp
+  input_dim: 121
+  hidden_dimensions:
+    - 128
+    - 64
+  dropout: 0.3
+  output_dim: 1
+
+federation:
+  num_clients: 8
+  clients_per_round: 8        # ALL clients still participate every round — aggregation WEIGHTING, not selection
+  num_rounds: 10               # SAME as Phase 6
+  aggregation_strategy: rule_based_adaptive
+
+training:
+  local_epochs: 1               # SAME as Phase 6
+  batch_size: 128
+  learning_rate: 0.001
+  optimizer: adam
+  loss: bce_with_logits
+  seed: 42
+
+initialization:
+  shared_init_seed: 42          # SAME as Phase 6 — identical starting model
+
+evaluation:
+  global_validation_path: data/processed/validation.parquet
+  # Final KDDTest+ evaluation happens ONCE per rule config, after round
+  # selection by validation loss only — see scripts/evaluate_adaptive_fl_results.py.
+  # Rule weights below were fixed BEFORE any KDDTest+ evaluation ran —
+  # never tuned against test performance.
+
+partitions:
+  # Reuse the EXACT Phase 6 partition — not a fresh Phase-7-style one —
+  # so the FedAvg-vs-adaptive comparison isolates the aggregation rule
+  # as the only variable.
+  source: data/partitions
+  manifest: data/partitions/manifest.json
+  satellite_metadata: data/partitions/satellite_metadata.json
+
+# Rule-weight configurations (ablation study). Every config's weights
+# sum to 1.0. Chosen by reasoning about what should matter BEFORE
+# seeing any result — see docs/project-progress/09-phase-8-rule-based-adaptive-fl.md
+# for the full rationale of each component and the "combined" weights.
+rule_configs:
+  performance_only:
+    performance: 1.0
+    data: 0.0
+    resource: 0.0
+    fairness: 0.0
+    rationale: >
+      Ablation: weight aggregation purely by how well each client's
+      just-trained update currently performs on global validation.
+      Isolates the effect of the performance signal alone. Expected
+      risk: could marginalize clients with rare attack categories if
+      their local update happens to score lower this round.
+
+  resource_only:
+    performance: 0.0
+    data: 0.0
+    resource: 1.0
+    fairness: 0.0
+    rationale: >
+      Ablation: weight aggregation purely by simulated satellite
+      resource desirability (bandwidth, latency, compute, availability,
+      connectivity). Isolates the effect of the resource signal alone.
+      This does NOT mean a resource-constrained satellite's data is
+      less valuable — only that its contribution is down-weighted here,
+      a limitation discussed explicitly in the results report.
+
+  data_only:
+    performance: 0.0
+    data: 1.0
+    resource: 0.0
+    fairness: 0.0
+    rationale: >
+      Ablation: weight aggregation purely by local sample count (like
+      standard FedAvg's intuition), but via this rule framework's
+      min-max normalization rather than Phase 6's raw n_k/N proportion
+      — NOT numerically identical to Phase 6, included as the closest
+      analog within this framework for comparison.
+
+  combined:
+    performance: 0.40
+    data: 0.25
+    resource: 0.15
+    fairness: 0.20
+    rationale: >
+      Primary rule. Performance weighted highest (0.40) because it
+      most directly reflects whether a client's current update is
+      helping the shared objective. Data second (0.25) because larger,
+      more reliable local samples still matter (the core FedAvg
+      intuition), but is no longer the ONLY signal. Fairness weighted
+      meaningfully (0.20) — not an afterthought — specifically to
+      counteract the risk of rare-category clients (r2l/u2r holders)
+      being drowned out by higher-performing but less diverse clients.
+      Resource included but modest (0.15): it is simulated, and least
+      directly tied to model quality or fairness; its main purpose here
+      is to establish the signal's plumbing for later resource-aware/
+      DRL phases, not to dominate this rule.
+
+notes: >
+  Phase 8 is NOT reinforcement learning: no reward signal, no policy
+  network, no learned parameters. `rule_weights` are fixed, documented
+  numbers chosen by reasoning, not by optimizing against any held-out
+  result — see src/federated/adaptive.py for the exact deterministic
+  formula. All 8 clients participate in aggregation every round for
+  every rule config (weighting, not selection) — communication cost is
+  therefore unchanged from Phase 6. A top-k client-SELECTION utility is
+  implemented and unit-tested (src/federated/adaptive.py:select_top_k_clients)
+  for reuse by a later phase, but is not separately benchmarked here —
+  seen as the higher-risk mechanism (a dropped client's data
+  contributes nothing that round) and out of this phase's scope per
+  "start with the simpler, more defensible approach."

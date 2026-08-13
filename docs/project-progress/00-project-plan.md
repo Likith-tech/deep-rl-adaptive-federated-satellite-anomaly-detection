@@ -18,9 +18,9 @@ Phase 2  — Baseline Detection          COMPLETE
 Phase 3  — Temporal Model (GRU+Attn)   COMPLETE (see caveat below)
 Phase 4  — Satellite Simulation        COMPLETE
 Phase 5  — Local Satellite Training    COMPLETE
-Phase 6  — Federated Learning          IN PROGRESS
-Phase 7  — Non-IID FL                  NOT STARTED
-Phase 8  — Adaptive FL                 NOT STARTED
+Phase 6  — Federated Learning          COMPLETE
+Phase 7  — Non-IID FL                  COMPLETE
+Phase 8  — Adaptive FL (rule-based)    COMPLETE (see caveat below)
 Phase 9  — Staleness-Aware FL          NOT STARTED
 Phase 10 — DRL Environment             NOT STARTED
 Phase 11 — DQN Controller              NOT STARTED
@@ -47,6 +47,8 @@ or partial work.
 | `05-phase-4-satellite-simulation.md` | Simulated 8-client satellite environment via Dirichlet non-IID partitioning of the real training data (measured avg pairwise JS distance 0.527) + simulated per-client resource conditions — no FL/DRL yet |
 | `06-phase-5-local-training.md` | Independent local training of the Phase 2 MLP on each satellite's own partition (no communication/aggregation); global-validation F1 ranged 0.9242 (SAT-01) to 0.9918 (SAT-02) across 8 clients |
 | `07-phase-6-federated-learning.md` | First real Federated Learning: standard synchronous FedAvg across all 8 clients, 10 rounds, sample-count-weighted averaging; final KDDTest+ F1 0.7404 (honestly below Phase 2's 0.7790, real measured result) |
+| `08-phase-7-non-iid-federated-learning.md` | Controlled Dirichlet-alpha sweep (0.1/0.5/1.0/5.0/10.0) isolating client heterogeneity as the sole variable in the same FedAvg pipeline; measured JS distance fell from 0.6892 (alpha=0.1) to 0.1452 (alpha=10.0) and the client fairness gap shrank monotonically from 0.2623 to 0.0064 (~41x), while KDDTest+ F1 peaked at alpha=5.0 (0.7640) non-monotonically |
+| `09-phase-8-rule-based-adaptive-fl.md` | Deterministic (non-RL) client-scoring rule replacing Phase 6's sample-count-only FedAvg weighting; 4 ablations (performance/resource/data-only, combined) on Phase 6's exact partition — `resource_only` reached the highest KDDTest+ F1 (0.7547 vs Phase 6's 0.7404) and `performance_only` (not the fairness-weighted `combined` rule) reached the smallest client fairness gap (0.1245), an honest, counterintuitive result reported as measured |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -162,22 +164,91 @@ dataset splits throughout. Full detail in
 `results/reports/federated_results.md`. No adaptive client selection,
 staleness-aware aggregation, or DRL happens in this phase.
 
-## What's explicitly NOT done yet (as of Phase 6)
+## Phase 7 summary (non-IID Federated Learning experiments)
 
-- No adaptive client selection, staleness-aware aggregation, FedProx,
-  personalization, secure aggregation, or differential privacy — Phase
-  6 is standard synchronous FedAvg only, with all 8 clients
-  participating every round.
-- No DRL/DQN/reinforcement learning of any kind.
+Phase 7 isolates client data heterogeneity as the SOLE experimental
+variable: five fresh 8-client Dirichlet partitions (alpha=0.1, 0.5,
+1.0, 5.0, 10.0) of the same real training data, with the exact same
+FedAvg pipeline, model, rounds (10), local epochs (1), and all other
+hyperparameters held fixed across every alpha (`configs/non_iid.yaml`,
+`scripts/run_non_iid_experiments.py`). The original Phase 4/6 partition
+(`data/partitions/`, alpha=0.5) was never touched — every alpha here,
+including a fresh 0.5, has its own partition under
+`experiments/non_iid/alpha_<X>/`. Measured (not assumed) heterogeneity
+fell monotonically as alpha increased: mean pairwise JS distance
+**0.6892** (alpha=0.1) down to **0.1452** (alpha=10.0). The **client
+fairness gap** (best-served minus worst-served satellite, each
+evaluated on its own local data) shrank monotonically and
+substantially at every step, from **0.2623** (alpha=0.1) to **0.0064**
+(alpha=10.0), a ~41x difference. KDDTest+ F1, in contrast, was
+**non-monotonic**: it rose from 0.7409 (alpha=0.1) to a peak of
+**0.7640 at alpha=5.0**, then fell back to 0.7541 at alpha=10.0 —
+reported exactly as measured, not smoothed over; with one run per
+alpha this could be genuine saturation or run-to-run noise, and more
+trials would be needed to distinguish the two. At alpha=0.1 several
+clients had zero local examples of rare attack categories (r2l/u2r)
+and the partition failed its own fairness constraints — reported
+honestly, not hidden. The freshly-generated alpha=0.5 run reproduced
+Phase 6's exact numbers (same seed, alpha, constraints), a useful
+cross-phase reproducibility check. Full
+detail in `docs/project-progress/08-phase-7-non-iid-federated-learning.md`
+and `results/reports/non_iid_results.md`. No adaptive client selection
+or DRL happens in this phase — this is a measurement study, not an
+intervention.
+
+## Phase 8 summary (rule-based adaptive Federated Learning)
+
+**Scope reminder:** this is the RULE-BASED (deterministic, non-RL) half
+of adaptive FL — no reward signal, no learned parameters, no policy
+network. DRL-based adaptation is a separate, later phase (this
+tracker's own Phase 9 skeleton predates a finer session-level split
+into "rule-based" then "DRL-based" adaptive FL; both fall under this
+tracker's Phase 8 "Adaptive FL" heading above).
+
+Phase 8 replaces Phase 6's sample-count-only FedAvg weighting with a
+transparent client score — `w_perf*performance + w_data*data +
+w_resource*resource + w_fair*fairness`, each component min-max
+normalized across clients, weights fixed BEFORE any KDDTest+
+evaluation (`src/federated/adaptive.py`, `configs/adaptive_fl.yaml`).
+All 8 clients still participate every round (weighting, not selection
+— selection risks silently dropping a rare-category client for a whole
+round). Built entirely on top of Phase 6's unmodified client/server/
+FedAvg code (`weighted_average` added to `fedavg.py`,
+`aggregate_with_weights` added to `server.py`, both purely additive —
+Phase 6's own `federated_average`/`aggregate` behavior is byte-for-byte
+unchanged, confirmed by the pre-existing Phase 6 tests still passing).
+
+Four rule configs were run on Phase 6's EXACT partition
+(`data/partitions/`, not a fresh one): `performance_only`,
+`resource_only`, `data_only` (each isolating one signal), and
+`combined` (performance 0.40 / data 0.25 / resource 0.15 / fairness
+0.20). Real, measured, slightly counterintuitive result reported
+honestly: **`resource_only` reached the highest KDDTest+ F1 (0.7547)**,
+beating Phase 6's 0.7404 by the widest margin; **`performance_only`
+(not the fairness-weighted `combined` rule) reached the smallest
+client-fairness gap (0.1245)** — `combined` was only second-best on
+fairness (0.1496). This was not adjusted or re-run to look tidier. Full
+detail in `docs/project-progress/09-phase-8-rule-based-adaptive-fl.md`
+and `results/reports/adaptive_fl_results.md`. No DRL, no learned
+weights, in this phase.
+
+## What's explicitly NOT done yet (as of Phase 8)
+
+- No DRL/DQN/reinforcement learning of any kind — Phase 8's adaptive
+  weights are fixed, hand-specified numbers, not learned.
+- No staleness-aware aggregation, FedProx, personalization, secure
+  aggregation, or differential privacy.
+- No hard client SELECTION (as opposed to weighting) was
+  experimentally benchmarked, though a selection utility exists and is
+  tested (`src/federated/adaptive.py:select_top_k_clients`).
 - The OrbitShield website is not connected to any real model or
   simulation data — it still shows "Awaiting live data."
 - No spatial/geographic/orbital realism — the satellite simulation
   creates non-IID label distributions and simulated resource
   heterogeneity, not real orbital mechanics or inter-satellite links.
 - Simulated per-client resource metadata (bandwidth, latency, compute,
-  availability, connectivity) is recorded in Phase 6's round logs but
-  does not yet influence training, client selection, or aggregation —
-  that starts in the next federated phase.
+  availability, connectivity) now DOES influence aggregation (Phase 8's
+  `resource` signal) — but only via a fixed rule, not a learned policy.
 - Temporal context (Phase 3, last-record-label form) has not yet been
   shown to improve on the baseline — a real, useful finding for guiding
   later phases, not a blocker.

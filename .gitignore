@@ -103,6 +103,25 @@ results/reports/*
 !results/models/federated/
 !results/models/federated/round_history.json
 
+# Phase 7 non-IID FedAvg experiments — small, reviewable. Per-alpha
+# generated client parquet partitions stay ignored (large, fully
+# reproducible from configs/non_iid.yaml); model checkpoints stay
+# ignored (*.pt below); partition_metadata.json/run_config.json/
+# round_history.json (all small, no model weights or raw records) are
+# kept.
+experiments/non_iid/*/partitions/
+!results/plots/non_iid/
+!results/plots/non_iid/*.png
+!results/reports/non_iid_results.md
+
+# Phase 8 rule-based adaptive FL ablation study — small, reviewable.
+# Reuses data/partitions/ directly (no per-experiment parquet copies).
+# Model checkpoints stay ignored (*.pt below); run_config.json/
+# round_history.json (small, no model weights) are kept.
+!results/plots/adaptive_fl/
+!results/plots/adaptive_fl/*.png
+!results/reports/adaptive_fl_results.md
+
 *.ckpt
 *.pt
 *.pth

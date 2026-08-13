@@ -1,0 +1,835 @@
+{
+  "round_history": [
+    {
+      "round_number": 1,
+      "val_loss": 0.08925097098827968,
+      "val_metrics": {
+        "accuracy": 0.9723221845893311,
+        "precision": 0.9868173258003766,
+        "recall": 0.9532689027856737,
+        "f1": 0.9697530507200277,
+        "roc_auc": 0.9947609136352741,
+        "false_positive_rate": 0.011088011088011088,
+        "confusion_matrix": [
+          [
+            9989,
+            112
+          ],
+          [
+            411,
+            8384
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.1321253934551664,
+          "training_seconds": 0.8900082111358643
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.43333029975472354,
+          "training_seconds": 0.17504453659057617
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.19792036568358282,
+          "training_seconds": 0.6537971496582031
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.12896257500190744,
+          "training_seconds": 1.2281863689422607
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.3629536632715219,
+          "training_seconds": 0.2654085159301758
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.3032532577318799,
+          "training_seconds": 0.38411498069763184
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.27776545104199657,
+          "training_seconds": 0.3784315586090088
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.3009726740721643,
+          "training_seconds": 0.38301587104797363
+        }
+      ],
+      "round_seconds": 5.207276344299316
+    },
+    {
+      "round_number": 2,
+      "val_loss": 0.057694492446831176,
+      "val_metrics": {
+        "accuracy": 0.9773497036409822,
+        "precision": 0.9915403595347198,
+        "recall": 0.9595224559408755,
+        "f1": 0.9752686929388651,
+        "roc_auc": 0.9980253110440718,
+        "false_positive_rate": 0.007128007128007128,
+        "confusion_matrix": [
+          [
+            10029,
+            72
+          ],
+          [
+            356,
+            8439
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.04061147088260732,
+          "training_seconds": 1.0224947929382324
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.09616941178521345,
+          "training_seconds": 0.22931766510009766
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.07189763299875217,
+          "training_seconds": 0.770056962966919
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.044381062325610905,
+          "training_seconds": 1.2539329528808594
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.0816825646832805,
+          "training_seconds": 0.24790477752685547
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.07430101055032286,
+          "training_seconds": 0.3779468536376953
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.051229796331925995,
+          "training_seconds": 0.37726497650146484
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.08176081042827302,
+          "training_seconds": 0.3784210681915283
+        }
+      ],
+      "round_seconds": 5.323841333389282
+    },
+    {
+      "round_number": 3,
+      "val_loss": 0.04061948865885506,
+      "val_metrics": {
+        "accuracy": 0.9818480101608806,
+        "precision": 0.9921965991148382,
+        "recall": 0.9686185332575327,
+        "f1": 0.9802658074909384,
+        "roc_auc": 0.998779208898595,
+        "false_positive_rate": 0.006633006633006633,
+        "confusion_matrix": [
+          [
+            10034,
+            67
+          ],
+          [
+            276,
+            8519
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.03008129397998758,
+          "training_seconds": 1.038501501083374
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.0710455879046769,
+          "training_seconds": 0.2230522632598877
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.05232211611743619,
+          "training_seconds": 0.7616984844207764
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.02822767457943614,
+          "training_seconds": 1.2198944091796875
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.05849513730887877,
+          "training_seconds": 0.25151610374450684
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.05981982753109031,
+          "training_seconds": 0.38440513610839844
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.03746275503302795,
+          "training_seconds": 0.3750789165496826
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.05472372146365237,
+          "training_seconds": 0.39356279373168945
+        }
+      ],
+      "round_seconds": 5.319971799850464
+    },
+    {
+      "round_number": 4,
+      "val_loss": 0.03128836989232436,
+      "val_metrics": {
+        "accuracy": 0.9892569856054191,
+        "precision": 0.9932261768082664,
+        "recall": 0.983627060830017,
+        "f1": 0.988403313339046,
+        "roc_auc": 0.999085855936339,
+        "false_positive_rate": 0.005841005841005841,
+        "confusion_matrix": [
+          [
+            10042,
+            59
+          ],
+          [
+            144,
+            8651
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.024621311665899395,
+          "training_seconds": 1.0206644535064697
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.05785440081201271,
+          "training_seconds": 0.2578268051147461
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.04137713056501491,
+          "training_seconds": 0.7708158493041992
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.02033434388044577,
+          "training_seconds": 1.495271921157837
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.044647485777433396,
+          "training_seconds": 0.29285264015197754
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.05341193196959128,
+          "training_seconds": 0.3896903991699219
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.03151588832282284,
+          "training_seconds": 0.38590216636657715
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.04186196968925096,
+          "training_seconds": 0.38651227951049805
+        }
+      ],
+      "round_seconds": 5.703405380249023
+    },
+    {
+      "round_number": 5,
+      "val_loss": 0.02815248219928784,
+      "val_metrics": {
+        "accuracy": 0.9908975444538527,
+        "precision": 0.9937020496965533,
+        "recall": 0.9866969869243889,
+        "f1": 0.9901871291647649,
+        "roc_auc": 0.9992103292842348,
+        "false_positive_rate": 0.005445005445005445,
+        "confusion_matrix": [
+          [
+            10046,
+            55
+          ],
+          [
+            117,
+            8678
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.02151645377561965,
+          "training_seconds": 1.06156325340271
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.05000488762183008,
+          "training_seconds": 0.22673273086547852
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.03612621909030086,
+          "training_seconds": 0.7767162322998047
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.016941258593465312,
+          "training_seconds": 1.2393622398376465
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.038877369900892446,
+          "training_seconds": 0.250673770904541
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.049869024705855816,
+          "training_seconds": 0.3922281265258789
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.027233378094168485,
+          "training_seconds": 0.38459038734436035
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.03608443119255516,
+          "training_seconds": 0.3879363536834717
+        }
+      ],
+      "round_seconds": 5.399554014205933
+    },
+    {
+      "round_number": 6,
+      "val_loss": 0.026675604551929626,
+      "val_metrics": {
+        "accuracy": 0.9912150719729044,
+        "precision": 0.99427196700653,
+        "recall": 0.986810687890847,
+        "f1": 0.9905272768774253,
+        "roc_auc": 0.9992920507985885,
+        "false_positive_rate": 0.00495000495000495,
+        "confusion_matrix": [
+          [
+            10051,
+            50
+          ],
+          [
+            116,
+            8679
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.019309024128701655,
+          "training_seconds": 1.0784175395965576
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.04539553961450891,
+          "training_seconds": 0.22490525245666504
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.03341072421403223,
+          "training_seconds": 0.7711203098297119
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.01513262302894599,
+          "training_seconds": 1.3026390075683594
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.035598423414013716,
+          "training_seconds": 0.2528722286224365
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.04732500349090741,
+          "training_seconds": 0.3861851692199707
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.024565538794220687,
+          "training_seconds": 0.38825035095214844
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.03307206648746447,
+          "training_seconds": 0.39996910095214844
+        }
+      ],
+      "round_seconds": 5.503064155578613
+    },
+    {
+      "round_number": 7,
+      "val_loss": 0.02573776863370277,
+      "val_metrics": {
+        "accuracy": 0.9912679932260796,
+        "precision": 0.9939331501831502,
+        "recall": 0.9872654917566799,
+        "f1": 0.9905881010780903,
+        "roc_auc": 0.999340363297157,
+        "false_positive_rate": 0.005247005247005247,
+        "confusion_matrix": [
+          [
+            10048,
+            53
+          ],
+          [
+            112,
+            8683
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.018442222586841375,
+          "training_seconds": 1.0569124221801758
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.04250393282758506,
+          "training_seconds": 0.22683954238891602
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.031408499548855585,
+          "training_seconds": 0.7796487808227539
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.013954267475602463,
+          "training_seconds": 1.2919425964355469
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.03366120115958654,
+          "training_seconds": 0.2648031711578369
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.045255942844675524,
+          "training_seconds": 0.40121912956237793
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.022823420288105623,
+          "training_seconds": 0.3927609920501709
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.03088027588070834,
+          "training_seconds": 0.4097709655761719
+        }
+      ],
+      "round_seconds": 5.541920185089111
+    },
+    {
+      "round_number": 8,
+      "val_loss": 0.02500424812611738,
+      "val_metrics": {
+        "accuracy": 0.9927497883149873,
+        "precision": 0.9935020519835841,
+        "recall": 0.9909039226833428,
+        "f1": 0.9922012865031024,
+        "roc_auc": 0.9993792541831198,
+        "false_positive_rate": 0.005643005643005643,
+        "confusion_matrix": [
+          [
+            10044,
+            57
+          ],
+          [
+            80,
+            8715
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.01702864119415907,
+          "training_seconds": 1.1054480075836182
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.04095137663661926,
+          "training_seconds": 0.2334456443786621
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.02981897352899176,
+          "training_seconds": 0.7943835258483887
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.012934308485521408,
+          "training_seconds": 1.2743542194366455
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.03242721466355004,
+          "training_seconds": 0.26258087158203125
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.04396709282491563,
+          "training_seconds": 0.4066658020019531
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.021729711041016588,
+          "training_seconds": 0.5219645500183105
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.02935745520642971,
+          "training_seconds": 0.5481057167053223
+        }
+      ],
+      "round_seconds": 5.9675209522247314
+    },
+    {
+      "round_number": 9,
+      "val_loss": 0.024140202461613323,
+      "val_metrics": {
+        "accuracy": 0.9928556308213379,
+        "precision": 0.9937286202964652,
+        "recall": 0.9909039226833428,
+        "f1": 0.9923142613151152,
+        "roc_auc": 0.9994037931502399,
+        "false_positive_rate": 0.005445005445005445,
+        "confusion_matrix": [
+          [
+            10046,
+            55
+          ],
+          [
+            80,
+            8715
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.01616101905303309,
+          "training_seconds": 1.1215248107910156
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.039383474656437066,
+          "training_seconds": 0.26949572563171387
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.028512041235065882,
+          "training_seconds": 0.8939118385314941
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.012061636745600752,
+          "training_seconds": 1.4204044342041016
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.03165942242390696,
+          "training_seconds": 0.2923088073730469
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.04266265315737328,
+          "training_seconds": 0.4757721424102783
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.02096398398270116,
+          "training_seconds": 0.4384303092956543
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.028317649733915616,
+          "training_seconds": 0.4113643169403076
+        }
+      ],
+      "round_seconds": 6.064000606536865
+    },
+    {
+      "round_number": 10,
+      "val_loss": 0.023686722173315303,
+      "val_metrics": {
+        "accuracy": 0.9929614733276884,
+        "precision": 0.9935050136736554,
+        "recall": 0.9913587265491757,
+        "f1": 0.9924307096921063,
+        "roc_auc": 0.9994216176706228,
+        "false_positive_rate": 0.005643005643005643,
+        "confusion_matrix": [
+          [
+            10044,
+            57
+          ],
+          [
+            76,
+            8719
+          ]
+        ]
+      },
+      "client_updates": [
+        {
+          "client_id": "SAT-01",
+          "num_samples": 23523,
+          "local_epochs": 1,
+          "train_loss": 0.015487361503015907,
+          "training_seconds": 1.1072132587432861
+        },
+        {
+          "client_id": "SAT-02",
+          "num_samples": 5107,
+          "local_epochs": 1,
+          "train_loss": 0.03803886944894568,
+          "training_seconds": 0.23234009742736816
+        },
+        {
+          "client_id": "SAT-03",
+          "num_samples": 17594,
+          "local_epochs": 1,
+          "train_loss": 0.027392737655639453,
+          "training_seconds": 0.8014192581176758
+        },
+        {
+          "client_id": "SAT-04",
+          "num_samples": 28537,
+          "local_epochs": 1,
+          "train_loss": 0.011302517047086978,
+          "training_seconds": 1.3202550411224365
+        },
+        {
+          "client_id": "SAT-05",
+          "num_samples": 5767,
+          "local_epochs": 1,
+          "train_loss": 0.03115318539611012,
+          "training_seconds": 0.27118706703186035
+        },
+        {
+          "client_id": "SAT-06",
+          "num_samples": 8838,
+          "local_epochs": 1,
+          "train_loss": 0.041289557855214626,
+          "training_seconds": 0.4025309085845947
+        },
+        {
+          "client_id": "SAT-07",
+          "num_samples": 8823,
+          "local_epochs": 1,
+          "train_loss": 0.020321557049058015,
+          "training_seconds": 0.40263843536376953
+        },
+        {
+          "client_id": "SAT-08",
+          "num_samples": 8888,
+          "local_epochs": 1,
+          "train_loss": 0.027490688003364926,
+          "training_seconds": 0.410228967666626
+        }
+      ],
+      "round_seconds": 5.671927452087402
+    }
+  ],
+  "best_round": 10,
+  "best_val_loss": 0.023686722173315303,
+  "best_val_metrics": {
+    "accuracy": 0.9929614733276884,
+    "precision": 0.9935050136736554,
+    "recall": 0.9913587265491757,
+    "f1": 0.9924307096921063,
+    "roc_auc": 0.9994216176706228,
+    "false_positive_rate": 0.005643005643005643,
+    "confusion_matrix": [
+      [
+        10044,
+        57
+      ],
+      [
+        76,
+        8719
+      ]
+    ]
+  },
+  "total_seconds": 55.7638475894928
+}

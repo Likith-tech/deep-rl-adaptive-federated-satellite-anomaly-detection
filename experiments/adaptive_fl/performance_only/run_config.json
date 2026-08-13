@@ -1,0 +1,131 @@
+{
+  "rule_name": "performance_only",
+  "rule_weights": {
+    "performance": 1.0,
+    "data": 0.0,
+    "resource": 0.0,
+    "fairness": 0.0
+  },
+  "rule_rationale": "Ablation: weight aggregation purely by how well each client's just-trained update currently performs on global validation. Isolates the effect of the performance signal alone. Expected risk: could marginalize clients with rare attack categories if their local update happens to score lower this round.",
+  "config": {
+    "model": {
+      "type": "mlp",
+      "input_dim": 121,
+      "hidden_dimensions": [
+        128,
+        64
+      ],
+      "dropout": 0.3,
+      "output_dim": 1
+    },
+    "federation": {
+      "num_clients": 8,
+      "clients_per_round": 8,
+      "num_rounds": 10,
+      "aggregation_strategy": "rule_based_adaptive"
+    },
+    "training": {
+      "local_epochs": 1,
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "loss": "bce_with_logits",
+      "seed": 42
+    },
+    "initialization": {
+      "shared_init_seed": 42
+    },
+    "evaluation": {
+      "global_validation_path": "data/processed/validation.parquet"
+    },
+    "partitions": {
+      "source": "data/partitions",
+      "manifest": "data/partitions/manifest.json",
+      "satellite_metadata": "data/partitions/satellite_metadata.json"
+    },
+    "rule_configs": {
+      "performance_only": {
+        "performance": 1.0,
+        "data": 0.0,
+        "resource": 0.0,
+        "fairness": 0.0,
+        "rationale": "Ablation: weight aggregation purely by how well each client's just-trained update currently performs on global validation. Isolates the effect of the performance signal alone. Expected risk: could marginalize clients with rare attack categories if their local update happens to score lower this round.\n"
+      },
+      "resource_only": {
+        "performance": 0.0,
+        "data": 0.0,
+        "resource": 1.0,
+        "fairness": 0.0,
+        "rationale": "Ablation: weight aggregation purely by simulated satellite resource desirability (bandwidth, latency, compute, availability, connectivity). Isolates the effect of the resource signal alone. This does NOT mean a resource-constrained satellite's data is less valuable \u00e2\u20ac\u201d only that its contribution is down-weighted here, a limitation discussed explicitly in the results report.\n"
+      },
+      "data_only": {
+        "performance": 0.0,
+        "data": 1.0,
+        "resource": 0.0,
+        "fairness": 0.0,
+        "rationale": "Ablation: weight aggregation purely by local sample count (like standard FedAvg's intuition), but via this rule framework's min-max normalization rather than Phase 6's raw n_k/N proportion \u00e2\u20ac\u201d NOT numerically identical to Phase 6, included as the closest analog within this framework for comparison.\n"
+      },
+      "combined": {
+        "performance": 0.4,
+        "data": 0.25,
+        "resource": 0.15,
+        "fairness": 0.2,
+        "rationale": "Primary rule. Performance weighted highest (0.40) because it most directly reflects whether a client's current update is helping the shared objective. Data second (0.25) because larger, more reliable local samples still matter (the core FedAvg intuition), but is no longer the ONLY signal. Fairness weighted meaningfully (0.20) \u00e2\u20ac\u201d not an afterthought \u00e2\u20ac\u201d specifically to counteract the risk of rare-category clients (r2l/u2r holders) being drowned out by higher-performing but less diverse clients. Resource included but modest (0.15): it is simulated, and least directly tied to model quality or fairness; its main purpose here is to establish the signal's plumbing for later resource-aware/ DRL phases, not to dominate this rule.\n"
+      }
+    },
+    "notes": "Phase 8 is NOT reinforcement learning: no reward signal, no policy network, no learned parameters. `rule_weights` are fixed, documented numbers chosen by reasoning, not by optimizing against any held-out result \u00e2\u20ac\u201d see src/federated/adaptive.py for the exact deterministic formula. All 8 clients participate in aggregation every round for every rule config (weighting, not selection) \u00e2\u20ac\u201d communication cost is therefore unchanged from Phase 6. A top-k client-SELECTION utility is implemented and unit-tested (src/federated/adaptive.py:select_top_k_clients) for reuse by a later phase, but is not separately benchmarked here \u00e2\u20ac\u201d seen as the higher-risk mechanism (a dropped client's data contributes nothing that round) and out of this phase's scope per \"start with the simpler, more defensible approach.\"\n"
+  },
+  "client_ids": [
+    "SAT-01",
+    "SAT-02",
+    "SAT-03",
+    "SAT-04",
+    "SAT-05",
+    "SAT-06",
+    "SAT-07",
+    "SAT-08"
+  ],
+  "client_sample_counts": {
+    "SAT-01": 8675,
+    "SAT-02": 39030,
+    "SAT-03": 6813,
+    "SAT-04": 6246,
+    "SAT-05": 8382,
+    "SAT-06": 4819,
+    "SAT-07": 19144,
+    "SAT-08": 13968
+  },
+  "client_fairness_entropy": {
+    "SAT-01": 0.1563222130773406,
+    "SAT-02": 1.1036523054936314,
+    "SAT-03": 0.7619062879040358,
+    "SAT-04": 0.8236811472556052,
+    "SAT-05": 1.2467385918843183,
+    "SAT-06": 1.5231487452166494,
+    "SAT-07": 0.7534337196666109,
+    "SAT-08": 0.5824021142881838
+  },
+  "num_rounds": 10,
+  "best_round": 10,
+  "best_val_loss": 0.03223625595139609,
+  "best_val_metrics": {
+    "accuracy": 0.9898391193903472,
+    "precision": 0.9972257542480638,
+    "recall": 0.9808982376350199,
+    "f1": 0.9889946119454316,
+    "roc_auc": 0.999133498678695,
+    "false_positive_rate": 0.002376002376002376,
+    "confusion_matrix": [
+      [
+        10077,
+        24
+      ],
+      [
+        168,
+        8627
+      ]
+    ]
+  },
+  "total_seconds": 76.3678150177002,
+  "wall_seconds": 76.60580968856812
+}

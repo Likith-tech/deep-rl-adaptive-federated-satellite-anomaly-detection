@@ -1,0 +1,74 @@
+# Phase 7 — controlled non-IID Federated Learning experiments.
+#
+# Question: how does the DEGREE of client data heterogeneity affect
+# standard FedAvg? We reuse the exact Phase 4 Dirichlet-partitioning
+# machinery and the exact Phase 6 FedAvg implementation, changing ONLY
+# the Dirichlet alpha (concentration) parameter across experiments —
+# everything else (model, clients, rounds, local epochs, batch size,
+# learning rate, optimizer, loss, FedAvg weighting, validation set,
+# test set, seeds) is held fixed so alpha is the sole experimental
+# variable. The original Phase 4 alpha=0.5 partition
+# (data/partitions/) is NOT touched or overwritten by this phase —
+# every alpha here (including 0.5) gets its own fresh partition under
+# experiments/non_iid/alpha_<X>/.
+
+alphas: [0.1, 0.5, 1.0, 5.0, 10.0]   # lower = more skewed/non-IID, higher = closer to IID
+
+satellites:
+  num_clients: 8
+  id_prefix: "SAT"
+  seed: 42                     # SAME seed for every alpha — isolates alpha as the only variable
+
+partitioning:
+  category_column: label_original
+  max_resample_attempts: 20
+  constraints:
+    # Identical to Phase 4's constraints (configs/satellite_simulation.yaml).
+    # At very low alpha some clients may still fail these (e.g. zero
+    # r2l/u2r samples) — that is reported honestly (constraints_satisfied:
+    # false + constraint_violations), never hidden or artificially fixed.
+    min_total_samples: 500
+    min_normal_samples: 50
+    min_anomaly_samples: 50
+    min_categories_represented: 2
+
+model:
+  type: mlp                    # SAME architecture as Phase 2/5/6 — unchanged
+  input_dim: 121
+  hidden_dimensions:
+    - 128
+    - 64
+  dropout: 0.3
+  output_dim: 1
+
+federation:
+  clients_per_round: 8         # ALL clients participate every round, every alpha
+  num_rounds: 10                # SAME as Phase 6 baseline
+  aggregation_strategy: fedavg
+  weighting: sample_count
+
+training:
+  local_epochs: 1               # SAME as Phase 6 baseline
+  batch_size: 128
+  learning_rate: 0.001
+  optimizer: adam
+  loss: bce_with_logits
+  seed: 42
+
+initialization:
+  shared_init_seed: 42          # SAME shared initial weights for every alpha
+
+evaluation:
+  global_validation_path: data/processed/validation.parquet
+  # Final KDDTest+ evaluation happens ONCE per alpha, after round
+  # selection by validation only — see scripts/analyze_non_iid_results.py.
+
+notes: >
+  Fairness rule: across all alpha experiments, everything is held
+  constant except the Dirichlet alpha used to build each experiment's
+  own fresh 8-client partition of data/processed/train.parquet. Phase
+  6's original alpha=0.5 baseline (data/partitions/, committed
+  manifest.json) is left completely untouched — this phase's alpha=0.5
+  run is a separate, freshly-generated partition under
+  experiments/non_iid/alpha_0.5/, used only to compare against the
+  other alpha values on equal footing within this controlled study.

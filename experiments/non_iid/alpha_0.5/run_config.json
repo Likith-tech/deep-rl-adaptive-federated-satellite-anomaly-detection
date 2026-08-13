@@ -1,0 +1,91 @@
+{
+  "alpha": 0.5,
+  "config": {
+    "alphas": [
+      0.1,
+      0.5,
+      1.0,
+      5.0,
+      10.0
+    ],
+    "satellites": {
+      "num_clients": 8,
+      "id_prefix": "SAT",
+      "seed": 42
+    },
+    "partitioning": {
+      "category_column": "label_original",
+      "max_resample_attempts": 20,
+      "constraints": {
+        "min_total_samples": 500,
+        "min_normal_samples": 50,
+        "min_anomaly_samples": 50,
+        "min_categories_represented": 2
+      }
+    },
+    "model": {
+      "type": "mlp",
+      "input_dim": 121,
+      "hidden_dimensions": [
+        128,
+        64
+      ],
+      "dropout": 0.3,
+      "output_dim": 1
+    },
+    "federation": {
+      "clients_per_round": 8,
+      "num_rounds": 10,
+      "aggregation_strategy": "fedavg",
+      "weighting": "sample_count"
+    },
+    "training": {
+      "local_epochs": 1,
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "loss": "bce_with_logits",
+      "seed": 42
+    },
+    "initialization": {
+      "shared_init_seed": 42
+    },
+    "evaluation": {
+      "global_validation_path": "data/processed/validation.parquet"
+    },
+    "notes": "Fairness rule: across all alpha experiments, everything is held constant except the Dirichlet alpha used to build each experiment's own fresh 8-client partition of data/processed/train.parquet. Phase 6's original alpha=0.5 baseline (data/partitions/, committed manifest.json) is left completely untouched \u00e2\u20ac\u201d this phase's alpha=0.5 run is a separate, freshly-generated partition under experiments/non_iid/alpha_0.5/, used only to compare against the other alpha values on equal footing within this controlled study.\n"
+  },
+  "client_ids": [
+    "SAT-01",
+    "SAT-02",
+    "SAT-03",
+    "SAT-04",
+    "SAT-05",
+    "SAT-06",
+    "SAT-07",
+    "SAT-08"
+  ],
+  "num_rounds": 10,
+  "best_round": 10,
+  "best_val_loss": 0.03457747502520579,
+  "best_val_metrics": {
+    "accuracy": 0.9888336155800169,
+    "precision": 0.9969893469198703,
+    "recall": 0.9789653212052303,
+    "f1": 0.9878951293672193,
+    "roc_auc": 0.9990153739443108,
+    "false_positive_rate": 0.002574002574002574,
+    "confusion_matrix": [
+      [
+        10075,
+        26
+      ],
+      [
+        185,
+        8610
+      ]
+    ]
+  },
+  "total_seconds": 53.90644097328186,
+  "alpha_wall_seconds": 56.5711669921875
+}

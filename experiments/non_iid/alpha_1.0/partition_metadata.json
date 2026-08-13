@@ -1,0 +1,233 @@
+{
+  "alpha": 1.0,
+  "seed": 42,
+  "num_clients": 8,
+  "total_samples": 107077,
+  "client_sample_counts": {
+    "SAT-01": 23523,
+    "SAT-02": 5107,
+    "SAT-03": 17594,
+    "SAT-04": 28537,
+    "SAT-05": 5767,
+    "SAT-06": 8838,
+    "SAT-07": 8823,
+    "SAT-08": 8888
+  },
+  "client_stats": {
+    "SAT-01": {
+      "client_id": "SAT-01",
+      "total_samples": 23523,
+      "normal_samples": 20542,
+      "anomaly_samples": 2981,
+      "anomaly_percentage": 12.6727,
+      "category_counts": {
+        "dos": 2090,
+        "normal": 20542,
+        "probe": 809,
+        "r2l": 80,
+        "u2r": 2
+      },
+      "categories_represented": 5
+    },
+    "SAT-02": {
+      "client_id": "SAT-02",
+      "total_samples": 5107,
+      "normal_samples": 3316,
+      "anomaly_samples": 1791,
+      "anomaly_percentage": 35.0695,
+      "category_counts": {
+        "dos": 1444,
+        "normal": 3316,
+        "probe": 222,
+        "r2l": 114,
+        "u2r": 11
+      },
+      "categories_represented": 5
+    },
+    "SAT-03": {
+      "client_id": "SAT-03",
+      "total_samples": 17594,
+      "normal_samples": 11072,
+      "anomaly_samples": 6522,
+      "anomaly_percentage": 37.0695,
+      "category_counts": {
+        "dos": 5142,
+        "normal": 11072,
+        "probe": 1111,
+        "r2l": 267,
+        "u2r": 2
+      },
+      "categories_represented": 5
+    },
+    "SAT-04": {
+      "client_id": "SAT-04",
+      "total_samples": 28537,
+      "normal_samples": 5340,
+      "anomaly_samples": 23197,
+      "anomaly_percentage": 81.2875,
+      "category_counts": {
+        "dos": 20610,
+        "normal": 5340,
+        "probe": 2500,
+        "r2l": 76,
+        "u2r": 11
+      },
+      "categories_represented": 5
+    },
+    "SAT-05": {
+      "client_id": "SAT-05",
+      "total_samples": 5767,
+      "normal_samples": 1270,
+      "anomaly_samples": 4497,
+      "anomaly_percentage": 77.9782,
+      "category_counts": {
+        "dos": 3467,
+        "normal": 1270,
+        "probe": 950,
+        "r2l": 77,
+        "u2r": 3
+      },
+      "categories_represented": 5
+    },
+    "SAT-06": {
+      "client_id": "SAT-06",
+      "total_samples": 8838,
+      "normal_samples": 5506,
+      "anomaly_samples": 3332,
+      "anomaly_percentage": 37.7008,
+      "category_counts": {
+        "dos": 1193,
+        "normal": 5506,
+        "probe": 2083,
+        "r2l": 45,
+        "u2r": 11
+      },
+      "categories_represented": 5
+    },
+    "SAT-07": {
+      "client_id": "SAT-07",
+      "total_samples": 8823,
+      "normal_samples": 7388,
+      "anomaly_samples": 1435,
+      "anomaly_percentage": 16.2643,
+      "category_counts": {
+        "dos": 516,
+        "normal": 7388,
+        "probe": 913,
+        "r2l": 5,
+        "u2r": 1
+      },
+      "categories_represented": 5
+    },
+    "SAT-08": {
+      "client_id": "SAT-08",
+      "total_samples": 8888,
+      "normal_samples": 2808,
+      "anomaly_samples": 6080,
+      "anomaly_percentage": 68.4068,
+      "category_counts": {
+        "dos": 4615,
+        "normal": 2808,
+        "probe": 1292,
+        "r2l": 168,
+        "u2r": 5
+      },
+      "categories_represented": 5
+    }
+  },
+  "partition_result": {
+    "category_column": "label_original",
+    "alpha": 1.0,
+    "seed": 42,
+    "attempts_used": 1,
+    "constraints_satisfied": true,
+    "constraint_violations": {}
+  },
+  "non_iid_report": {
+    "categories": [
+      "dos",
+      "normal",
+      "probe",
+      "r2l",
+      "u2r"
+    ],
+    "client_distributions": {
+      "SAT-01": [
+        0.08884921141010925,
+        0.8732729668834758,
+        0.03439187178506143,
+        0.003400926752540067,
+        8.502316881350167e-05
+      ],
+      "SAT-02": [
+        0.28274916780888976,
+        0.6493048756608576,
+        0.043469747405521834,
+        0.022322302721754454,
+        0.002153906402976307
+      ],
+      "SAT-03": [
+        0.2922587245651927,
+        0.6293054450380812,
+        0.0631465272251904,
+        0.015175628055018757,
+        0.00011367511651699443
+      ],
+      "SAT-04": [
+        0.7222202754318955,
+        0.18712548621088412,
+        0.0876055647054701,
+        0.0026632091670462906,
+        0.0003854644847040684
+      ],
+      "SAT-05": [
+        0.6011791225940697,
+        0.22021848448066586,
+        0.16473036240679728,
+        0.013351829374024623,
+        0.0005202011444425178
+      ],
+      "SAT-06": [
+        0.13498529078977145,
+        0.6229916270649468,
+        0.23568680696990268,
+        0.0050916496945010185,
+        0.0012446254808780267
+      ],
+      "SAT-07": [
+        0.058483509010540634,
+        0.8373569080811515,
+        0.10347954210585969,
+        0.0005667006687067891,
+        0.00011334013374135781
+      ],
+      "SAT-08": [
+        0.5192394239423942,
+        0.3159315931593159,
+        0.14536453645364536,
+        0.018901890189018902,
+        0.0005625562556255626
+      ]
+    },
+    "client_entropy": {
+      "SAT-01": 0.6773,
+      "SAT-02": 1.258,
+      "SAT-03": 1.284,
+      "SAT-04": 1.1264,
+      "SAT-05": 1.4395,
+      "SAT-06": 1.3575,
+      "SAT-07": 0.8002,
+      "SAT-08": 1.5349
+    },
+    "pairwise_js_distance_avg": 0.3419,
+    "pairwise_js_distance_min": 0.0528,
+    "pairwise_js_distance_max": 0.6344,
+    "per_category_variance": {
+      "dos": 0.054537,
+      "normal": 0.062907,
+      "probe": 0.004116,
+      "r2l": 6e-05,
+      "u2r": 0.0
+    }
+  }
+}

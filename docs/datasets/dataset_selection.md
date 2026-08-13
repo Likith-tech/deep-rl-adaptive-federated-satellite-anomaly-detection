@@ -140,3 +140,41 @@ this project should switch back to it.
 
 No copyrighted/private/paid dataset is used or stored in this
 repository.
+
+## Status update (post-Phase 8): real spacecraft dataset research
+
+As of this update, **NSL-KDD remains the sole dataset used anywhere in this
+project**, and every result from Phase 1 through Phase 8 was produced with it.
+Nothing above this section has been changed to produce this update.
+
+Ahead of a planned DRL phase, a separate research pass evaluated whether a
+**real** spacecraft/satellite dataset exists that could add scientific value
+alongside NSL-KDD. That research — search methodology, every candidate
+considered, verification evidence, and explicit limitations — is archived in
+full under `docs/research/`:
+
+- `docs/research/claude-research/phase-9-real-spacecraft-dataset-search-prompt.md`
+  — the exact research brief used
+- `docs/research/claude-research/phase-9-real-spacecraft-dataset-search-response.md`
+  — raw findings, including unfavorable/unverified ones
+- `docs/research/dataset-verification/phase-9-dataset-verification.md` — the
+  full 23-section verification report
+- `docs/research/dataset-verification/real-spacecraft-dataset-comparison.md` —
+  scored comparison table
+
+**Summary of that research (full detail in the files above):** no publicly
+available dataset was found that combines real spacecraft/satellite telemetry
+with real cyberattack labels. Real spacecraft telemetry datasets that do exist
+publicly (e.g. NASA SMAP/MSL, ESA-ADB) are labeled for **operational/physical
+anomalies**, not cyberattacks. Datasets with genuine cyberattack labels framed
+around satellites (e.g. STIN/SAT20, CuCD-ID) are **simulated/testbed** data,
+not real spacecraft traffic — the same category of construction as this
+project's own Phase 4 satellite simulation, not a stronger claim than it.
+
+**As of this update: no real spacecraft dataset has been integrated into this
+project. The satellite client layer (Phase 4 onward) remains entirely
+simulated, exactly as described earlier in this document.** Any future
+integration of a real-spacecraft dataset is planned as an **additive, separate
+validation track** alongside NSL-KDD — not a replacement of it, and not a
+retroactive change to any Phase 1-8 result — and requires explicit approval
+before implementation begins.

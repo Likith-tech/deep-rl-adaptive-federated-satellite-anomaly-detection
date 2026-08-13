@@ -33,14 +33,17 @@ Phase 3  — Baseline Model              COMPLETE
 Phase 4  — Temporal Model (GRU+Attn)   COMPLETE
 Phase 5  — Satellite Simulation        COMPLETE
 Phase 6  — Local Satellite Training    COMPLETE
-Phase 7  — Federated Learning (FedAvg) IN PROGRESS
-Phase 8+ — (see Development phases)    NOT STARTED
+Phase 7  — Federated Learning (FedAvg) COMPLETE
+Phase 8  — Non-IID FL Experiments      COMPLETE
+Phase 9  — Rule-Based Adaptive FL      COMPLETE
+Phase 10+ — (see Development phases)   NOT STARTED
 ```
 
-Baseline Federated Learning using FedAvg is being implemented — all 8
-simulated satellites now train together via standard synchronous
-FedAvg, without sharing raw data. Adaptive client selection and
-DRL-driven aggregation have not yet been implemented.
+Rule-based (non-reinforcement-learned) adaptive Federated Learning is
+implemented — a transparent, fixed client-scoring rule now determines
+each satellite's aggregation weight, replacing Phase 6/7's sample-
+count-only weighting. DRL-driven adaptive aggregation has not yet been
+implemented.
 
 See `docs/project-progress/` for a plain-language, viva-ready write-up
 of every completed phase (`00-project-plan.md` is the master tracker,
@@ -90,10 +93,36 @@ validation loss alone); the final, one-time KDDTest+ result was **F1
 74.0%**, honestly slightly below the Phase 2 centralized baseline's
 77.9% — a real, measured result attributed to this baseline's
 deliberately small round/epoch budget — see
-`results/reports/federated_results.md`. No adaptive client selection
-or DRL logic has been implemented yet, and none of the models are
-connected to the frontend. The frontend dashboard intentionally shows
-"Awaiting live data" states rather than fabricated metrics.
+`results/reports/federated_results.md`. Phase 7 (this project's tracker
+numbering; row 9 in the Development phases table below) then ran a
+controlled study isolating client data heterogeneity as the sole
+variable: the same FedAvg pipeline was re-run on five fresh Dirichlet
+partitions (alpha = 0.1, 0.5, 1.0, 5.0, 10.0), with everything else
+held fixed. Measured heterogeneity fell monotonically as alpha
+increased (mean pairwise JS distance **0.6892** at alpha=0.1 down to
+**0.1452** at alpha=10.0), and the **client fairness gap** (best-served
+vs. worst-served satellite) shrank monotonically at every step, from
+**0.2623** to **0.0064** (~41x). KDDTest+ F1 was **non-monotonic**: it
+peaked at alpha=5.0 (0.7640) and was slightly lower at alpha=10.0
+(0.7541) despite alpha=10.0 being closer to IID — reported exactly as
+measured, not smoothed over — see
+`results/reports/non_iid_results.md`. Phase 8 (this project's tracker
+numbering; row 10 in the Development phases table below) then
+implemented **rule-based (NOT reinforcement-learned) adaptive FedAvg**:
+a transparent client score (`performance + data + resource + fairness`,
+each min-max normalized, fixed weights chosen before any test
+evaluation) replaces Phase 6/7's sample-count-only weighting, built
+additively on Phase 6's unmodified client/server/FedAvg code. Four rule
+configs were run on Phase 6's exact partition; the honest, measured
+result: `resource_only` reached the highest KDDTest+ F1 (**0.7547**,
+beating Phase 6's 0.7404), while `performance_only` — not the
+fairness-weighted `combined` rule — reached the smallest client
+fairness gap (**0.1245** vs. `combined`'s 0.1496), reported exactly as
+measured rather than smoothed over — see
+`results/reports/adaptive_fl_results.md`. No DRL/learned weights, and
+none of the models are connected to the frontend. The frontend
+dashboard intentionally shows "Awaiting live data" states rather than
+fabricated metrics.
 
 ## Development phases
 
@@ -107,10 +136,10 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 5 | Spatio-temporal anomaly model ⚠️ TEMPORAL component/foundation complete (did not beat baseline — honest result); genuine SPATIAL/satellite modeling is not implemented and requires row 6 below (see note below) |
 | 6 | Satellite client simulation ✅ complete — 8 simulated clients, measured non-IID partition, simulated resource conditions generated (see note below) |
 | 7 | Local satellite training ✅ complete — 8 independent local models trained, no communication/aggregation (see note below) |
-| 8 | Standard FedAvg ⏳ in progress, awaiting review — 10 rounds, all 8 clients, sample-count-weighted averaging, tested privacy boundary (see note below) |
-| 9 | Non-IID experiments *(next, after Phase 8 review)* |
-| 10 | Adaptive federated learning |
-| 11 | Staleness-aware FL |
+| 8 | Standard FedAvg ✅ complete — 10 rounds, all 8 clients, sample-count-weighted averaging, tested privacy boundary (see note below) |
+| 9 | Non-IID experiments ✅ complete — controlled Dirichlet-alpha sweep isolating heterogeneity as the sole variable (see note below) |
+| 10 | Adaptive federated learning ⏳ in progress, awaiting review — rule-based (non-RL) client scoring/weighting; DRL-based adaptation still to come (see note below) |
+| 11 | Staleness-aware FL *(next, after Phase 10 review)* |
 | 12 | DRL environment |
 | 13 | DQN controller |
 | 14 | DRL-driven adaptive FL |
@@ -167,9 +196,46 @@ rounds; global validation F1 reached 98.8% (round 10); final KDDTest+
 F1 was 74.0%, honestly slightly below the Phase 2 centralized
 baseline's 77.9%. See
 `docs/project-progress/07-phase-6-federated-learning.md` and
-`results/reports/federated_results.md`. No adaptive client selection,
-staleness-aware aggregation, or DRL components exist yet, and remain
-out of scope until those later milestones are built.*
+`results/reports/federated_results.md`.
+Row 9 ("Non-IID experiments") — Phase 7 in
+`docs/project-progress/00-project-plan.md`'s numbering — has now been
+built: a controlled study re-running the SAME FedAvg pipeline across
+five fresh Dirichlet partitions (alpha = 0.1, 0.5, 1.0, 5.0, 10.0) of
+the same real training data, holding every other factor (model,
+clients, rounds, local epochs, batch size, learning rate, optimizer,
+loss, FedAvg weighting, validation set, test set, seeds) fixed so
+alpha is the only variable. Measured heterogeneity (mean pairwise JS
+distance) fell monotonically from 0.6892 (alpha=0.1) to 0.1452
+(alpha=10.0), and the client fairness gap (best-served vs.
+worst-served satellite) shrank monotonically at every step, from
+0.2623 to 0.0064 (~41x). KDDTest+ F1 was non-monotonic — it peaked at
+alpha=5.0 (0.7640) and dipped slightly at alpha=10.0 (0.7541), reported
+exactly as measured. The original Phase 4/6 partition
+(`data/partitions/`) was never touched; the freshly-generated alpha=0.5
+run reproduced Phase 6's exact numbers, a useful cross-phase
+reproducibility check.
+See `docs/project-progress/08-phase-7-non-iid-federated-learning.md`
+and `results/reports/non_iid_results.md`.
+Row 10 ("Adaptive federated learning") — Phase 8 in
+`docs/project-progress/00-project-plan.md`'s numbering — has now been
+built, RULE-BASED ONLY (no reinforcement learning): a transparent
+client score (`w_perf*performance + w_data*data + w_resource*resource
++ w_fair*fairness`, all min-max normalized, weights fixed before any
+KDDTest+ evaluation) replaces Phase 6/7's sample-count-only weighting.
+Built additively on Phase 6's unmodified client/server/FedAvg code —
+`weighted_average`/`aggregate_with_weights` were ADDED, not changed,
+and Phase 6's own `federated_average`/`aggregate` behavior is
+unchanged (its tests still pass byte-for-byte). All 8 clients still
+participate every round (weighting, not selection). Four rule configs
+were run on Phase 6's EXACT partition: `resource_only` reached the
+highest KDDTest+ F1 (0.7547, beating Phase 6's 0.7404), while
+`performance_only` — not the fairness-weighted `combined` rule —
+reached the smallest client fairness gap (0.1245 vs. `combined`'s
+0.1496), an honest, counterintuitive result reported exactly as
+measured. See `docs/project-progress/09-phase-8-rule-based-adaptive-fl.md`
+and `results/reports/adaptive_fl_results.md`. No DRL/learned weights,
+no staleness-aware aggregation, or other advanced FL components exist
+yet, and remain out of scope until those later milestones are built.*
 
 ## Dataset
 
@@ -342,6 +408,77 @@ python scripts/run_federated_training.py
 python scripts/evaluate_federated_model.py
 ```
 
+## Non-IID Federated Learning experiments
+
+A controlled study of how client data heterogeneity affects standard
+FedAvg. The SAME FedAvg pipeline (Phase 6) is re-run across five fresh
+8-client Dirichlet partitions (alpha = 0.1, 0.5, 1.0, 5.0, 10.0) of the
+same real training data — everything except alpha (model, clients,
+rounds, local epochs, batch size, learning rate, optimizer, loss,
+FedAvg weighting, validation set, test set, seeds) is held fixed, so
+alpha is the sole experimental variable. The original Phase 4/6
+partition (`data/partitions/`) is never touched — every alpha here,
+including a fresh 0.5, gets its own partition under
+`experiments/non_iid/`. Measured heterogeneity (mean pairwise JS
+distance) fell monotonically from **0.6892** (alpha=0.1) to **0.1452**
+(alpha=10.0), and the **client fairness gap** — the difference between
+the best- and worst-served satellite, each evaluated on its own local
+data — shrank monotonically at every step, roughly **41x** (0.2623 →
+0.0064). Final KDDTest+ F1 was **non-monotonic**: it peaked at
+alpha=5.0 (0.7640) and dipped slightly at alpha=10.0 (0.7541), reported
+exactly as measured rather than smoothed over. Full detail in
+`results/reports/non_iid_results.md`; plain-language write-up in
+`docs/project-progress/08-phase-7-non-iid-federated-learning.md`. No
+adaptive client selection or DRL happens here — this is a measurement
+study.
+
+```bash
+# Requires the processed dataset (see Dataset above) plus PyTorch
+
+# 1. Build a fresh partition + run FedAvg for every configured alpha
+#    (writes experiments/non_iid/alpha_<X>/)
+python scripts/run_non_iid_experiments.py
+
+# 2. Evaluate every alpha's selected model on KDDTest+, compute client
+#    fairness, generate plots and the full results report
+python scripts/analyze_non_iid_results.py
+```
+
+## Rule-based adaptive Federated Learning
+
+A transparent, DETERMINISTIC (explicitly NOT reinforcement-learned)
+alternative to Phase 6's sample-count-only FedAvg weighting. Every
+client's aggregation weight now comes from a documented rule:
+`w_perf*performance + w_data*data + w_resource*resource +
+w_fair*fairness` (all four signals min-max normalized across clients;
+weights fixed before any KDDTest+ evaluation — see
+`src/federated/adaptive.py` and `configs/adaptive_fl.yaml`). Built
+additively on Phase 6's unmodified `FederatedClient`/`FederatedServer`
+code (`weighted_average`/`aggregate_with_weights` were ADDED, not
+changed). All 8 clients still participate every round — this changes
+HOW MUCH each update counts, not whether it's sent. Four rule configs
+were run on Phase 6's exact partition (`data/partitions/`): the honest,
+measured result is that `resource_only` reached the highest KDDTest+ F1
+(**0.7547**, beating Phase 6's 0.7404), while `performance_only` — not
+the fairness-weighted `combined` rule — reached the smallest client
+fairness gap (**0.1245** vs. `combined`'s 0.1496), reported exactly as
+measured. Full detail in `results/reports/adaptive_fl_results.md`;
+plain-language write-up in
+`docs/project-progress/09-phase-8-rule-based-adaptive-fl.md`.
+
+```bash
+# Requires the Phase 4 partitions (see Satellite simulation above)
+# plus PyTorch
+
+# 1. Run all 4 rule configs (performance/resource/data-only, combined)
+#    on Phase 6's exact partition (writes experiments/adaptive_fl/<rule>/)
+python scripts/run_adaptive_fl_experiments.py
+
+# 2. Evaluate each rule's selected model on KDDTest+, compute client
+#    fairness, generate plots and the full results report
+python scripts/evaluate_adaptive_fl_results.py
+```
+
 ## Repository structure
 
 ```
@@ -356,9 +493,12 @@ experiments/    Experiment run configs/scripts, separate from src/
 results/        Generated metrics, models, plots, logs, reports
                 (mostly git-ignored/regenerable — e.g. model checkpoints;
                 small reviewable deliverables like results/reports/*.md,
-                results/plots/{dataset,baseline,temporal,satellite,local_training,federated}/,
+                results/plots/{dataset,baseline,temporal,satellite,local_training,federated,non_iid,adaptive_fl}/,
                 results/models/local/*/{metadata,training_history}.json,
-                and results/models/federated/round_history.json are committed)
+                results/models/federated/round_history.json,
+                experiments/non_iid/alpha_*/{partition_metadata,run_config,
+                round_history}.json, and experiments/adaptive_fl/<rule>/
+                {run_config,round_history}.json are committed)
 notebooks/      Exploratory analysis
 scripts/        Standalone utility scripts
 tests/          Tests for src/ (data, models, training, evaluation,
