@@ -122,6 +122,18 @@ experiments/non_iid/*/partitions/
 !results/plots/adaptive_fl/*.png
 !results/reports/adaptive_fl_results.md
 
+# Phase 9A OPSSAT-AD real spacecraft telemetry validation — small,
+# reviewable. Raw/processed OPSSAT-AD data (data/raw/opssat_ad/,
+# data/processed/opssat_ad/) stays ignored via the data/raw/* and
+# data/processed/* rules above. Model checkpoint and preprocessing
+# artifacts (results/models/opssat_temporal/*.pt,
+# results/models/opssat_preprocessing/*.joblib) stay ignored (*.pt and
+# *.joblib below, consistent with Phase 1/3's preprocessing artifacts).
+!results/plots/opssat_ad/
+!results/plots/opssat_ad/*.png
+!results/reports/opssat_ad_results.md
+!results/reports/opssat_ad_inspection.md
+
 *.ckpt
 *.pt
 *.pth

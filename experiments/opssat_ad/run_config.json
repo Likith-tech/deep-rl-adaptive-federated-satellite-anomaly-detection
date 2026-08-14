@@ -1,0 +1,76 @@
+{
+  "dataset": "OPSSAT-AD",
+  "dataset_source": "https://zenodo.org/records/12588358 (CC-BY-4.0)",
+  "config": {
+    "model": {
+      "type": "gru_attention",
+      "input_dim": 28,
+      "projection_dim": 32,
+      "hidden_dim": 32,
+      "num_gru_layers": 1,
+      "dropout": 0.3,
+      "output_dim": 1,
+      "sequence_length": 1
+    },
+    "data": {
+      "raw_dir": "data/raw/opssat_ad",
+      "preprocessing_artifacts_dir": "results/models/opssat_preprocessing"
+    },
+    "validation": {
+      "validation_size": 0.15,
+      "stratify": true,
+      "seed": 42
+    },
+    "training": {
+      "batch_size": 64,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "loss": "bce_with_logits",
+      "epochs": 50,
+      "early_stopping_patience": 8,
+      "seed": 42
+    },
+    "notes": "This config is entirely independent of configs/temporal.yaml (Phase 3, NSL-KDD) and configs/model.yaml (Phase 2). No NSL-KDD file, scaler, or encoder is read or modified by this pipeline. Metrics produced under this config must NEVER be merged with any NSL-KDD-derived metric into a single number \u00e2\u20ac\u201d they measure a different phenomenon (real spacecraft operational-anomaly detection, not terrestrial cyberattack detection).\n"
+  },
+  "author_train_segments": 1594,
+  "author_test_segments": 529,
+  "train_segments": 1354,
+  "validation_segments": 240,
+  "feature_dim": 28,
+  "feature_columns": [
+    "sampling",
+    "duration",
+    "len",
+    "mean",
+    "var",
+    "std",
+    "kurtosis",
+    "skew",
+    "n_peaks",
+    "smooth10_n_peaks",
+    "smooth20_n_peaks",
+    "diff_peaks",
+    "diff2_peaks",
+    "diff_var",
+    "diff2_var",
+    "gaps_squared",
+    "len_weighted",
+    "var_div_duration",
+    "var_div_len",
+    "channel_CADC0872",
+    "channel_CADC0873",
+    "channel_CADC0874",
+    "channel_CADC0884",
+    "channel_CADC0886",
+    "channel_CADC0888",
+    "channel_CADC0890",
+    "channel_CADC0892",
+    "channel_CADC0894"
+  ],
+  "best_epoch": 35,
+  "best_val_loss": 0.10476549689968427,
+  "stopped_early": true,
+  "training_seconds": 5.464017391204834,
+  "wall_seconds": 12.81996464729309,
+  "checkpoint_path": "results\\models\\opssat_temporal\\best_model.pt"
+}
