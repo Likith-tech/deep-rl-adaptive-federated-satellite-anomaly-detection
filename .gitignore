@@ -134,6 +134,21 @@ experiments/non_iid/*/partitions/
 !results/reports/opssat_ad_results.md
 !results/reports/opssat_ad_inspection.md
 
+# Phase 9B DQN adaptive federated learning — small, reviewable.
+# DQN network checkpoints (none saved by the current scripts) would
+# stay ignored via *.pt below if ever added. Pilot/full-run/
+# improvement-01 JSON logs live under experiments/drl_adaptive_fl/
+# (not covered by any blanket ignore rule, so already trackable).
+!results/plots/drl_adaptive_fl/
+!results/plots/drl_adaptive_fl/*.png
+!results/plots/drl_adaptive_fl_pilot/
+!results/plots/drl_adaptive_fl_pilot/*.png
+!results/plots/drl_adaptive_fl_improvement_01/
+!results/plots/drl_adaptive_fl_improvement_01/*.png
+!results/reports/drl_adaptive_fl_results.md
+!results/reports/drl_adaptive_fl_pilot.md
+!results/reports/drl_adaptive_fl_improvement_01.md
+
 *.ckpt
 *.pt
 *.pth

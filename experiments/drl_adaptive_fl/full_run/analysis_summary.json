@@ -1,0 +1,33 @@
+{
+  "num_episodes": 50,
+  "num_rounds_total": 750,
+  "episode_reward_first": -0.357202,
+  "episode_reward_last": 0.1435,
+  "episode_reward_mean_all": -0.141425,
+  "episode_reward_mean_last10": 0.13287739999999998,
+  "action_distribution_all": {
+    "fairness_leaning": 64,
+    "combined": 258,
+    "resource_only": 49,
+    "performance_only": 45,
+    "performance_leaning": 37,
+    "resource_leaning": 64,
+    "uniform": 98,
+    "data_only": 82,
+    "balanced_performance_fairness": 53
+  },
+  "action_distribution_last10_episodes": {
+    "combined": 94,
+    "fairness_leaning": 6,
+    "data_only": 14,
+    "performance_only": 3,
+    "resource_leaning": 2,
+    "uniform": 28,
+    "resource_only": 2,
+    "performance_leaning": 1
+  },
+  "dqn_loss_first": 0.047987,
+  "dqn_loss_last": 5.5e-05,
+  "dqn_loss_mean_last50": 0.00011282000000000002,
+  "val_f1_mean_all_rounds": 0.9836756959999999
+}

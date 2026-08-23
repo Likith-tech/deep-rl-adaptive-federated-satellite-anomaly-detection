@@ -1,0 +1,92 @@
+{
+  "pilot_scope_only": true,
+  "no_full_pretraining_performed": true,
+  "no_real_dataset_used": true,
+  "no_client_parquet_read": true,
+  "config": {
+    "episodes": 3,
+    "rounds_per_episode": 3,
+    "replay_warmup": 4,
+    "batch_size": 4,
+    "seed": 42
+  },
+  "total_env_steps": 9,
+  "total_learn_steps": 6,
+  "episodes": [
+    {
+      "episode": 1,
+      "episode_seed": 43,
+      "total_reward": -0.168617,
+      "rounds": [
+        {
+          "action": 5,
+          "reward": -0.026311,
+          "val_f1": 0.707149,
+          "loss": null
+        },
+        {
+          "action": 3,
+          "reward": -0.068468,
+          "val_f1": 0.717173,
+          "loss": null
+        },
+        {
+          "action": 1,
+          "reward": -0.073839,
+          "val_f1": 0.726731,
+          "loss": null
+        }
+      ]
+    },
+    {
+      "episode": 2,
+      "episode_seed": 44,
+      "total_reward": -0.153622,
+      "rounds": [
+        {
+          "action": 3,
+          "reward": -0.026052,
+          "val_f1": 0.707037,
+          "loss": 0.019656
+        },
+        {
+          "action": 1,
+          "reward": -0.065845,
+          "val_f1": 0.715711,
+          "loss": 0.022419
+        },
+        {
+          "action": 7,
+          "reward": -0.061724,
+          "val_f1": 0.72692,
+          "loss": 0.016415
+        }
+      ]
+    },
+    {
+      "episode": 3,
+      "episode_seed": 45,
+      "total_reward": -0.165013,
+      "rounds": [
+        {
+          "action": 7,
+          "reward": -0.02191,
+          "val_f1": 0.707248,
+          "loss": 0.011792
+        },
+        {
+          "action": 3,
+          "reward": -0.069871,
+          "val_f1": 0.717121,
+          "loss": 0.01547
+        },
+        {
+          "action": 6,
+          "reward": -0.073231,
+          "val_f1": 0.727066,
+          "loss": 0.013026
+        }
+      ]
+    }
+  ]
+}

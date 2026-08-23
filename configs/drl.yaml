@@ -1,25 +1,160 @@
-# Deep reinforcement learning configuration (placeholder — populated in Phases 12-15)
+# Phase 9B — DQN-based adaptive Federated Learning configuration.
 #
-# Will eventually configure the DRL environment, DQN controller, and
-# resource-aware adaptation used to drive federated learning decisions.
+# PILOT SCOPE (as of this file's current state): defines DESIGN
+# PARAMETERS only, verified against the approved canonical design
+# (docs/project-progress/11-phase-9b-drl-adaptive-federated-learning.md)
+# and its two design-review checkpoints
+# (docs/research/experiments/phase-9b-drl/design-checkpoint-review.md,
+# ...-review-v2.md, decision: APPROVED FOR IMPLEMENTATION). No full DQN
+# pretraining run has been executed against this config yet — see
+# docs/project-progress/12-phase-9b-drl-pilot.md for exactly what has
+# and has not been run.
 
-environment:
-  state_space: null
-  action_space: null
-  reward_function: null
+reproducibility:
+  seed: 42
+  # Episode-specific partition seeds (used only once real multi-episode
+  # pretraining begins — NOT part of this pilot) are intentionally
+  # allowed to vary per episode — a disclosed asymmetry, see the
+  # canonical design doc's "Reproducibility information" section. The
+  # DQN's own network initialization and the eventual final comparison
+  # run both use this seed (42).
 
-agent:
-  algorithm: null           # e.g. "DQN"
-  gamma: null
-  learning_rate: null
-  epsilon_start: null
-  epsilon_end: null
-  epsilon_decay: null
-  replay_buffer_size: null
-  batch_size: null
-  target_update_frequency: null
+federation:
+  # Inherited UNCHANGED from Phase 6 (configs/federated.yaml) / Phase 8
+  # (configs/adaptive_fl.yaml) protocol — not re-decided here.
+  num_clients: 8
+  clients_per_round: 8   # weighting only, no selection — all 8 always participate
+  num_rounds: 10          # SAME as Phase 6/8, for the eventual final comparison run
+  local_epochs: 1
+  batch_size: 128
+  learning_rate: 0.001
+  optimizer: adam
+  loss: bce_with_logits
+  seed: 42   # matches Phase 6/8's training.seed field — added when building the real round provider (see src/federated/drl_round_provider.py), previously implicit/missing here since only synthetic providers existed
+
+model:
+  # SAME architecture as Phase 6/8 — the anomaly detector itself is
+  # completely unchanged by Phase 9B.
+  type: mlp
+  input_dim: 121
+  hidden_dimensions: [128, 64]
+  dropout: 0.3
+  output_dim: 1
+
+initialization:
+  shared_init_seed: 42   # SAME as Phase 6/8
+
+state:
+  # APPROVED design value, verified by direct arithmetic in
+  # design-checkpoint-review-v2.md section 3 ("Correction 2") and
+  # enforced at runtime by src/drl/state.py's shape assertion.
+  dimension: 44
+  components:
+    performance_k: 8
+    data_k: 8
+    resource_k: 8
+    fairness_k: 8
+    val_f1_trend: 2       # val_F1_t, val_F1_{t-1}
+    round_progress: 1     # round / num_rounds
+    previous_action_one_hot: 9   # == action.count below
+
+action:
+  # Discrete weight-profile catalogue — see src/drl/action_space.py for
+  # the exact 9 named profiles and their (performance, data, resource,
+  # fairness) weight vectors. NOT continuous. NOT client selection —
+  # weighting only, all 8 clients always participate every round.
+  count: 9
+
+reward:
+  # r_t = delta_f1_t - lambda_fair * perf_spread_t
+  #                   - lambda_stab * 1[action_t != action_{t-1}]
+  #
+  # See docs/project-progress/11-phase-9b-drl-adaptive-federated-learning.md
+  # section 8 for the full derivation and the privacy-boundary
+  # correction that produced this exact formula (perf_spread_t —
+  # computed from the existing per-round, global-validation-only
+  # performance signal — NOT the Phase 8 local-F1 fairness gap, which
+  # remains a POST-HOC-ONLY metric, never read by this reward).
+  lambda_fair: 0.1
+  lambda_stab: 0.05
+  # DECISION RECORD: neither the canonical design nor either review
+  # document specified exact numeric values for lambda_fair/lambda_stab
+  # — both deliberately left them as "fixed constants... calibrated
+  # during the pilot, not asserted a priori" (canonical design, section
+  # 8). The values above are this pilot's own documented starting
+  # default, chosen so neither penalty term dominates delta_f1_t at the
+  # scale validation F1 typically moves per round (see
+  # docs/project-progress/12-phase-9b-drl-pilot.md for the worked
+  # justification) — NOT tuned against any result, and explicitly
+  # subject to revision before the full pretraining run.
+
+dqn:
+  # Design parameters only for this pilot — NOT hyperparameters tuned
+  # against any result. Matches the canonical design document's section
+  # 12 exactly (post state-dimension correction).
+  input_dim: 44
+  hidden_dimensions: [64, 64]
+  output_dim: 9
+  activation: relu
+  optimizer: adam
+  learning_rate: 0.001
+  gamma: 0.95
+  replay_buffer_size: 5000
+  batch_size: 32
+  target_update_frequency: 10
+  epsilon_start: 1.0
+  epsilon_end: 0.05
+  epsilon_decay_steps: 20   # matches pilot.total_steps below (episodes * rounds_per_episode)
+  seed: 42
+
+pilot:
+  # Intentionally TINY — proves the DQN/environment mechanics work
+  # end-to-end on deterministic SYNTHETIC data only. NOT the full
+  # pretraining budget (see `pretraining:` below, still unexecuted).
+  episodes: 3
+  rounds_per_episode: 3
+  replay_warmup: 4     # smallest value that still lets at least one learn() step run in this tiny budget
+  batch_size: 4         # smaller than dqn.batch_size (32) so the tiny pilot buffer can actually fill it
+  seed: 42
+
+pretraining:
+  # NOT executed in this pilot — design parameters only, for the future
+  # full pretraining run, requiring a separate review checkpoint first.
+  episodes_min: 50
+  episodes_max: 80
+  rounds_per_episode_min: 15
+  rounds_per_episode_max: 20
+
+paths:
+  # Per docs/project-progress/11-phase-9b-drl-adaptive-federated-learning.md
+  # section 27 ("Artifact path convention").
+  experiments_dir: experiments/drl_adaptive_fl
+  models_dir: results/models/drl_adaptive_fl
+  plots_dir: results/plots/drl_adaptive_fl
+  report: results/reports/drl_adaptive_fl_results.md
+
+data:
+  # Track A (NSL-KDD) ONLY — see canonical design section 26. OPSSAT-AD
+  # (Track B) is never referenced by this config or any Phase 9B code.
+  partitions_dir: data/partitions
+  manifest: data/partitions/manifest.json
+  satellite_metadata: data/partitions/satellite_metadata.json
+  global_validation_path: data/processed/validation.parquet
+
+evaluation:
+  # Final KDDTest+ evaluation happens ONCE, after the frozen policy's
+  # comparison run — never during pretraining, never inside the reward.
+  kddtest_path: data/processed/test.parquet
 
 notes: >
-  No DRL environment or agent has been implemented yet. This file is a
-  placeholder for Phases 12-15 (DRL environment through resource-aware
-  adaptation).
+  PILOT SCOPE ONLY as of this file's current state — see
+  docs/project-progress/12-phase-9b-drl-pilot.md and
+  docs/research/experiments/phase-9b-drl/README.md (Entry 6). A TINY
+  deterministic pilot rollout (see `pilot:` above — 3 episodes x 3
+  rounds, synthetic data only) has been run to prove the replay
+  buffer/target-network/learn() mechanics work end-to-end. The FULL
+  pretraining budget (see `pretraining:` below) and the final 3-way
+  comparison experiment have NOT been executed against this
+  configuration. Every value under `dqn:` and `reward:` is a DESIGN
+  PARAMETER carried over from the approved canonical design and its two
+  review checkpoints, not the result of any tuning.
