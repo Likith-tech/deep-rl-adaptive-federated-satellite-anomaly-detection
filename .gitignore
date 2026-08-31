@@ -158,6 +158,12 @@ experiments/non_iid/*/partitions/
 !results/plots/staleness_fl/*.png
 !results/reports/staleness_fl_results.md
 
+# Phase 14 full cross-phase evaluation — no new training, small
+# reviewable summary report + comparison plots only.
+!results/plots/full_evaluation/
+!results/plots/full_evaluation/*.png
+!results/reports/full_evaluation.md
+
 *.ckpt
 *.pt
 *.pth

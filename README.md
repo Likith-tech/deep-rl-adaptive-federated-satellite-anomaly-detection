@@ -183,8 +183,8 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 10 | Adaptive federated learning ✅ complete — rule-based (non-RL) client scoring/weighting (see note below) |
 | 11-13 | DRL environment, DQN controller, DRL-driven adaptive FL ✅ complete (combined, done together as "Phase 9B") — DQN did not beat Phase 8's best rule; honest negative result (see note below) |
 | 14 | Staleness-aware FL / resource-aware adaptation ✅ complete — real, seeded client-availability-driven staleness; staleness-blind control beat both staleness-aware discount rules, an honest negative finding (see note below) |
-| 15 | Full evaluation *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
-| 16 | Ablation studies |
+| 15 | Full evaluation ✅ complete — every method's real KDDTest+ F1 in one ranked table (no new training); Phase 8's `resource_only` remains the best aggregation mechanism found so far (see note below) |
+| 16 | Ablation studies *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
 | 17 | OrbitShield professional web platform |
 | — | Optional robustness/security extension (not currently planned) |
 | 19-20 | Final integration, documentation and presentation |
@@ -293,10 +293,19 @@ partition. Real result: the staleness-blind control scored best on
 KDDTest+ F1 (0.7371) — both staleness-aware discount rules scored
 slightly lower, an honest negative finding. See
 `docs/project-progress/15-phase-9-staleness-resource-fl.md` and
-`results/reports/staleness_fl_results.md`. No full cross-phase
-evaluation report, ablation study, or other advanced FL components
-exist yet, and remain out of scope until those later milestones are
-built.*
+`results/reports/staleness_fl_results.md`.
+Row 15 ("Full evaluation") has now been built: no new training — every
+prior phase's real KDDTest+ number (14 methods across Phases 2, 3, 6, 7,
+8, 9B, 9) is assembled into one ranked, cited comparison. Honest
+headline finding: holding the data partition fixed and varying only the
+aggregation mechanism, Phase 8's `resource_only` rule (F1 0.7547)
+remains the single best result, beating both the learned DQN controller
+(Phase 9B) and staleness-aware discounting (Phase 9) — a simple,
+hand-specified rule beating every more sophisticated mechanism tried so
+far. See `docs/project-progress/16-full-evaluation.md` and
+`results/reports/full_evaluation.md`. No ablation study or other
+advanced FL components exist yet, and remain out of scope until those
+later milestones are built.*
 
 ## Dataset
 

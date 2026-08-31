@@ -27,7 +27,7 @@ Phase 10 — DRL Environment             COMPLETE — see Phase 9B
 Phase 11 — DQN Controller              COMPLETE — see Phase 9B
 Phase 12 — DRL Adaptive FL             COMPLETE — see Phase 9B
 Phase 13 — Resource-Aware Adaptation   COMPLETE — see Phase 9 above
-Phase 14 — Full Evaluation             NOT STARTED
+Phase 14 — Full Evaluation             COMPLETE (see caveat below)
 Phase 15 — Ablation Study              NOT STARTED
 Phase 16 — OrbitShield Integration     NOT STARTED
 Phase 17 — Final System & Documentation NOT STARTED
@@ -70,6 +70,7 @@ or partial work.
 | `11-phase-9b-drl-adaptive-federated-learning.md` | Full DQN adaptive FL design + implementation + real 750-round experiment; KDDTest+ F1 0.7425, ROC-AUC 0.8361 — did not beat Phase 8's best rule-based result (`resource_only`, F1 0.7547), an honest negative finding |
 | `13-stin-feasibility-audit.md`, `14-smap-msl-track-b-audit.md` | Dataset research: STIN audited and rejected; SMAP/MSL audited as a Track B candidate (not adopted as the active roadmap dataset) |
 | `15-phase-9-staleness-resource-fl.md` | Staleness- and resource-aware FL: a client's simulated Phase 4 availability genuinely gates round-to-round sync (real, seeded staleness), and 3 staleness-discount rules are ablated; the staleness-blind control (`no_correction`) scored best (KDDTest+ F1 0.7371) — an honest negative finding for the two staleness-aware rules tried |
+| `16-full-evaluation.md` | Full cross-phase evaluation (no new training): every method's real KDDTest+ number in one ranked table; Phase 8's `resource_only` remains the single best aggregation mechanism, beating both the learned DQN (Phase 9B) and staleness-aware discounting (Phase 9) |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -330,6 +331,29 @@ roughly unaffected by which discount rule was used. Full detail in
 Phase 9 was reviewed and approved and is now marked **COMPLETE**. It
 subsumes the phase list's originally separate "Resource-Aware
 Adaptation" row (13).
+
+## Phase 14 summary (full cross-phase evaluation)
+
+Phase 14 runs no new experiment — it reads the already-committed final
+KDDTest+ number from every prior phase's own report (2, 3, 6, 7, 8, 9B,
+9; 14 methods total) into one master ranking, cited by source so every
+number can be checked against where it was originally measured
+(`scripts/generate_full_evaluation_report.py`,
+`results/reports/full_evaluation.md`).
+
+**Headline, honest finding:** holding the data partition fixed and
+varying only the aggregation mechanism, Phase 8's `resource_only` rule
+(KDDTest+ F1 0.7547) remains the single best result across every
+mechanism tried, including the learned DQN controller (Phase 9B,
+0.7425) and both staleness-aware discount rules (Phase 9, best 0.7371).
+A simple, hand-specified rule beats every more sophisticated mechanism
+built so far — reported as the honest current state of the evidence,
+not smoothed into a tidier narrative. The performance/fairness tension
+first observed in Phase 8 (the most-accurate method is never the
+fairest one) holds across every later phase that measured both. Full
+detail in `docs/project-progress/16-full-evaluation.md`.
+
+Phase 14 was reviewed and approved and is now marked **COMPLETE**.
 
 ## ESA-ADB (parked research track, not part of the numbered roadmap)
 
