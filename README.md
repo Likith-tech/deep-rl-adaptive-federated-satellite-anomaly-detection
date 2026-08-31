@@ -38,7 +38,9 @@ Phase 8  — Non-IID FL Experiments      COMPLETE
 Phase 9  — Rule-Based Adaptive FL      COMPLETE
 Phase 9B — DRL (DQN) Adaptive FL       COMPLETE
 Phase 9C — Staleness/Resource-Aware FL COMPLETE
-Phase 10+ — (see Development phases)   NOT STARTED
+Full Evaluation, Ablation Studies,
+  OrbitShield Web Platform             COMPLETE (see Development phases)
+Final System & Documentation           NOT STARTED (last remaining milestone)
 ```
 
 Rule-based (non-reinforcement-learned) adaptive Federated Learning is
@@ -185,7 +187,7 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 14 | Staleness-aware FL / resource-aware adaptation ✅ complete — real, seeded client-availability-driven staleness; staleness-blind control beat both staleness-aware discount rules, an honest negative finding (see note below) |
 | 15 | Full evaluation ✅ complete — every method's real KDDTest+ F1 in one ranked table (no new training); Phase 8's `resource_only` remains the best aggregation mechanism found so far (see note below) |
 | 16 | Ablation studies ✅ complete — resource-weight sweep confirms Phase 8's win is a genuine peak; staleness decay-rate sweep confirms no rate beats the staleness-blind control (see note below) |
-| 17 | OrbitShield professional web platform *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
+| 17 | OrbitShield professional web platform ✅ complete — real experiment/model registry, federated overview/rounds/adaptive-control, and the DRL controller/decisions now render on the live site, backend read-only (see note below) |
 | — | Optional robustness/security extension (not currently planned) |
 | 19-20 | Final integration, documentation and presentation |
 | — | Parked research: ESA-ADB dataset track (real ESA spacecraft telemetry) — audited, piloted, one real FedAvg baseline run (weak result); not part of the numbered roadmap, see `docs/research/experiments/esa-adb/README.md` |
@@ -315,9 +317,24 @@ beats Phase 9's staleness-blind control — even the best point tested
 Both sweeps exactly reproduce their Phase 8/9 reference points
 bit-for-bit as a built-in honesty check. See
 `docs/project-progress/17-ablation-studies.md` and
-`results/reports/ablation_study.md`. No OrbitShield backend/frontend
-integration exists yet, and remains out of scope until that later
-milestone is built.*
+`results/reports/ablation_study.md`.
+Row 17 ("OrbitShield professional web platform") has now been built:
+new read-only FastAPI endpoints
+(`backend/app/api/{experiments,models,federated,drl}.py`) read the same
+committed JSON artifacts every prior phase's own scripts already wrote
+— no training happens through the API — and new React pages
+(`frontend/src/pages/{experiments,federated,drl,system}/`) replace the
+placeholder shell for Experiments, Model Registry, Federated Overview/
+Rounds/Adaptive Control, and the DRL Controller/Decision History.
+Verified by actually starting both servers and driving them with a
+headless browser against the live dev stack (not just a build check) —
+every newly-wired route renders its real numbers with zero console
+errors, and the still-unbuilt routes (satellite network, threats,
+per-client fairness, activity, settings) were re-confirmed to honestly
+still show "Awaiting live data" rather than fabricated numbers. See
+`docs/project-progress/18-orbitshield-integration.md`. Final
+system-wide documentation and integration (Phase 20) remains out of
+scope until that last milestone is built.*
 
 ## Dataset
 
@@ -598,7 +615,12 @@ python -m uvicorn backend.app.main:app --reload
 ```
 
 The API will be available at `http://localhost:8000`, with a health
-check at `http://localhost:8000/health`.
+check at `http://localhost:8000/health`. Phase 16 added read-only
+endpoints over this project's real, already-committed results —
+`/experiments`, `/models`, `/federated/overview`,
+`/federated/rounds/{id}`, `/federated/adaptive-control`,
+`/drl/controller`, `/drl/decisions` — none of which trigger training;
+see `docs/project-progress/18-orbitshield-integration.md`.
 
 ## Running the frontend
 

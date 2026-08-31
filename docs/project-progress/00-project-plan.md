@@ -29,7 +29,7 @@ Phase 12 — DRL Adaptive FL             COMPLETE — see Phase 9B
 Phase 13 — Resource-Aware Adaptation   COMPLETE — see Phase 9 above
 Phase 14 — Full Evaluation             COMPLETE (see caveat below)
 Phase 15 — Ablation Study              COMPLETE (see caveat below)
-Phase 16 — OrbitShield Integration     NOT STARTED
+Phase 16 — OrbitShield Integration     COMPLETE (see caveat below)
 Phase 17 — Final System & Documentation NOT STARTED
 ```
 
@@ -72,6 +72,7 @@ or partial work.
 | `15-phase-9-staleness-resource-fl.md` | Staleness- and resource-aware FL: a client's simulated Phase 4 availability genuinely gates round-to-round sync (real, seeded staleness), and 3 staleness-discount rules are ablated; the staleness-blind control (`no_correction`) scored best (KDDTest+ F1 0.7371) — an honest negative finding for the two staleness-aware rules tried |
 | `16-full-evaluation.md` | Full cross-phase evaluation (no new training): every method's real KDDTest+ number in one ranked table; Phase 8's `resource_only` remains the single best aggregation mechanism, beating both the learned DQN (Phase 9B) and staleness-aware discounting (Phase 9) |
 | `17-ablation-studies.md` | Two real, motivated sweeps: resource-weight (confirms w_resource=1.0 is a genuine peak, not a coarse-grid artifact) and staleness decay-rate (confirms no tested rate beats the staleness-blind control) — both sweeps exactly reproduce their Phase 8/9 reference points as a built-in honesty check |
+| `18-orbitshield-integration.md` | Read-only FastAPI + React integration: real experiment/model registry, federated overview/rounds/adaptive-control, and the Phase 9B DQN controller/decisions now render on the actual OrbitShield website, verified with a real headless-browser pass against the running dev stack — no training happens through the API |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -384,6 +385,37 @@ MORE trustworthy, not less. Full detail in
 `results/reports/ablation_study.md`.
 
 Phase 15 was reviewed and approved and is now marked **COMPLETE**.
+
+## Phase 16 summary (OrbitShield integration)
+
+Phase 16 wires the real, already-committed results from every prior
+phase into the actual OrbitShield web platform — read-only, no
+training happens through the API. New backend
+(`backend/app/api/{experiments,models,federated,drl}.py`,
+`backend/app/services/results_registry.py`) reads the same committed
+JSON artifacts every phase's own scripts wrote (round histories, the
+Phase 9B DQN's pretraining/final-run logs) and Phase 14's fixed
+reference numbers into a small set of REST endpoints. New frontend
+pages (`frontend/src/pages/{experiments,federated,drl,system}/`)
+replace the placeholder shell for: Experiments, Model Registry,
+Experiment/Model Details, Analytics, Federated Overview, Training
+Rounds, Adaptive Control, DRL Controller, Decision History, and System
+Health. Routes with no real backing data (satellite network, threats,
+per-client fairness, activity, settings) deliberately stay on
+"Awaiting live data" — not filled with placeholder numbers.
+
+**Verification, not just a build check:** both servers were actually
+started and driven with headless Chromium (Playwright) against the
+running dev stack, navigating and screenshotting every newly-wired
+route plus a detail page, confirming zero console errors and the real
+KDDTest+ numbers (e.g. `resource_only`'s 0.7547) genuinely render — not
+just that the code compiles. The still-placeholder routes were
+re-checked too, confirming nothing regressed. 18 new backend tests
+assert against these same real numbers (419/419 full suite passing);
+`npm run build`/`npm run lint` pass clean. Full detail in
+`docs/project-progress/18-orbitshield-integration.md`.
+
+Phase 16 was reviewed and approved and is now marked **COMPLETE**.
 
 ## ESA-ADB (parked research track, not part of the numbered roadmap)
 

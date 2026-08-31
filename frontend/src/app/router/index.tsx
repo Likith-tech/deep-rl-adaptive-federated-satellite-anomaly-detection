@@ -2,6 +2,17 @@ import { createBrowserRouter } from "react-router-dom";
 import { AppLayout } from "@/app/layouts/AppLayout";
 import { Dashboard } from "@/pages/Dashboard";
 import { PlaceholderPage } from "@/pages/PlaceholderPage";
+import { FederatedOverview } from "@/pages/federated/FederatedOverview";
+import { FederatedRounds } from "@/pages/federated/FederatedRounds";
+import { AdaptiveControl } from "@/pages/federated/AdaptiveControl";
+import { DrlController } from "@/pages/drl/DrlController";
+import { DrlDecisions } from "@/pages/drl/DrlDecisions";
+import { ModelsPage } from "@/pages/experiments/ModelsPage";
+import { ModelDetailPage } from "@/pages/experiments/ModelDetailPage";
+import { ExperimentsPage } from "@/pages/experiments/ExperimentsPage";
+import { ExperimentDetailPage } from "@/pages/experiments/ExperimentDetailPage";
+import { ExperimentsAnalytics } from "@/pages/experiments/ExperimentsAnalytics";
+import { SystemHealth } from "@/pages/system/SystemHealth";
 
 export const router = createBrowserRouter([
   {
@@ -34,11 +45,11 @@ export const router = createBrowserRouter([
 
       {
         path: "federated/overview",
-        element: <PlaceholderPage title="Federated Overview" description="Current FL state and global model information." />,
+        element: <FederatedOverview />,
       },
       {
         path: "federated/rounds",
-        element: <PlaceholderPage title="Training Rounds" description="Individual FL round history and metrics." />,
+        element: <FederatedRounds />,
       },
       {
         path: "federated/clients",
@@ -50,43 +61,43 @@ export const router = createBrowserRouter([
       },
       {
         path: "federated/adaptive-control",
-        element: <PlaceholderPage title="Adaptive Control" description="Adaptive FL decisions." />,
+        element: <AdaptiveControl />,
       },
 
       {
         path: "drl/controller",
-        element: <PlaceholderPage title="DRL Controller" description="DQN state, action, reward and current policy information." />,
+        element: <DrlController />,
       },
       {
         path: "drl/decisions",
-        element: <PlaceholderPage title="Decision History" description="Historical DRL decisions." />,
+        element: <DrlDecisions />,
       },
 
       {
         path: "models",
-        element: <PlaceholderPage title="Model Registry" description="Available trained model versions." />,
+        element: <ModelsPage />,
       },
       {
         path: "models/:modelId",
-        element: <PlaceholderPage title="Model Details" description="Performance and training information for a specific model." />,
+        element: <ModelDetailPage />,
       },
 
       {
         path: "experiments",
-        element: <PlaceholderPage title="Experiments" description="Actual experiment runs." />,
+        element: <ExperimentsPage />,
       },
       {
         path: "experiments/analytics",
-        element: <PlaceholderPage title="Analytics" description="Cross-system performance analysis." />,
+        element: <ExperimentsAnalytics />,
       },
       {
         path: "experiments/:experimentId",
-        element: <PlaceholderPage title="Experiment Details" description="Detailed metrics and configuration for an experiment." />,
+        element: <ExperimentDetailPage />,
       },
 
       {
         path: "system/health",
-        element: <PlaceholderPage title="System Health" description="Backend, ML engine, FL engine, DRL engine and simulator health." />,
+        element: <SystemHealth />,
       },
       {
         path: "system/activity",
