@@ -36,14 +36,25 @@ Phase 6  — Local Satellite Training    COMPLETE
 Phase 7  — Federated Learning (FedAvg) COMPLETE
 Phase 8  — Non-IID FL Experiments      COMPLETE
 Phase 9  — Rule-Based Adaptive FL      COMPLETE
+Phase 9B — DRL (DQN) Adaptive FL       COMPLETE
 Phase 10+ — (see Development phases)   NOT STARTED
 ```
 
 Rule-based (non-reinforcement-learned) adaptive Federated Learning is
 implemented — a transparent, fixed client-scoring rule now determines
 each satellite's aggregation weight, replacing Phase 6/7's sample-
-count-only weighting. DRL-driven adaptive aggregation has not yet been
-implemented.
+count-only weighting. A DQN controller (Phase 9B) has since been
+implemented and run in full — see below; it did not beat Phase 8's
+best rule-based result, an honest negative finding, not a defect.
+
+A separate, exploratory dataset track (ESA-ADB — real ESA spacecraft
+telemetry, 3 missions, richer real multivariate anomaly structure than
+any other dataset audited) was investigated in parallel as a possible
+Track C. Its own FedAvg baseline produced a weak, honestly-reported
+result (ROC-AUC 0.4855) and this track is now **parked** — not deleted,
+not hidden, just not the active focus — in favor of continuing the
+primary NSL-KDD-based roadmap below. Full record in
+`docs/research/experiments/esa-adb/README.md`.
 
 See `docs/project-progress/` for a plain-language, viva-ready write-up
 of every completed phase (`00-project-plan.md` is the master tracker,
@@ -119,10 +130,25 @@ beating Phase 6's 0.7404), while `performance_only` — not the
 fairness-weighted `combined` rule — reached the smallest client
 fairness gap (**0.1245** vs. `combined`'s 0.1496), reported exactly as
 measured rather than smoothed over — see
-`results/reports/adaptive_fl_results.md`. No DRL/learned weights, and
-none of the models are connected to the frontend. The frontend
-dashboard intentionally shows "Awaiting live data" states rather than
-fabricated metrics.
+`results/reports/adaptive_fl_results.md`. Phase 9B (this project's
+tracker numbering) then implemented and ran a full **DQN-based adaptive
+FL controller**: a small MLP Q-network chooses, each round, among the
+same 9 discrete weighting profiles Phase 8 already defined (including
+Phase 8's own `performance_only`/`resource_only`/`data_only`/`combined`
+rules), trained via 750 real FL rounds (50 episodes × 15 rounds) of
+pretraining against the real Phase 6 partition, then evaluated with one
+frozen-policy 10-round run. Real, measured, honestly-reported result:
+**KDDTest+ F1 0.7425 / ROC-AUC 0.8361** — a narrow improvement over
+Phase 6 (0.7404) and Phase 8's `data_only`, but it did **not** beat
+Phase 8's best F1 (`resource_only`, 0.7547) or its best fairness gap
+(`performance_only`, 0.1245; DQN's own gap was 0.1833). The reward
+signal is built only from global-validation F1/spread — KDDTest+ is
+never read by it, verified by AST-based privacy tests. See
+`docs/project-progress/11-phase-9b-drl-adaptive-federated-learning.md`,
+`docs/project-progress/12-phase-9b-drl-pilot.md`, and
+`results/reports/drl_adaptive_fl_results.md`. None of the models are
+connected to the frontend. The frontend dashboard intentionally shows
+"Awaiting live data" states rather than fabricated metrics.
 
 ## Development phases
 
@@ -138,17 +164,15 @@ fabricated metrics.
 | 7 | Local satellite training ✅ complete — 8 independent local models trained, no communication/aggregation (see note below) |
 | 8 | Standard FedAvg ✅ complete — 10 rounds, all 8 clients, sample-count-weighted averaging, tested privacy boundary (see note below) |
 | 9 | Non-IID experiments ✅ complete — controlled Dirichlet-alpha sweep isolating heterogeneity as the sole variable (see note below) |
-| 10 | Adaptive federated learning ⏳ in progress, awaiting review — rule-based (non-RL) client scoring/weighting; DRL-based adaptation still to come (see note below) |
-| 11 | Staleness-aware FL *(next, after Phase 10 review)* |
-| 12 | DRL environment |
-| 13 | DQN controller |
-| 14 | DRL-driven adaptive FL |
-| 15 | Resource-aware adaptation |
-| 16 | Optional robustness/security extension |
-| 17 | Full evaluation |
-| 18 | Ablation studies |
-| 19 | OrbitShield professional web platform |
-| 20 | Final integration, documentation and presentation |
+| 10 | Adaptive federated learning ✅ complete — rule-based (non-RL) client scoring/weighting (see note below) |
+| 11-13 | DRL environment, DQN controller, DRL-driven adaptive FL ✅ complete (combined, done together as "Phase 9B") — DQN did not beat Phase 8's best rule; honest negative result (see note below) |
+| 14 | Staleness-aware FL / resource-aware adaptation *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
+| 15 | Optional robustness/security extension |
+| 16 | Full evaluation |
+| 17 | Ablation studies |
+| 18 | OrbitShield professional web platform |
+| 19-20 | Final integration, documentation and presentation |
+| — | Parked research: ESA-ADB dataset track (real ESA spacecraft telemetry) — audited, piloted, one real FedAvg baseline run (weak result); not part of the numbered roadmap, see `docs/research/experiments/esa-adb/README.md` |
 
 *Note: Phases 1 and 2 were executed together in a single work session
 (dataset selection/acquisition/analysis plus a full clean → label →
@@ -233,9 +257,18 @@ highest KDDTest+ F1 (0.7547, beating Phase 6's 0.7404), while
 reached the smallest client fairness gap (0.1245 vs. `combined`'s
 0.1496), an honest, counterintuitive result reported exactly as
 measured. See `docs/project-progress/09-phase-8-rule-based-adaptive-fl.md`
-and `results/reports/adaptive_fl_results.md`. No DRL/learned weights,
-no staleness-aware aggregation, or other advanced FL components exist
-yet, and remain out of scope until those later milestones are built.*
+and `results/reports/adaptive_fl_results.md`.
+Rows 11-13 ("DRL environment", "DQN controller", "DRL-driven adaptive
+FL") — done together as this project's own "Phase 9B" — have now been
+built and run in full: a DQN controller picks among Phase 8's 9
+weighting profiles each round, trained via 750 real FL rounds against
+the real Phase 6 partition. Real KDDTest+ result: F1 0.7425, ROC-AUC
+0.8361 — better than Phase 6 but not better than Phase 8's best rule
+(`resource_only`, F1 0.7547), an honest negative finding. See
+`docs/project-progress/11-phase-9b-drl-adaptive-federated-learning.md`
+and `results/reports/drl_adaptive_fl_results.md`. No staleness-aware
+aggregation, or other advanced FL components exist yet, and remain out
+of scope until those later milestones are built.*
 
 ## Dataset
 
