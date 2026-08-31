@@ -1,0 +1,32 @@
+{
+  "validation_representation_matches_approved_design": {
+    "passed": true,
+    "expected": {
+      "num_sequences": 8464,
+      "anomaly_count": 120
+    },
+    "actual": {
+      "num_sequences": 8464,
+      "anomaly_count": 120
+    }
+  },
+  "scalers_fit_train_only": {
+    "passed": true,
+    "violations": []
+  },
+  "each_client_receives_only_its_own_channels": {
+    "passed": true,
+    "violations": []
+  },
+  "global_model_initialized_identically": {
+    "passed": true
+  },
+  "no_test_data_used_in_training": {
+    "passed": true,
+    "note": "structural: run_esa_adb_fedavg only ever receives client_train_ds and validation datasets; test datasets are constructed but never passed to it"
+  },
+  "no_test_labels_used_for_threshold_selection": {
+    "passed": true,
+    "note": "structural: select_threshold_by_f1 is called on pooled_val only, before pooled_test is ever touched"
+  }
+}

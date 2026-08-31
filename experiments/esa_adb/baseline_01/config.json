@@ -1,0 +1,39 @@
+{
+  "experiment": "esa_adb/baseline_01",
+  "model_architecture": "TemporalGRUAttention (src/models/temporal_gru_attention.py, unmodified)",
+  "config": {
+    "input_dim": 1,
+    "projection_dim": 64,
+    "hidden_dim": 64,
+    "num_gru_layers": 1,
+    "dropout": 0.3,
+    "output_dim": 1,
+    "sequence_length": 50,
+    "stride": 25,
+    "label_strategy": "last",
+    "training": {
+      "batch_size": 128,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "loss": "bce_with_logits",
+      "epochs": 25,
+      "early_stopping_patience": 4,
+      "seed": 42
+    },
+    "class_weighting": {
+      "used": true,
+      "method": "BCEWithLogitsLoss(pos_weight=train_negative_count/train_positive_count)",
+      "pos_weight": 30.252572016460906,
+      "computed_from": "train split only"
+    }
+  },
+  "dataset_manifest_path": "data\\processed\\esa_adb\\manifest.json",
+  "dataset_manifest_sha256": "ae7577b3b8e8d302b4e002aacd42254716f9c9e2f206d2c0602b774bb54f4081",
+  "preprocessing_reference": "src/satellite/esa_adb/preprocessing.py (StandardScaler per channel, train-split only)",
+  "threshold_selection_method": "grid search over threshold in [0.01, 0.99] step 0.01, maximizing F1 on the validation set only; ties broken by lowest threshold",
+  "selected_threshold": 0.11,
+  "timing": {
+    "data_load_seconds": 32.91188883781433,
+    "training_seconds": 398.59874749183655
+  }
+}

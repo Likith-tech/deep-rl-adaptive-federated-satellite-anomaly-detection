@@ -1,0 +1,44 @@
+{
+  "experiment": "esa_adb/fedavg_baseline_01",
+  "model_architecture": "TemporalGRUAttention (unmodified), input_dim=116",
+  "model_config": {
+    "input_dim": 116,
+    "projection_dim": 64,
+    "hidden_dim": 64,
+    "num_gru_layers": 1,
+    "dropout": 0.3,
+    "output_dim": 1
+  },
+  "training_config": {
+    "batch_size": 128,
+    "learning_rate": 0.001,
+    "local_epochs": 1,
+    "seed": 42
+  },
+  "num_rounds": 10,
+  "shared_init_seed": 42,
+  "client_participation": "all 8 real clients every round (no sampling, no dropout)",
+  "aggregation": "standard sample-count-weighted FedAvg (src.federated.fedavg.federated_average, unmodified)",
+  "class_imbalance_handling": "BCEWithLogitsLoss(pos_weight), computed PER CLIENT from that client's own train labels only",
+  "per_client_pos_weight": {
+    "client_1": 5.037463976945245,
+    "client_2": 5.037463976945245,
+    "client_3": 5.037463976945245,
+    "client_4": 5.037463976945245,
+    "client_5": 5.037463976945245,
+    "client_6": 5.037463976945245,
+    "client_7": 5.037463976945245,
+    "client_8": 5.037463976945245
+  },
+  "dataset_manifest_path": "data\\processed\\esa_adb\\manifest.json",
+  "dataset_manifest_sha256": "ae7577b3b8e8d302b4e002aacd42254716f9c9e2f206d2c0602b774bb54f4081",
+  "global_validation_representation": "pooled per-client-shaped (approved), 8,464 sequences, 120 anomaly",
+  "threshold_selection_method": "grid search over threshold in [0.01, 0.99] step 0.01, maximizing F1 on the validation set only; ties broken by lowest threshold",
+  "selected_threshold": 0.52,
+  "best_round": 1,
+  "best_round_val_loss": 1.3802293002718113,
+  "timing": {
+    "fedavg_total_seconds": 439.31560730934143,
+    "script_total_seconds": 564.0621874332428
+  }
+}

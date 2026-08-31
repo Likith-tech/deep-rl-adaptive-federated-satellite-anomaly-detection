@@ -1,0 +1,94 @@
+{
+  "sequence_dimensions": {
+    "passed": true,
+    "train_shape": [
+      121510,
+      50,
+      1
+    ],
+    "validation_shape": [
+      61364,
+      50,
+      1
+    ],
+    "test_shape": [
+      61364,
+      50,
+      1
+    ]
+  },
+  "expected_counts": {
+    "passed": true,
+    "detail": {
+      "train": {
+        "expected": {
+          "num_sequences": 121510,
+          "anomaly": 3888
+        },
+        "actual": {
+          "num_sequences": 121510,
+          "anomaly": 3888
+        },
+        "matches": true
+      },
+      "validation": {
+        "expected": {
+          "num_sequences": 61364,
+          "anomaly": 104
+        },
+        "actual": {
+          "num_sequences": 61364,
+          "anomaly": 104
+        },
+        "matches": true
+      },
+      "test": {
+        "expected": {
+          "num_sequences": 61364,
+          "anomaly": 1413
+        },
+        "actual": {
+          "num_sequences": 61364,
+          "anomaly": 1413
+        },
+        "matches": true
+      }
+    }
+  },
+  "binary_labels": {
+    "passed": true
+  },
+  "no_test_leakage_in_scalers": {
+    "passed": true,
+    "violations": []
+  },
+  "class_distribution": {
+    "passed": true,
+    "detail": {
+      "train": {
+        "normal": 117622,
+        "anomaly": 3888,
+        "anomaly_rate": 0.031997366471895314,
+        "has_both_classes": true
+      },
+      "validation": {
+        "normal": 61260,
+        "anomaly": 104,
+        "anomaly_rate": 0.0016948047715272798,
+        "has_both_classes": true
+      },
+      "test": {
+        "normal": 59951,
+        "anomaly": 1413,
+        "anomaly_rate": 0.023026530213154293,
+        "has_both_classes": true
+      }
+    }
+  },
+  "model_input_dimension": {
+    "passed": true,
+    "configured_input_dim": 1,
+    "data_feature_dim": 1
+  },
+  "all_passed": true
+}

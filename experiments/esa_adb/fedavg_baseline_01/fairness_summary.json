@@ -1,0 +1,15 @@
+{
+  "test_fairness_gap_f1": 0.2962962962962963,
+  "best_round_validation_fairness_gap_f1": 0.028402366863905324,
+  "final_round_validation_fairness_gap_f1": 0.03058103975535168,
+  "per_client_test_f1": {
+    "client_1": 0.0,
+    "client_2": 0.0,
+    "client_3": 0.0,
+    "client_4": 0.0,
+    "client_5": 0.15886524822695036,
+    "client_6": 0.2962962962962963,
+    "client_7": 0.13056379821958458,
+    "client_8": 0.2962962962962963
+  }
+}

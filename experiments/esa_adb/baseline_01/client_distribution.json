@@ -1,0 +1,236 @@
+{
+  "client_1": {
+    "channels": [
+      "channel_41",
+      "channel_42",
+      "channel_43",
+      "channel_44",
+      "channel_45",
+      "channel_46"
+    ],
+    "train": {
+      "num_sequences": 12570,
+      "normal": 12294,
+      "anomaly": 276,
+      "anomaly_rate": 0.021957040572792363
+    },
+    "validation": {
+      "num_sequences": 6348,
+      "normal": 6318,
+      "anomaly": 30,
+      "anomaly_rate": 0.004725897920604915
+    },
+    "test": {
+      "num_sequences": 6348,
+      "normal": 6123,
+      "anomaly": 225,
+      "anomaly_rate": 0.03544423440453686
+    }
+  },
+  "client_2": {
+    "channels": [
+      "channel_70",
+      "channel_71",
+      "channel_72",
+      "channel_73",
+      "channel_74",
+      "channel_75",
+      "channel_76"
+    ],
+    "train": {
+      "num_sequences": 14665,
+      "normal": 14505,
+      "anomaly": 160,
+      "anomaly_rate": 0.010910330719399931
+    },
+    "validation": {
+      "num_sequences": 7406,
+      "normal": 7406,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    },
+    "test": {
+      "num_sequences": 7406,
+      "normal": 7284,
+      "anomaly": 122,
+      "anomaly_rate": 0.01647312989467999
+    }
+  },
+  "client_3": {
+    "channels": [
+      "channel_61",
+      "channel_62",
+      "channel_63"
+    ],
+    "train": {
+      "num_sequences": 6285,
+      "normal": 6285,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    },
+    "validation": {
+      "num_sequences": 3174,
+      "normal": 3174,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    },
+    "test": {
+      "num_sequences": 3174,
+      "normal": 3174,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    }
+  },
+  "client_4": {
+    "channels": [
+      "channel_12",
+      "channel_13",
+      "channel_19",
+      "channel_20",
+      "channel_27",
+      "channel_28",
+      "channel_36",
+      "channel_37"
+    ],
+    "train": {
+      "num_sequences": 16760,
+      "normal": 16415,
+      "anomaly": 345,
+      "anomaly_rate": 0.02058472553699284
+    },
+    "validation": {
+      "num_sequences": 8464,
+      "normal": 8464,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    },
+    "test": {
+      "num_sequences": 8464,
+      "normal": 8464,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    }
+  },
+  "client_5": {
+    "channels": [
+      "channel_17",
+      "channel_18",
+      "channel_25",
+      "channel_26",
+      "channel_34",
+      "channel_35",
+      "channel_66",
+      "channel_64",
+      "channel_65"
+    ],
+    "train": {
+      "num_sequences": 18855,
+      "normal": 18539,
+      "anomaly": 316,
+      "anomaly_rate": 0.016759480243967118
+    },
+    "validation": {
+      "num_sequences": 9522,
+      "normal": 9522,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    },
+    "test": {
+      "num_sequences": 9522,
+      "normal": 9522,
+      "anomaly": 0,
+      "anomaly_rate": 0.0
+    }
+  },
+  "client_6": {
+    "channels": [
+      "channel_14",
+      "channel_21",
+      "channel_29",
+      "channel_30",
+      "channel_38",
+      "channel_57",
+      "channel_58",
+      "channel_59",
+      "channel_60"
+    ],
+    "train": {
+      "num_sequences": 18855,
+      "normal": 18574,
+      "anomaly": 281,
+      "anomaly_rate": 0.014903208697958102
+    },
+    "validation": {
+      "num_sequences": 9522,
+      "normal": 9513,
+      "anomaly": 9,
+      "anomaly_rate": 0.000945179584120983
+    },
+    "test": {
+      "num_sequences": 9522,
+      "normal": 9020,
+      "anomaly": 502,
+      "anomaly_rate": 0.052720016803192604
+    }
+  },
+  "client_7": {
+    "channels": [
+      "channel_16",
+      "channel_24",
+      "channel_32",
+      "channel_33",
+      "channel_40",
+      "channel_47",
+      "channel_48",
+      "channel_49"
+    ],
+    "train": {
+      "num_sequences": 16760,
+      "normal": 15373,
+      "anomaly": 1387,
+      "anomaly_rate": 0.0827565632458234
+    },
+    "validation": {
+      "num_sequences": 8464,
+      "normal": 8434,
+      "anomaly": 30,
+      "anomaly_rate": 0.003544423440453686
+    },
+    "test": {
+      "num_sequences": 8464,
+      "normal": 8331,
+      "anomaly": 133,
+      "anomaly_rate": 0.015713610586011343
+    }
+  },
+  "client_8": {
+    "channels": [
+      "channel_15",
+      "channel_22",
+      "channel_23",
+      "channel_31",
+      "channel_39",
+      "channel_50",
+      "channel_51",
+      "channel_52"
+    ],
+    "train": {
+      "num_sequences": 16760,
+      "normal": 15637,
+      "anomaly": 1123,
+      "anomaly_rate": 0.06700477326968973
+    },
+    "validation": {
+      "num_sequences": 8464,
+      "normal": 8429,
+      "anomaly": 35,
+      "anomaly_rate": 0.0041351606805293
+    },
+    "test": {
+      "num_sequences": 8464,
+      "normal": 8033,
+      "anomaly": 431,
+      "anomaly_rate": 0.05092155009451796
+    }
+  }
+}
