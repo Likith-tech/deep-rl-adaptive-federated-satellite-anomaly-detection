@@ -37,6 +37,7 @@ Phase 7  — Federated Learning (FedAvg) COMPLETE
 Phase 8  — Non-IID FL Experiments      COMPLETE
 Phase 9  — Rule-Based Adaptive FL      COMPLETE
 Phase 9B — DRL (DQN) Adaptive FL       COMPLETE
+Phase 9C — Staleness/Resource-Aware FL COMPLETE
 Phase 10+ — (see Development phases)   NOT STARTED
 ```
 
@@ -146,7 +147,22 @@ signal is built only from global-validation F1/spread — KDDTest+ is
 never read by it, verified by AST-based privacy tests. See
 `docs/project-progress/11-phase-9b-drl-adaptive-federated-learning.md`,
 `docs/project-progress/12-phase-9b-drl-pilot.md`, and
-`results/reports/drl_adaptive_fl_results.md`. None of the models are
+`results/reports/drl_adaptive_fl_results.md`. Phase 9C (this project's
+tracker numbering) then made Phase 4's simulated per-client
+`availability_probability` genuinely gate round-to-round participation
+for the first time — every prior phase had all 8 clients train against
+the exact current global model every round, so no earlier run ever
+contained real staleness. Each round, a seeded coin flip (weighted by a
+client's own real availability) decides whether it syncs to the latest
+model or keeps training on an older cached one; three staleness-
+discount rules were then ablated on Phase 6's exact partition. Real,
+honestly-reported result: the staleness-blind control (`no_correction`)
+scored the highest KDDTest+ F1 (**0.7371**) of the three — both
+staleness-aware discount rules scored slightly lower
+(`exponential_decay` 0.7360, `linear_decay` 0.7354), and none beat
+Phase 6 (0.7404) or Phase 8's best rule (0.7547). See
+`docs/project-progress/15-phase-9-staleness-resource-fl.md` and
+`results/reports/staleness_fl_results.md`. None of the models are
 connected to the frontend. The frontend dashboard intentionally shows
 "Awaiting live data" states rather than fabricated metrics.
 
@@ -166,11 +182,11 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 9 | Non-IID experiments ✅ complete — controlled Dirichlet-alpha sweep isolating heterogeneity as the sole variable (see note below) |
 | 10 | Adaptive federated learning ✅ complete — rule-based (non-RL) client scoring/weighting (see note below) |
 | 11-13 | DRL environment, DQN controller, DRL-driven adaptive FL ✅ complete (combined, done together as "Phase 9B") — DQN did not beat Phase 8's best rule; honest negative result (see note below) |
-| 14 | Staleness-aware FL / resource-aware adaptation *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
-| 15 | Optional robustness/security extension |
-| 16 | Full evaluation |
-| 17 | Ablation studies |
-| 18 | OrbitShield professional web platform |
+| 14 | Staleness-aware FL / resource-aware adaptation ✅ complete — real, seeded client-availability-driven staleness; staleness-blind control beat both staleness-aware discount rules, an honest negative finding (see note below) |
+| 15 | Full evaluation *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
+| 16 | Ablation studies |
+| 17 | OrbitShield professional web platform |
+| — | Optional robustness/security extension (not currently planned) |
 | 19-20 | Final integration, documentation and presentation |
 | — | Parked research: ESA-ADB dataset track (real ESA spacecraft telemetry) — audited, piloted, one real FedAvg baseline run (weak result); not part of the numbered roadmap, see `docs/research/experiments/esa-adb/README.md` |
 
@@ -266,9 +282,21 @@ the real Phase 6 partition. Real KDDTest+ result: F1 0.7425, ROC-AUC
 0.8361 — better than Phase 6 but not better than Phase 8's best rule
 (`resource_only`, F1 0.7547), an honest negative finding. See
 `docs/project-progress/11-phase-9b-drl-adaptive-federated-learning.md`
-and `results/reports/drl_adaptive_fl_results.md`. No staleness-aware
-aggregation, or other advanced FL components exist yet, and remain out
-of scope until those later milestones are built.*
+and `results/reports/drl_adaptive_fl_results.md`.
+Row 14 ("Staleness-aware FL / resource-aware adaptation") has now been
+built: Phase 4's simulated per-client `availability_probability`
+finally gates round-to-round participation for the first time — every
+prior phase had all 8 clients train against the exact current global
+model every round. Real, seeded staleness resulted (up to 3 rounds
+behind, measured); three discount rules were ablated on Phase 6's exact
+partition. Real result: the staleness-blind control scored best on
+KDDTest+ F1 (0.7371) — both staleness-aware discount rules scored
+slightly lower, an honest negative finding. See
+`docs/project-progress/15-phase-9-staleness-resource-fl.md` and
+`results/reports/staleness_fl_results.md`. No full cross-phase
+evaluation report, ablation study, or other advanced FL components
+exist yet, and remain out of scope until those later milestones are
+built.*
 
 ## Dataset
 

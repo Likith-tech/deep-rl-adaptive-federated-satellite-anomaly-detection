@@ -1,0 +1,112 @@
+# Phase 9 — staleness- and resource-aware Federated Learning
+# configuration.
+#
+# Every hyperparameter below the `staleness_configs` block is IDENTICAL
+# to Phase 6's configs/federated.yaml, and every experiment here uses
+# the SAME partition as Phase 6/8 (data/partitions/, the original
+# alpha=0.5 Phase 4 partition — NOT a fresh one), so this is a true
+# apples-to-apples comparison against the committed Phase 6/8/9B
+# baselines. The ONLY intentional variables across configs are
+# `staleness_mode` / `staleness_decay_rate`.
+
+model:
+  type: mlp
+  input_dim: 121
+  hidden_dimensions:
+    - 128
+    - 64
+  dropout: 0.3
+  output_dim: 1
+
+federation:
+  num_clients: 8
+  clients_per_round: 8        # ALL clients still submit an update every round — staleness WEIGHTING, not selection
+  num_rounds: 10               # SAME as Phase 6/8/9B
+  aggregation_strategy: staleness_resource_aware
+
+training:
+  local_epochs: 1               # SAME as Phase 6/8/9B
+  batch_size: 128
+  learning_rate: 0.001
+  optimizer: adam
+  loss: bce_with_logits
+  seed: 42
+
+initialization:
+  shared_init_seed: 42          # SAME as Phase 6/8/9B — identical starting model
+
+evaluation:
+  global_validation_path: data/processed/validation.parquet
+  # Final KDDTest+ evaluation happens ONCE per staleness config, after
+  # round selection by validation loss only — see
+  # scripts/evaluate_staleness_fl_results.py. staleness_mode/decay_rate
+  # below were fixed BEFORE any KDDTest+ evaluation ran.
+
+partitions:
+  # Reuse the EXACT Phase 6/8 partition — not a fresh Phase-7-style one
+  # — so the comparison isolates the staleness mechanism as the only
+  # variable.
+  source: data/partitions
+  manifest: data/partitions/manifest.json
+  satellite_metadata: data/partitions/satellite_metadata.json
+
+staleness:
+  # participation_seed seeds the per-round, per-client sync coin flips
+  # (src/federated/staleness.py:decide_participation) — kept separate
+  # from training.seed so the participation PATTERN is identical across
+  # every staleness config below (only the weighting response to that
+  # SAME pattern differs), an apples-to-apples design mirroring Phase
+  # 8's "only rule_weights varies" discipline.
+  participation_seed: 42
+
+# Staleness-weighting configurations (ablation study), mirroring Phase
+# 8's rule_configs structure. Every client still participates (trains
+# and submits an update) every round in every config — what varies is
+# how much a stale update's contribution is discounted before
+# aggregation.
+staleness_configs:
+  no_correction:
+    mode: none
+    decay_rate: 0.5   # unused when mode=none, kept for schema uniformity
+    rationale: >
+      Control condition: clients sync/skip exactly as their real
+      simulated availability dictates (so staleness genuinely varies
+      round to round), but aggregation ignores it entirely — every
+      client's update is weighted by sample count alone, identical to
+      Phase 6's rule. Isolates whether staleness-blind aggregation
+      under real, non-trivial staleness degrades results relative to
+      Phase 6's own (synchronous, staleness-free) numbers.
+
+  linear_decay:
+    mode: linear
+    decay_rate: 0.5   # unused when mode=linear, kept for schema uniformity
+    rationale: >
+      w_stale = 1 / (1 + staleness). A gentle, transparent discount —
+      a client that is 1 round behind keeps half its sample-count
+      weight, 2 rounds behind a third, etc. Chosen as the simplest
+      non-trivial staleness-aware rule, before seeing any result.
+
+  exponential_decay:
+    mode: exponential
+    decay_rate: 0.5
+    rationale: >
+      w_stale = 0.5 ** staleness. A more aggressive discount than
+      linear_decay for the same staleness value (1 round behind -> 0.5x
+      instead of 0.5x already matches linear at staleness=1, but
+      diverges sharply after: 2 rounds behind -> 0.25x vs. linear's
+      0.33x). decay_rate=0.5 chosen as a round, interpretable default,
+      not tuned against any result.
+
+notes: >
+  Phase 9 is NOT reinforcement learning: no reward signal, no policy
+  network, no learned parameters — see src/federated/staleness.py for
+  the exact deterministic formulas. All 8 clients participate (train
+  and submit an update) in every round for every config; what differs
+  is (a) which global-model state a client actually trains against,
+  driven by its real Phase 4 `availability_probability`, identically
+  across all three configs (same `participation_seed`), and (b) how
+  much a stale update's contribution is discounted before aggregation.
+  This is the first phase to make Phase 4's simulated availability
+  field actually gate round-to-round participation — Phase 8's
+  `resource` signal reads the same underlying simulated fields but only
+  as a static weighting input, never as a participation gate.

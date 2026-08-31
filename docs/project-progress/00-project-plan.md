@@ -22,11 +22,11 @@ Phase 6  — Federated Learning          COMPLETE
 Phase 7  — Non-IID FL                  COMPLETE
 Phase 8  — Adaptive FL (rule-based)    COMPLETE (see caveat below)
 Phase 9B — DRL (DQN) Adaptive FL       COMPLETE (see caveat below) — subsumes tracker Phases 10-12 below
-Phase 9  — Staleness-Aware FL          IN PROGRESS (combined with Resource-Aware Adaptation, Phase 13)
+Phase 9  — Staleness-Aware FL          COMPLETE (see caveat below) — combined with Resource-Aware Adaptation, Phase 13
 Phase 10 — DRL Environment             COMPLETE — see Phase 9B
 Phase 11 — DQN Controller              COMPLETE — see Phase 9B
 Phase 12 — DRL Adaptive FL             COMPLETE — see Phase 9B
-Phase 13 — Resource-Aware Adaptation   IN PROGRESS (combined with Phase 9 above)
+Phase 13 — Resource-Aware Adaptation   COMPLETE — see Phase 9 above
 Phase 14 — Full Evaluation             NOT STARTED
 Phase 15 — Ablation Study              NOT STARTED
 Phase 16 — OrbitShield Integration     NOT STARTED
@@ -69,6 +69,7 @@ or partial work.
 | `12-phase-9b-drl-pilot.md` | DQN pilot implementation (state/action/reward/agent mechanics, synthetic data only, no pretraining run) |
 | `11-phase-9b-drl-adaptive-federated-learning.md` | Full DQN adaptive FL design + implementation + real 750-round experiment; KDDTest+ F1 0.7425, ROC-AUC 0.8361 — did not beat Phase 8's best rule-based result (`resource_only`, F1 0.7547), an honest negative finding |
 | `13-stin-feasibility-audit.md`, `14-smap-msl-track-b-audit.md` | Dataset research: STIN audited and rejected; SMAP/MSL audited as a Track B candidate (not adopted as the active roadmap dataset) |
+| `15-phase-9-staleness-resource-fl.md` | Staleness- and resource-aware FL: a client's simulated Phase 4 availability genuinely gates round-to-round sync (real, seeded staleness), and 3 staleness-discount rules are ablated; the staleness-blind control (`no_correction`) scored best (KDDTest+ F1 0.7371) — an honest negative finding for the two staleness-aware rules tried |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -288,6 +289,48 @@ Phase 9B was reviewed and approved and is now marked **COMPLETE**. It
 subsumes the phase list's original separate rows for "DRL environment"
 (10), "DQN controller" (11), and "DRL-driven adaptive FL" (12).
 
+## Phase 9 summary (staleness- and resource-aware Federated Learning)
+
+Phase 9 is the first phase to let Phase 4's simulated per-client
+`availability_probability` actually gate round-to-round PARTICIPATION —
+every prior phase (6, 7, 8, 9B) had all 8 clients fetch and train
+against the exact current global model every round, so no run before
+this one ever contained real staleness. Each round, each client's
+sync/no-sync outcome is a seeded coin flip weighted by its own real
+availability; a client that doesn't sync keeps training against
+whatever global state it last synced to, producing a real, measured
+staleness (not simulated after the fact). Every client still trains and
+submits an update every round (weighting, not selection — the same
+philosophy Phase 8 already committed to). Three staleness-discount
+rules were ablated on Phase 6's exact partition, sharing the identical
+seeded sync/no-sync pattern so only the discount response differs:
+`no_correction` (w=1, staleness measured but ignored), `linear_decay`
+(w=1/(1+staleness)), `exponential_decay` (w=0.5^staleness). Combines,
+in this project's own numbering, what the master tracker originally
+listed as two separate rows — "Staleness-Aware FL" (9) and
+"Resource-Aware Adaptation" (13) — since Phase 4's availability field is
+the same underlying mechanism driving both.
+
+**Real, measured, honestly-reported result:** the staleness-blind
+control, `no_correction`, scored the highest KDDTest+ F1 (**0.7371**) of
+the three — BOTH staleness-aware discount rules scored slightly lower
+(`exponential_decay` 0.7360, `linear_decay` 0.7354). None of the three
+beat Phase 6 FedAvg (0.7404) or Phase 8's best rule (`resource_only`,
+0.7547). Real staleness in this run topped out at 3 rounds (measured,
+not assumed). A plausible, disclosed explanation: with only 8 clients,
+10 rounds, and a small maximum real staleness, there wasn't enough
+staleness in this run for correcting it to clearly pay off, while the
+discount itself slightly reduced otherwise-useful updates' weight — a
+hypothesis, not a proven cause; not re-run to chase a better number.
+Fairness gaps (0.1964-0.1994 across all three configs) were also
+roughly unaffected by which discount rule was used. Full detail in
+`docs/project-progress/15-phase-9-staleness-resource-fl.md` and
+`results/reports/staleness_fl_results.md`.
+
+Phase 9 was reviewed and approved and is now marked **COMPLETE**. It
+subsumes the phase list's originally separate "Resource-Aware
+Adaptation" row (13).
+
 ## ESA-ADB (parked research track, not part of the numbered roadmap)
 
 A separate, exploratory investigation of the ESA-ADB dataset (real ESA
@@ -303,24 +346,25 @@ weak result). Parked per explicit decision rather than debugged further,
 so the primary NSL-KDD roadmap below could resume. Full record:
 `docs/research/experiments/esa-adb/README.md`.
 
-## What's explicitly NOT done yet (as of Phase 9B)
+## What's explicitly NOT done yet (as of Phase 9)
 
-- No staleness-aware aggregation, resource-aware adaptation, FedProx,
-  personalization, secure aggregation, or differential privacy yet —
-  the next phase (see status block above).
+- No FedProx, personalization, secure aggregation, or differential
+  privacy — not part of this project's approved roadmap.
 - No hard client SELECTION (as opposed to weighting) was
   experimentally benchmarked, though a selection utility exists and is
   tested (`src/federated/adaptive.py:select_top_k_clients`).
 - The OrbitShield website is not connected to any real model or
-  simulation data — it still shows "Awaiting live data."
+  simulation data — it still shows "Awaiting live data" (Phase 16).
 - No spatial/geographic/orbital realism — the satellite simulation
   creates non-IID label distributions and simulated resource
   heterogeneity, not real orbital mechanics or inter-satellite links.
-- Simulated per-client resource metadata (bandwidth, latency, compute,
-  availability, connectivity) influences aggregation via Phase 8's fixed
-  `resource` rule and is available to Phase 9B's DQN as a state signal,
-  but no phase has yet made resource conditions drive round-to-round
-  client *participation* (staleness) — that is the next phase's subject.
+- Phase 9's staleness simulation is real but single-seed and
+  small-scale (max real staleness observed: 3 rounds across 10 total
+  rounds) — a longer run or harsher availability distribution was
+  identified as the natural next experiment to distinguish "the
+  technique doesn't help" from "there wasn't enough staleness to
+  matter," but not attempted, per the standing rule against re-running
+  to chase a better number.
 - Temporal context (Phase 3, last-record-label form) has not yet been
   shown to improve on the baseline — a real, useful finding for guiding
   later phases, not a blocker.

@@ -149,6 +149,15 @@ experiments/non_iid/*/partitions/
 !results/reports/drl_adaptive_fl_pilot.md
 !results/reports/drl_adaptive_fl_improvement_01.md
 
+# Phase 9 staleness- and resource-aware FL ablation study — small,
+# reviewable. Reuses data/partitions/ directly (no per-experiment
+# parquet copies). Model checkpoints stay ignored (*.pt below);
+# run_config.json/round_history.json (small, no model weights) are
+# kept, same as Phase 8/9B's experiments/ directories.
+!results/plots/staleness_fl/
+!results/plots/staleness_fl/*.png
+!results/reports/staleness_fl_results.md
+
 *.ckpt
 *.pt
 *.pth

@@ -27,6 +27,15 @@ class ClientUpdate:
     local_epochs: int
     train_loss: float
     training_seconds: float
+    origin_round: int = 0
+    """Phase 9 (staleness-aware FL) — ADDITIVE, defaults to 0 so every
+    prior phase (6-9B) is unaffected. Records which global-model round
+    number this update was actually trained against. Under Phase 6/8/9B's
+    synchronous protocol this always equals the current round (every
+    client always trains against the latest global state, so
+    `origin_round` is a no-op there). Phase 9's staleness simulation is
+    the first caller that ever sets this to anything else — see
+    src/federated/staleness.py."""
 
     def to_summary_dict(self) -> dict:
         """JSON-serializable summary — excludes `state_dict` (model
@@ -37,6 +46,7 @@ class ClientUpdate:
             "local_epochs": self.local_epochs,
             "train_loss": self.train_loss,
             "training_seconds": self.training_seconds,
+            "origin_round": self.origin_round,
         }
 
 
