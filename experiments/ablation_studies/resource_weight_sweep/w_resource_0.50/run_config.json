@@ -1,0 +1,33 @@
+{
+  "run_name": "w_resource_0.50",
+  "w_resource": 0.5,
+  "rule_weights": {
+    "performance": 0.2353,
+    "data": 0.14705,
+    "resource": 0.5,
+    "fairness": 0.11765
+  },
+  "num_rounds": 10,
+  "best_round": 10,
+  "best_val_loss": 0.03450681218423208,
+  "best_val_metrics": {
+    "accuracy": 0.9894157493649449,
+    "precision": 0.995846313603323,
+    "recall": 0.9813530415008528,
+    "f1": 0.9885465582407513,
+    "roc_auc": 0.999101057713906,
+    "false_positive_rate": 0.003564003564003564,
+    "confusion_matrix": [
+      [
+        10065,
+        36
+      ],
+      [
+        164,
+        8631
+      ]
+    ]
+  },
+  "total_seconds": 53.5472092628479,
+  "wall_seconds": 53.580037355422974
+}

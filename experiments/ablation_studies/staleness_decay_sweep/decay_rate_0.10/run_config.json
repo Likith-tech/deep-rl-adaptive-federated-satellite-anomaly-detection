@@ -1,0 +1,28 @@
+{
+  "run_name": "decay_rate_0.10",
+  "decay_rate": 0.1,
+  "num_rounds": 10,
+  "max_staleness_seen": 3,
+  "best_round": 6,
+  "best_val_loss": 0.03384656380076564,
+  "best_val_metrics": {
+    "accuracy": 0.9866638441998307,
+    "precision": 0.9936438229515775,
+    "recall": 0.9776009096077317,
+    "f1": 0.9855570839064649,
+    "roc_auc": 0.9990059354470952,
+    "false_positive_rate": 0.005445005445005445,
+    "confusion_matrix": [
+      [
+        10046,
+        55
+      ],
+      [
+        197,
+        8598
+      ]
+    ]
+  },
+  "total_seconds": 34.50822067260742,
+  "wall_seconds": 34.54866886138916
+}

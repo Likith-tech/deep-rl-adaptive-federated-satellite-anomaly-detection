@@ -28,7 +28,7 @@ Phase 11 — DQN Controller              COMPLETE — see Phase 9B
 Phase 12 — DRL Adaptive FL             COMPLETE — see Phase 9B
 Phase 13 — Resource-Aware Adaptation   COMPLETE — see Phase 9 above
 Phase 14 — Full Evaluation             COMPLETE (see caveat below)
-Phase 15 — Ablation Study              NOT STARTED
+Phase 15 — Ablation Study              COMPLETE (see caveat below)
 Phase 16 — OrbitShield Integration     NOT STARTED
 Phase 17 — Final System & Documentation NOT STARTED
 ```
@@ -71,6 +71,7 @@ or partial work.
 | `13-stin-feasibility-audit.md`, `14-smap-msl-track-b-audit.md` | Dataset research: STIN audited and rejected; SMAP/MSL audited as a Track B candidate (not adopted as the active roadmap dataset) |
 | `15-phase-9-staleness-resource-fl.md` | Staleness- and resource-aware FL: a client's simulated Phase 4 availability genuinely gates round-to-round sync (real, seeded staleness), and 3 staleness-discount rules are ablated; the staleness-blind control (`no_correction`) scored best (KDDTest+ F1 0.7371) — an honest negative finding for the two staleness-aware rules tried |
 | `16-full-evaluation.md` | Full cross-phase evaluation (no new training): every method's real KDDTest+ number in one ranked table; Phase 8's `resource_only` remains the single best aggregation mechanism, beating both the learned DQN (Phase 9B) and staleness-aware discounting (Phase 9) |
+| `17-ablation-studies.md` | Two real, motivated sweeps: resource-weight (confirms w_resource=1.0 is a genuine peak, not a coarse-grid artifact) and staleness decay-rate (confirms no tested rate beats the staleness-blind control) — both sweeps exactly reproduce their Phase 8/9 reference points as a built-in honesty check |
 | *(more added as each phase completes)* | |
 
 ## Relationship to the original 20-phase plan
@@ -354,6 +355,35 @@ fairest one) holds across every later phase that measured both. Full
 detail in `docs/project-progress/16-full-evaluation.md`.
 
 Phase 14 was reviewed and approved and is now marked **COMPLETE**.
+
+## Phase 15 summary (ablation studies)
+
+Phase 15 runs two real, cheap, narrowly-motivated sweeps — not a broad
+hyperparameter search — each targeting an open question a prior phase's
+own report explicitly left unresolved: (1) a resource-weight sweep
+(`w_resource` from 0.0 to 1.0, five points) asking whether Phase 8's
+`resource_only` win is a genuine peak or a coarse-4-option artifact; (2)
+a staleness exponential-decay-rate sweep (0.1 to 0.9, five points)
+asking whether Phase 9's untuned `decay_rate=0.5` default was the
+reason staleness-aware discounting didn't help. Both reuse Phase 8/9's
+UNMODIFIED training code — only the swept parameter changes — and each
+includes one point that exactly reproduces an already-committed result
+(`w_resource=1.0` = Phase 8's `resource_only`; `decay_rate=0.5` = Phase
+9's `exponential_decay`), both matching bit-for-bit (F1 0.7547 and
+0.7360 respectively), confirming the sweep harness is faithful.
+
+**Real, measured findings:** the resource-weight sweep climbs
+monotonically from 0.7426 (w_resource=0.0) to 0.7547 (w_resource=1.0) —
+Phase 8's `resource_only` result is a genuine optimum, not a lucky
+coarse-grid artifact. The staleness decay-rate sweep's best point
+(decay_rate=0.90, F1 0.7369) still falls short of Phase 9's
+staleness-blind control (0.7371) — no decay_rate tested changes Phase
+9's negative finding. Both results make the earlier phases' conclusions
+MORE trustworthy, not less. Full detail in
+`docs/project-progress/17-ablation-studies.md` and
+`results/reports/ablation_study.md`.
+
+Phase 15 was reviewed and approved and is now marked **COMPLETE**.
 
 ## ESA-ADB (parked research track, not part of the numbered roadmap)
 

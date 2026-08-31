@@ -164,6 +164,14 @@ experiments/non_iid/*/partitions/
 !results/plots/full_evaluation/*.png
 !results/reports/full_evaluation.md
 
+# Phase 15 ablation studies — small, reviewable. Reuses
+# data/partitions/ directly (no per-experiment parquet copies). Model
+# checkpoints stay ignored (*.pt below); run_config.json (small, no
+# model weights) is kept, same as Phase 8/9's experiments/ directories.
+!results/plots/ablation_studies/
+!results/plots/ablation_studies/*.png
+!results/reports/ablation_study.md
+
 *.ckpt
 *.pt
 *.pth

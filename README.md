@@ -184,8 +184,8 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 11-13 | DRL environment, DQN controller, DRL-driven adaptive FL ✅ complete (combined, done together as "Phase 9B") — DQN did not beat Phase 8's best rule; honest negative result (see note below) |
 | 14 | Staleness-aware FL / resource-aware adaptation ✅ complete — real, seeded client-availability-driven staleness; staleness-blind control beat both staleness-aware discount rules, an honest negative finding (see note below) |
 | 15 | Full evaluation ✅ complete — every method's real KDDTest+ F1 in one ranked table (no new training); Phase 8's `resource_only` remains the best aggregation mechanism found so far (see note below) |
-| 16 | Ablation studies *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
-| 17 | OrbitShield professional web platform |
+| 16 | Ablation studies ✅ complete — resource-weight sweep confirms Phase 8's win is a genuine peak; staleness decay-rate sweep confirms no rate beats the staleness-blind control (see note below) |
+| 17 | OrbitShield professional web platform *(next — see `docs/project-progress/00-project-plan.md` for current status)* |
 | — | Optional robustness/security extension (not currently planned) |
 | 19-20 | Final integration, documentation and presentation |
 | — | Parked research: ESA-ADB dataset track (real ESA spacecraft telemetry) — audited, piloted, one real FedAvg baseline run (weak result); not part of the numbered roadmap, see `docs/research/experiments/esa-adb/README.md` |
@@ -303,9 +303,21 @@ remains the single best result, beating both the learned DQN controller
 (Phase 9B) and staleness-aware discounting (Phase 9) — a simple,
 hand-specified rule beating every more sophisticated mechanism tried so
 far. See `docs/project-progress/16-full-evaluation.md` and
-`results/reports/full_evaluation.md`. No ablation study or other
-advanced FL components exist yet, and remain out of scope until those
-later milestones are built.*
+`results/reports/full_evaluation.md`.
+Row 16 ("Ablation studies") has now been built: two real, cheap sweeps
+targeting open questions Phase 8/9's own reports left unresolved. A
+resource-weight sweep (`w_resource` 0.0→1.0, 5 points) confirms Phase
+8's `resource_only` win climbs monotonically to a genuine peak at
+w_resource=1.0 (F1 0.7426→0.7547), not a coarse-grid artifact. A
+staleness decay-rate sweep (0.1→0.9, 5 points) confirms no decay_rate
+beats Phase 9's staleness-blind control — even the best point tested
+(decay_rate=0.90, F1 0.7369) falls short of `no_correction`'s 0.7371.
+Both sweeps exactly reproduce their Phase 8/9 reference points
+bit-for-bit as a built-in honesty check. See
+`docs/project-progress/17-ablation-studies.md` and
+`results/reports/ablation_study.md`. No OrbitShield backend/frontend
+integration exists yet, and remains out of scope until that later
+milestone is built.*
 
 ## Dataset
 
