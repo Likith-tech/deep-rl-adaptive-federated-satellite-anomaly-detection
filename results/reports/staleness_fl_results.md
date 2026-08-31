@@ -30,7 +30,7 @@ Identical to Phase 6/8 in every respect except staleness handling: 8 clients, th
 | linear_decay | 0.9853 | 0.7354 | 0.8556 | 0.1964 | 3 |
 | exponential_decay | 0.9854 | 0.7360 | 0.8549 | 0.1994 | 3 |
 | **phase6_fedavg (reference)** | 0.9879 | 0.7404 | 0.8479 | not measured | 0 (synchronous) |
-| **phase8_best_f1 (resource_only, reference)** | not comparable | 0.7547 | not reported per-rule | see performance_only below | 0 (synchronous) |
+| **phase8_best_f1 (resource_only, reference)** | not comparable | 0.7547 | 0.8438 | see performance_only below | 0 (synchronous) |
 | **phase9b_dqn (reference)** | not comparable | 0.7425 | 0.8361 | 0.1833 | 0 (synchronous) |
 
 ## 5. Honest reading

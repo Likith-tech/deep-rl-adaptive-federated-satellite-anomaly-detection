@@ -59,7 +59,7 @@ PHASE_6_BASELINE = {
     "test": {"accuracy": 0.7531, "precision": 0.9219, "recall": 0.6186,
               "f1": 0.7404, "roc_auc": 0.8479, "false_positive_rate": 0.0693},
 }
-PHASE_8_BEST_F1 = {"rule": "resource_only", "test_f1": 0.7547}
+PHASE_8_BEST_F1 = {"rule": "resource_only", "test_f1": 0.7547, "test_roc_auc": 0.8438}
 PHASE_8_BEST_FAIRNESS = {"rule": "performance_only", "gap": 0.1245}
 PHASE_9B_DQN = {"test_f1": 0.7425, "test_roc_auc": 0.8361, "fairness_gap": 0.1833}
 
@@ -292,7 +292,7 @@ def write_report(config_results: dict, config_test_metrics: dict, config_fairnes
     )
     lines.append(
         f"| **phase8_best_f1 ({PHASE_8_BEST_F1['rule']}, reference)** | not comparable | "
-        f"{PHASE_8_BEST_F1['test_f1']:.4f} | not reported per-rule | "
+        f"{PHASE_8_BEST_F1['test_f1']:.4f} | {PHASE_8_BEST_F1['test_roc_auc']:.4f} | "
         f"see {PHASE_8_BEST_FAIRNESS['rule']} below | 0 (synchronous) |"
     )
     lines.append(
