@@ -30,7 +30,7 @@ Phase 13 — Resource-Aware Adaptation   COMPLETE — see Phase 9 above
 Phase 14 — Full Evaluation             COMPLETE (see caveat below)
 Phase 15 — Ablation Study              COMPLETE (see caveat below)
 Phase 16 — OrbitShield Integration     COMPLETE (see caveat below)
-Phase 17 — Final System & Documentation NOT STARTED
+Phase 17 — Final System & Documentation COMPLETE (see caveat below) — merge to project-development awaits explicit review
 ```
 
 *Numbering note: Phase 9B (DQN adaptive FL) was executed as one combined
@@ -73,7 +73,7 @@ or partial work.
 | `16-full-evaluation.md` | Full cross-phase evaluation (no new training): every method's real KDDTest+ number in one ranked table; Phase 8's `resource_only` remains the single best aggregation mechanism, beating both the learned DQN (Phase 9B) and staleness-aware discounting (Phase 9) |
 | `17-ablation-studies.md` | Two real, motivated sweeps: resource-weight (confirms w_resource=1.0 is a genuine peak, not a coarse-grid artifact) and staleness decay-rate (confirms no tested rate beats the staleness-blind control) — both sweeps exactly reproduce their Phase 8/9 reference points as a built-in honesty check |
 | `18-orbitshield-integration.md` | Read-only FastAPI + React integration: real experiment/model registry, federated overview/rounds/adaptive-control, and the Phase 9B DQN controller/decisions now render on the actual OrbitShield website, verified with a real headless-browser pass against the running dev stack — no training happens through the API |
-| *(more added as each phase completes)* | |
+| `19-final-report.md` | Capstone document tying every phase (0-16) together for faculty/viva review — introduces no new experiment, cites every number back to its measuring phase |
 
 ## Relationship to the original 20-phase plan
 
@@ -416,6 +416,28 @@ assert against these same real numbers (419/419 full suite passing);
 `docs/project-progress/18-orbitshield-integration.md`.
 
 Phase 16 was reviewed and approved and is now marked **COMPLETE**.
+
+## Phase 17 summary (final system & documentation)
+
+Phase 17 is a documentation and reconciliation pass, not new
+implementation: `docs/project-progress/19-final-report.md` was written
+as the single capstone document tying every phase (0 through 16)
+together for faculty/viva review, citing every real number back to the
+phase report that actually measured it — no new experiment was run to
+produce it. `README.md` and this tracker were reconciled to their true
+final state across every phase's completion (a running, incremental
+process throughout this engagement, not a one-time fix at the end).
+
+**What "final" means here, precisely:** every phase in the numbered
+roadmap (0-16) is real, measured, and committed on branch
+`project-development-7-staleness-fl`. The one deliberately withheld
+step is merging that branch history back into `project-development` —
+a shared-branch action this project's own standing rule requires
+explicit review for, not something to do automatically at the end of a
+documentation pass.
+
+Phase 17 was reviewed and approved and is now marked **COMPLETE**
+(merge pending explicit go-ahead).
 
 ## ESA-ADB (parked research track, not part of the numbered roadmap)
 

@@ -40,7 +40,9 @@ Phase 9B — DRL (DQN) Adaptive FL       COMPLETE
 Phase 9C — Staleness/Resource-Aware FL COMPLETE
 Full Evaluation, Ablation Studies,
   OrbitShield Web Platform             COMPLETE (see Development phases)
-Final System & Documentation           NOT STARTED (last remaining milestone)
+Final System & Documentation           COMPLETE — see
+  docs/project-progress/19-final-report.md (merge to
+  project-development pending explicit review)
 ```
 
 Rule-based (non-reinforcement-learned) adaptive Federated Learning is
@@ -61,7 +63,8 @@ primary NSL-KDD-based roadmap below. Full record in
 
 See `docs/project-progress/` for a plain-language, viva-ready write-up
 of every completed phase (`00-project-plan.md` is the master tracker,
-including the full history).
+including the full history; `19-final-report.md` is the single capstone
+document tying every phase together for faculty/viva review).
 
 Phase 1 produced a real, reproducible NSL-KDD dataset pipeline (load →
 clean → label → split → encode/scale → processed dataset + metadata).
@@ -189,7 +192,7 @@ connected to the frontend. The frontend dashboard intentionally shows
 | 16 | Ablation studies ✅ complete — resource-weight sweep confirms Phase 8's win is a genuine peak; staleness decay-rate sweep confirms no rate beats the staleness-blind control (see note below) |
 | 17 | OrbitShield professional web platform ✅ complete — real experiment/model registry, federated overview/rounds/adaptive-control, and the DRL controller/decisions now render on the live site, backend read-only (see note below) |
 | — | Optional robustness/security extension (not currently planned) |
-| 19-20 | Final integration, documentation and presentation |
+| 19-20 | Final integration, documentation and presentation ✅ complete — see `docs/project-progress/19-final-report.md`, the single capstone document tying every phase together (merge to `project-development` pending explicit review) |
 | — | Parked research: ESA-ADB dataset track (real ESA spacecraft telemetry) — audited, piloted, one real FedAvg baseline run (weak result); not part of the numbered roadmap, see `docs/research/experiments/esa-adb/README.md` |
 
 *Note: Phases 1 and 2 were executed together in a single work session
