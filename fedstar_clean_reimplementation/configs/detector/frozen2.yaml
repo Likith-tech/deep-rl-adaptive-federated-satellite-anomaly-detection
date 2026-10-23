@@ -1,0 +1,17 @@
+# Recipe constants and every selected architecture choice are resolved in the run contract.
+# joint16 is the approved main adaptation; both 2x2 variants are baselines.
+recipe: orbitshield_detector_adaptation_v1
+representation: frozen2
+training:
+  batch_size: 64
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  beta1: 0.9
+  beta2: 0.999
+  epsilon: 0.00000001
+  epochs: 50
+  patience: 10
+  rounds: 50
+  local_epochs: 10
+  threads: 1
+  device: cpu

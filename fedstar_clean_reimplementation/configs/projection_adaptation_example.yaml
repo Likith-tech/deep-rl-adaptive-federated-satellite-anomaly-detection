@@ -1,0 +1,16 @@
+# Explicit inexpensive contract demonstration; NONE of E/H/W/MLP/LN/init are paper values.
+mode: project_adaptation
+purpose: contract_demonstration_not_trained
+settings:
+  embedding_dim: 16
+  height: 2
+  width: 2
+  hidden_dim: 32
+  activation: gelu
+  layernorm_eps: 0.00001
+  layernorm_affine: true
+  positional_encoding: learned_shared_full_map
+  initialization: pytorch_linear_default_pos_zero
+  seed: 2024
+  views: 4
+  channels: 64

@@ -1,0 +1,9 @@
+dataset: nsl_kdd
+raw_train: ../../data/raw/KDDTrain+.txt
+raw_test: ../../data/raw/KDDTest+.txt
+seed: 42
+validation_fraction: 0.2
+categorical_columns: [protocol_type, service, flag]
+split: official_group_validation
+numeric_transform: standard
+missing_policy: reject

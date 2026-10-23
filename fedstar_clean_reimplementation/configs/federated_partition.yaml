@@ -1,0 +1,8 @@
+# FedSTAR Section 4.2.2 p.12; five experiment seeds Section 4.3.4 p.15.
+clients: 20
+modes: [iid, dirichlet]
+eta: 0.5
+seeds: [2024, 2025, 2026, 2027, 2028]
+# Local acceptance constraint, NOT the paper's observed minimum sizes.
+minimum_client_size: 1
+retry_policy: none
