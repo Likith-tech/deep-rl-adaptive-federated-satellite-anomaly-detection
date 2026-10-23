@@ -1,0 +1,92 @@
+# Phase 15 — ablation studies.
+#
+# Two real, cheap, well-motivated sweeps, each investigating an open
+# question a PRIOR phase's own report explicitly left unresolved rather
+# than a new, arbitrary hyperparameter search:
+#
+# 1. resource_weight_sweep: Phase 14's full evaluation found Phase 8's
+#    `resource_only` rule (w_resource=1.0, everything else 0) as the
+#    single best aggregation mechanism across the whole project — a
+#    genuinely counterintuitive result Phase 8's own report already
+#    flagged. Is that a monotonic "more resource weight is always
+#    better" pattern, or does it peak somewhere before w_resource=1.0?
+#    Reuses Phase 8's UNMODIFIED run_adaptive_federated_training.
+#
+# 2. staleness_decay_sweep: Phase 9's own report explicitly named
+#    `decay_rate` as "chosen as a round, interpretable default... not
+#    tuned" and flagged real staleness in that run as small-scale (max 3
+#    rounds) as a plausible reason discounting didn't help. Does a
+#    different decay_rate change that outcome? Reuses Phase 9's
+#    UNMODIFIED run_staleness_federated_training and the EXACT SAME
+#    seeded participation pattern as Phase 9 (participation_seed=42),
+#    so only decay_rate varies.
+#
+# Every hyperparameter below the sweep-specific blocks is IDENTICAL to
+# Phase 6/8/9's configs, and every experiment here uses the SAME
+# partition (data/partitions/, Phase 4 original, alpha=0.5) — a true
+# apples-to-apples extension of the already-committed baselines.
+
+model:
+  type: mlp
+  input_dim: 121
+  hidden_dimensions:
+    - 128
+    - 64
+  dropout: 0.3
+  output_dim: 1
+
+federation:
+  num_clients: 8
+  clients_per_round: 8
+  num_rounds: 10
+  aggregation_strategy: ablation
+
+training:
+  local_epochs: 1
+  batch_size: 128
+  learning_rate: 0.001
+  optimizer: adam
+  loss: bce_with_logits
+  seed: 42
+
+initialization:
+  shared_init_seed: 42
+
+evaluation:
+  global_validation_path: data/processed/validation.parquet
+
+partitions:
+  source: data/partitions
+  manifest: data/partitions/manifest.json
+  satellite_metadata: data/partitions/satellite_metadata.json
+
+# Ablation 1 — resource-weight sensitivity. `w_resource` swept from 0.0
+# (Phase 8's `combined` ratio among the other three signals, renormalized
+# to sum to 1 without resource) to 1.0 (Phase 8's exact `resource_only`,
+# a real regression-test point, not just a reference). The non-resource
+# share always splits in Phase 8's `combined` proportions
+# (performance:data:fairness = 0.40:0.25:0.20, renormalized to sum to
+# 1-w_resource) so only the resource axis moves.
+resource_weight_sweep:
+  w_resource_values: [0.0, 0.25, 0.5, 0.75, 1.0]
+  non_resource_ratio:
+    performance: 0.4706   # 0.40 / 0.85
+    data: 0.2941          # 0.25 / 0.85
+    fairness: 0.2353      # 0.20 / 0.85
+
+# Ablation 2 — staleness exponential-decay-rate sensitivity. decay_rate
+# swept around Phase 9's untuned default (0.5); the SAME participation
+# pattern (participation_seed=42) as Phase 9's own run is reused so only
+# the discount curve's steepness varies.
+staleness_decay_sweep:
+  participation_seed: 42
+  decay_rate_values: [0.1, 0.3, 0.5, 0.7, 0.9]
+
+notes: >
+  Neither sweep is reinforcement learning and neither modifies any
+  Phase 6/8/9 src/ code — both reuse run_adaptive_federated_training and
+  run_staleness_federated_training exactly as already tested. decay_rate
+  0.5 in sweep 2 and w_resource=1.0 in sweep 1 reproduce a Phase 9 /
+  Phase 8 already-committed data point exactly (same seed, same
+  partition, same mechanism), giving each sweep one built-in
+  cross-phase reproducibility check.

@@ -1,0 +1,14 @@
+mode: exact
+equation: "V_t = MLP_t(LN(x W_e + b_e)) + E_pos"
+evidence: "Section 3.2.1, Equation (1), page 5; Fig.3"
+views: 4
+channels: 64
+embedding_dim: null
+height: null
+width: null
+view_mlp_structure: null
+layernorm_eps: null
+layernorm_affine: null
+positional_encoding_shape: null
+initialization: null
+status: blocked_pending_author_details

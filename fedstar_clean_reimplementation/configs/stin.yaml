@@ -1,0 +1,10 @@
+dataset: stin
+raw_dir: ../../experiments/orbitshield_v2/data/raw/stin
+manifest: ../../experiments/orbitshield_v2/data/stin.manifest.json
+seed: 2024
+test_fraction: 0.2
+validation_fraction: 0.2
+split: grouped_80_20
+numeric_transform: standard
+missing_policy: reject
+classes: [Backdoor, Botnet, LDAP_DDoS, MSSQL_DDoS, NetBIOS_DDoS, Portmap_DDoS, Syn_DDoS, UDP_DDoS, Web Attack]

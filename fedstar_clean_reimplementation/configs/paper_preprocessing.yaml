@@ -1,0 +1,21 @@
+paper: "Chen et al., Information Sciences 755 (2026), 123808"
+datasets: [STIN, TON_IoT, Bot-IoT]
+train_test_ratio: [0.8, 0.2]
+split_evidence: "Section 4.2.1, page 12"
+projection:
+  equation: "V_t = MLP_t(LN(x W_e + b_e)) + E_pos"
+  evidence: "Section 3.2.1, Equation (1), page 5"
+  T: 4
+  C: 64
+  H: null
+  W: null
+  embedding_dimension: null
+  status: equation_scaffold_implemented_exact_instantiation_blocked
+  exact_config: projection_exact.yaml
+  explicit_adaptation_example: projection_adaptation_example.yaml
+client_partition:
+  clients: 20
+  non_iid_eta: 0.5
+  evidence: "Section 4.2.2, page 12"
+  status: deferred
+local_choices: [StandardScaler, one_hot_nominal_NSL_features, validation_carveouts, OPS_segment_summary_features, duplicate_group_policy, reject_invalid_values]

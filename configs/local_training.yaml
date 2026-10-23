@@ -1,0 +1,45 @@
+# Phase 5 — local (per-satellite) training configuration.
+#
+# Each simulated satellite client (SAT-01..SAT-08, created in Phase 4)
+# trains its own independent copy of the Phase 2 baseline MLP
+# architecture on ONLY its own local partition
+# (data/partitions/<client>/train.parquet). There is no communication
+# or aggregation between clients in this phase.
+
+model:
+  type: mlp
+  input_dim: 121              # must match results/models/preprocessing/feature_columns.json
+  hidden_dimensions:
+    - 128
+    - 64
+  dropout: 0.3
+  output_dim: 1
+
+training:
+  batch_size: 128
+  learning_rate: 0.001
+  optimizer: adam
+  loss: bce_with_logits
+  epochs: 25
+  early_stopping_patience: 5   # stop if validation loss doesn't improve for N epochs
+  seed: 42                     # used both for shared initial weights and per-client training
+
+initialization:
+  # All 8 clients start local training from the SAME initial weights so
+  # that differences in the resulting local models can be attributed to
+  # their (non-IID) local data, not to different random initialization.
+  shared_init_seed: 42
+
+evaluation:
+  # Global validation set (data/processed/validation.parquet) used for
+  # the common, cross-client reference evaluation. KDDTest+ is never
+  # used in this phase.
+  global_validation_path: data/processed/validation.parquet
+
+notes: >
+  This mirrors the Phase 2 baseline MLP architecture and training setup
+  (configs/model.yaml) so that Phase 5's "local only" results are
+  directly comparable to Phase 2's centralized result, with one
+  intentional difference: batch_size is reduced from 256 to 128 because
+  several satellite partitions are much smaller than the full training
+  set. All other hyperparameters are unchanged from Phase 2.
